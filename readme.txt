@@ -123,9 +123,9 @@ If you have any questions, please email us at [wpessentials@iprogress.co.uk](mai
 
 == Screenshots ==
 
-1.
-2.
-3.
+1. Screenshots show to Admin options
+2. Screenshots show to Admin options
+3. Screenshots show to Admin options
 
 == Changelog ==
 
