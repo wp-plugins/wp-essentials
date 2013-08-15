@@ -2,7 +2,7 @@
 	if (current_user_can('administrator') && !is_admin()) {
 		ini_set('display_errors',1); 
 		error_reporting(E_ALL);
-		include(ESSENTIALS_DIR.'/system/php-error.php');
+		include('php-error.php');
 		\php_error\reportErrors(array(
 			'wordpress' => true
 		));

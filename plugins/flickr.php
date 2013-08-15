@@ -136,7 +136,7 @@
 		function wpe_flickr_cache() {
 			global $wpdb;
 			$table_name = $wpdb->prefix."wpe_flickr";
-			require_once(ESSENTIALS_DIR."/plugins/phpFlickr/phpFlickr.php");
+			require_once("phpFlickr/phpFlickr.php");
 		
 			$f = new phpFlickr(get_option('wpe_flickr_api'));
 		

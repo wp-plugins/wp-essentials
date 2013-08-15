@@ -50,32 +50,32 @@
 	// Load Plugins
 		function essentials_load(){			
 			// System
-				if (get_option('wpe_cleanup')==1) { include(ESSENTIALS_DIR."/system/cleanup.php"); }
-				if (get_option('wpe_client_role')==1) { include(ESSENTIALS_DIR."/system/client-role.php"); }
-				include(ESSENTIALS_DIR."/system/custom-image-sizes.php");
-				if (get_option('wpe_debug_mode')==1) { include(ESSENTIALS_DIR."/system/debug-mode.php"); }
-				if (get_option('wpe_error_reports')==1) { include(ESSENTIALS_DIR."/system/error-reports.php"); }
-				if (get_option('wpe_footer_link')==1) { include(ESSENTIALS_DIR."/system/footer-link.php"); }
-				include(ESSENTIALS_DIR."/system/image-quality.php");
-				if (get_option('wpe_javascript')==1) { include(ESSENTIALS_DIR."/system/javascript.php"); }
+				if (get_option('wpe_cleanup')==1) { include("system/cleanup.php"); }
+				if (get_option('wpe_client_role')==1) { include("system/client-role.php"); }
+				include("system/custom-image-sizes.php");
+				if (get_option('wpe_debug_mode')==1) { include("system/debug-mode.php"); }
+				if (get_option('wpe_error_reports')==1) { include("system/error-reports.php"); }
+				if (get_option('wpe_footer_link')==1) { include("system/footer-link.php"); }
+				include("system/image-quality.php");
+				if (get_option('wpe_javascript')==1) { include("system/javascript.php"); }
 			
 			// Plugins
-				if (get_option('wpe_email')==1) { include(ESSENTIALS_DIR."/plugins/email.php"); }
-				include(ESSENTIALS_DIR."/plugins/analytics.php");
-				if (get_option('wpe_facebook')==1) { include(ESSENTIALS_DIR."/plugins/facebook.php"); }
-				include(ESSENTIALS_DIR."/plugins/flickr.php");
-				if (get_option('wpe_google_maps')==1) { include(ESSENTIALS_DIR."/plugins/google-maps.php"); }
-				include(ESSENTIALS_DIR."/plugins/twitter.php");
+				if (get_option('wpe_email')==1) { include("plugins/email.php"); }
+				include("plugins/analytics.php");
+				if (get_option('wpe_facebook')==1) { include("plugins/facebook.php"); }
+				include("plugins/flickr.php");
+				if (get_option('wpe_google_maps')==1) { include("plugins/google-maps.php"); }
+				include("plugins/twitter.php");
 				
 			// Shortcodes
-				if (get_option('wpe_php_date')==1) { include(ESSENTIALS_DIR."/shortcodes/php-date.php"); }
-				if (get_option('wpe_video')==1) { include(ESSENTIALS_DIR."/shortcodes/video.php"); }
+				if (get_option('wpe_php_date')==1) { include("shortcodes/php-date.php"); }
+				if (get_option('wpe_video')==1) { include("shortcodes/video.php"); }
 				
 			// Custom Functions
-				if (get_option('wpe_excerpt')==1) { include(ESSENTIALS_DIR."/functions/excerpt.php"); }
-				if (get_option('wpe_get_image_source')==1) { include(ESSENTIALS_DIR."/functions/get-image-source.php"); }
-				if (get_option('wpe_link_it')==1) { include(ESSENTIALS_DIR."/functions/link-it.php"); }
-				if (get_option('wpe_relative_time')==1) { include(ESSENTIALS_DIR."/functions/relative-time.php"); }
+				if (get_option('wpe_excerpt')==1) { include("functions/excerpt.php"); }
+				if (get_option('wpe_get_image_source')==1) { include("functions/get-image-source.php"); }
+				if (get_option('wpe_link_it')==1) { include("functions/link-it.php"); }
+				if (get_option('wpe_relative_time')==1) { include("functions/relative-time.php"); }
 		}
 		add_action('widgets_init', 'essentials_load');
 		
