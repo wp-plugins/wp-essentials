@@ -8,11 +8,11 @@ Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-WP Essentials is a must have plugin for all installations of WordPress.
+All-in-one bundle of essential plugins and functions for all WordPress websites.c
 
 == Description == 
 
-WP Essentials is a must have plugin for all installations of WordPress. The plugin includes features for both novice and advanced users of WordPress.
+All-in-one bundle of essential plugins and functions for all WordPress websites.
 
 = Features include: =
 
@@ -123,7 +123,9 @@ If you have any questions, please email us at [wpessentials@iprogress.co.uk](mai
 
 == Screenshots ==
 
-1. The WP Essentials wizard makes it easy for you to update your options.
+1.
+2.
+3.
 
 == Changelog ==
 
