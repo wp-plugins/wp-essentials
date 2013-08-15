@@ -8,7 +8,7 @@ Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-All-in-one bundle of essential plugins and functions for all WordPress websites.c
+All-in-one bundle of essential plugins and functions for all WordPress websites.
 
 == Description == 
 
