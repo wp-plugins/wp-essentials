@@ -364,6 +364,7 @@
 							<li>Custom styling options</li>
 							<li>Direct technical support</li>
 						</ul>
+						<p class="center"><strong><span style="text-decoration:line-through;">$19.99</span> <span style="color:#f00;">$9.99</span></strong></p>
 						<p class="center"><a href="http://wordpress.iprogress.co.uk/plugins/wp-essentials/" class="button button-primary button-large">Purchase Now</a></p>
 					</div>
 				</div>
