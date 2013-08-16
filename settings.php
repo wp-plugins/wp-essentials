@@ -176,7 +176,7 @@
 					</div>
 				</div>
 				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_060_compass.png"></strong> Google Maps</span></h3>
+					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_242_google_maps.png"></strong> Google Maps</span></h3>
 					<div class="inside">
 					<p>The <code>[google_maps]</code> shortcode allows you to embed a Google Map anywhere on your site.</p>
 					<h4>Usage</h4>
