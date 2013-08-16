@@ -119,7 +119,7 @@ Features will include:
 
 == Frequently Asked Questions ==
 
-If you have any questions, please email us at [wpessentials@iprogress.co.uk](mailto:wpessentials@iprogress.co.uk).
+If you have any questions, please email me at [craig@iprogress.co.uk](mailto:craig@iprogress.co.uk).
 
 == Screenshots ==
 
