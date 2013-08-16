@@ -3,13 +3,13 @@
 		Plugin Name: WP Essentials
 		Plugin URI: http://wordpress.iprogress.co.uk/plugins/wp-essentials/
 		Description: All-in-one bundle of essential plugins and functions for all WordPress websites.
-		Version: 1.0
+		Version: 1.0.1
 		Author: iprogress
 		Author URI: http://wordpress.iprogress.co.uk/plugins/wp-essentials/
 	*/
 	
 	// Essentails Setup
-		define('ESSENTIALS_VERSION', '1.0');
+		define('ESSENTIALS_VERSION', '1.0.1');
 		define('ESSENTIALS_DIR', dirname(__FILE__));
 		define('ESSENTIALS_PATH', plugins_url().'/wp-essentials');
 		
