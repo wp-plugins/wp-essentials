@@ -129,6 +129,10 @@ If you have any questions, please email us at [wpessentials@iprogress.co.uk](mai
 
 == Changelog ==
 
+= 1.0.1 =
+
+* Fixed <PHP5.3 issue with a function in cleanup.php
+
 = 1.0 =
 
 * Initial release
