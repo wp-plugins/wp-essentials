@@ -1,10 +1,11 @@
 <?php
 	// Set up permalink structure
-		if (get_option('permalink_structure')=='') { 
-			add_action('init',function() {
+		if (get_option('permalink_structure')=='') {
+			function clean_urls() {
 				global $wp_rewrite;
 				$wp_rewrite->set_permalink_structure('/%category%/%postname%/');
-			});
+			}
+			add_action('init','clean_urls');
 		}
 	
 	// Remove useless widgets from dashboard
