@@ -4,7 +4,7 @@ Donate link: http://wordpress.iprogress.co.uk/plugins/wp-essentials/
 Tags: iprogress,wp-essentials,security,backups,database-backups,debug,error-reporting,login-notification,analytics,facebook,flickr,twitter,youtube,vimeo,instagram
 Requires at least: 3.4
 Tested up to: 3.6
-Stable tag: 1.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,7 +119,7 @@ Features will include:
 
 == Frequently Asked Questions ==
 
-If you have any questions, please email us at [wpessentials@iprogress.co.uk](mailto:wpessentials@iprogress.co.uk).
+If you have any questions, please email me at [craig@iprogress.co.uk](mailto:craig@iprogress.co.uk).
 
 == Screenshots ==
 
