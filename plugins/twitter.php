@@ -135,7 +135,7 @@
 					
 					$tweets = '<ul class="'.$class.'">';
 					foreach($twitter as $tweet) {
-						$tweets .= '<li><span class="author"><a href="http://twitter.com/'.get_option('twitter_username','').'" target="_blank" rel="nofollow" title="'.get_option('twitter_username','').'">'.get_option('twitter_username','').'</a></span> '.link_tweet($tweet->content).' <span class="date"><a href="http://twitter.com/'.get_option('twitter_username','').'/status/'.$tweet->status.'" target="_blank" rel="nofollow" title="'.date('D, j M Y h:i:s T',$tweet->posted).'">'.relative_time($tweet->posted).'</a></span></li>';
+						$tweets .= '<li><span class="author"><a href="http://twitter.com/'.get_option('wpe_twitter_username','').'" target="_blank" rel="nofollow" title="'.get_option('twitter_username','').'">'.get_option('wpe_twitter_username','').'</a></span> '.link_tweet($tweet->content).' <span class="date"><a href="http://twitter.com/'.get_option('wpe_twitter_username','').'/status/'.$tweet->status.'" target="_blank" rel="nofollow" title="'.date('D, j M Y h:i:s T',$tweet->posted).'">'.relative_time($tweet->posted).'</a></span></li>';
 					}
 					$tweets .= '</ul>';
 					return $tweets;
