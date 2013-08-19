@@ -4,7 +4,7 @@ Donate link: http://www.wp-essentials.net
 Tags: wp-essentials,wp-essentials,security,backups,database-backups,debug,error-reporting,login-notification,analytics,facebook,flickr,twitter,youtube,vimeo,instagram
 Requires at least: 3.4
 Tested up to: 3.6
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 All-in-one bundle of essential plugins and functions for all WordPress websites.
