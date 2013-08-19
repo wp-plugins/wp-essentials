@@ -1,11 +1,11 @@
 <?php
 	/*
 		Plugin Name: WP Essentials
-		Plugin URI: http://wordpress.iprogress.co.uk/plugins/wp-essentials/
+		Plugin URI: http://www.wp-essentials.net
 		Description: All-in-one bundle of essential plugins and functions for all WordPress websites.
 		Version: 1.0.1
-		Author: iprogress
-		Author URI: http://wordpress.iprogress.co.uk/plugins/wp-essentials/
+		Author: wp-essentials
+		Author URI: http://www.wp-essentials.net
 	*/
 	
 	// Essentails Setup

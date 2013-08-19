@@ -25,7 +25,7 @@
 		$message .= 'Thank you.';
 		$message .= '</p>';
 		$message .= '<p style="margin:0px;padding:0px;font-family:arial,sans-serif;font-size:12px;color:#000;">&nbsp;</p>';
-		$message .= '<p style="margin:0px;padding:0px;font-family:arial,sans-serif;font-size:11px;color:#000;text-align:right;"><a href="http://wordpress.iprogress.co.uk/plugins/wp-essentials/" style="color:#21759B;text-decoration:none;"><span style="color:#21759B;text-decoration:none;">Powered by WP Essentials</span></a></p>';
+		$message .= '<p style="margin:0px;padding:0px;font-family:arial,sans-serif;font-size:11px;color:#000;text-align:right;"><a href="http://www.wp-essentials.net" style="color:#21759B;text-decoration:none;"><span style="color:#21759B;text-decoration:none;">Powered by WP Essentials</span></a></p>';
 		$message .= '<p style="margin:0px;padding:0px;font-family:arial,sans-serif;font-size:12px;color:#000;">&nbsp;</p>';
 		$message .= '</td>';
 		$message .= '<td width="20px" style="width:20px;text-align:left;"><p style="margin:0px;padding:0px;font-family:arial,sans-serif;font-size:12px;color:#000;">&nbsp;</p></td>';

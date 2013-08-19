@@ -311,8 +311,8 @@
 					<div class="inside">
 						<p>This function allows you to hyperlink any website or email addresses that may otherwise be plain text.</p>
 						<h4>Usage</h4>
-						<p>Example: <code>link_it('http://www.iprogress.co.uk');</code></p>
-						<p>Output: <code><?php echo link_it('http://www.iprogress.co.uk'); ?></code></p>
+						<p>Example: <code>link_it('http://www.wp-essentials.net');</code></p>
+						<p>Output: <code><?php echo link_it('http://www.wp-essentials.net'); ?></code></p>
 						<label for="link_it"><input type="checkbox" name="link_it" id="link_it" value="1" <?php if (get_option('wpe_link_it')==1) { ?>checked="checked"<?php } ?>> Enable <code>link_it()</code></label>
 					</div>
 				</div>
@@ -340,7 +340,8 @@
 				<div class="postbox">
 					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_022_fire.png"></strong> About this Plugin</span></h3>
 					<div class="inside">
-						<p>WP Essentials is developed and maintained by <a href="http://www.iprogress.co.uk">iprogress</a>.</p>
+						<p>WP Essentials is developed and maintained by Craig at <a href="http://www.wp-essentials.net">WP Essentials</a>.</p>
+						<p>You can also follow me on twitter <a href="http://twitter.com/wpessentials">@wpessentials</a>.</p>
 					</div>
 				</div>
 				<div class="postbox" id="license_check">
@@ -365,7 +366,7 @@
 							<li>Direct technical support</li>
 						</ul>
 						<p class="center"><strong><span style="text-decoration:line-through;">$19.99</span> <span style="color:#f00;">$9.99</span></strong></p>
-						<p class="center"><a href="http://wordpress.iprogress.co.uk/plugins/wp-essentials/" class="button button-primary button-large">Purchase Now</a></p>
+						<p class="center"><a href="http://www.wp-essentials.net" class="button button-primary button-large">Purchase Now</a></p>
 					</div>
 				</div>
 			</div>
