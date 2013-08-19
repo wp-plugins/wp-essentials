@@ -1,6 +1,6 @@
 === WP Essentials ===
 Contributors: iprogressltd
-Donate link: http://wordpress.iprogress.co.uk/plugins/wp-essentials/
+Donate link: http://www.wp-essentials.net
 Tags: iprogress,wp-essentials,security,backups,database-backups,debug,error-reporting,login-notification,analytics,facebook,flickr,twitter,youtube,vimeo,instagram
 Requires at least: 3.4
 Tested up to: 3.6
@@ -119,7 +119,7 @@ Features will include:
 
 == Frequently Asked Questions ==
 
-If you have any questions, please email me at [craig@iprogress.co.uk](mailto:craig@iprogress.co.uk).
+If you have any questions, please email me at [craig@wp-essentials.net]](mailto:craig@wp-essentials.net]).
 
 == Screenshots ==
 
