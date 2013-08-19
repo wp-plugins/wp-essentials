@@ -4,7 +4,7 @@
 		Plugin URI: http://www.wp-essentials.net
 		Description: All-in-one bundle of essential plugins and functions for all WordPress websites.
 		Version: 1.0.2
-		Author: wp-essentials
+		Author: WP Essentials
 		Author URI: http://www.wp-essentials.net
 	*/
 	
