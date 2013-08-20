@@ -1,10 +1,10 @@
 === WP Essentials ===
 Contributors: iprogressltd
 Donate link: http://www.wp-essentials.net
-Tags: iprogress,wp-essentials,security,backups,database-backups,debug,error-reporting,login-notification,analytics,facebook,flickr,twitter,youtube,vimeo,instagram
+Tags: iprogress,wp-essentials,security,backups,database-backups,debug,error-reporting,login-notification,analytics,facebook,flickr,twitter,youtube,vimeo,instagram,user-roles
 Requires at least: 3.4
 Tested up to: 3.6
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,9 +23,9 @@ All-in-one bundle of essential plugins and functions for all WordPress websites.
 * Removes superfluous meta tags from your theme head (including the WordPress version number)
 * Removes detailed login errors (for extra security)
 
-**The 'Client Role' function:**
+**The 'User Roles' function:**
 
-* Creates a new User role called 'Client' that removes privileges for updating the WordPress core and installed plugins.
+* Creates a new User Role and lets you customise their access rights.
 
 **Debug Mode**
 
@@ -94,6 +94,10 @@ Features will include:
 
 * Users will be automatically emailed any time their account is used to log in.
 
+**Unlimited User Roles:**
+
+* No restriction on the number of User Roles you can create.
+
 **The 'Database' functions:**
 
 * Allows you to email yourself a database backup at any time.
@@ -128,6 +132,11 @@ If you have any questions, please email me at [craig@wp-essentials.net]](mailto:
 3. Screenshots show to Admin options
 
 == Changelog ==
+
+= 1.0.3 =
+
+* Added Sidebar Title options to the following Widgets: Twitter, Flickr, Facebook and Google Maps
+* Added the new User Roles function
 
 = 1.0.2 =
 

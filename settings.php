@@ -5,7 +5,24 @@
 	// Update Settings
 		if (isset($_POST['submitted'])) {
 			update_option('wpe_cleanup',$_POST['cleanup']);
-			update_option('wpe_client_role',$_POST['client_role']);
+			delete_option('wpe_user_role_1');
+			$edit_dashboard = (isset($_POST['1_edit_dashboard'])) ? 1 : 0;
+			$edit_files = (isset($_POST['1_edit_files'])) ? 1 : 0;
+			$edit_theme = (isset($_POST['1_edit_theme'])) ? 1 : 0;
+			$manage_others_pages = (isset($_POST['1_manage_others_pages'])) ? 1 : 0;
+			$manage_others_posts = (isset($_POST['1_manage_others_posts'])) ? 1 : 0;
+			$manage_pages = (isset($_POST['1_manage_pages'])) ? 1 : 0;
+			$manage_posts = (isset($_POST['1_manage_posts'])) ? 1 : 0;
+			$manage_users = (isset($_POST['1_manage_users'])) ? 1 : 0;
+			$manage_categories = (isset($_POST['1_manage_categories'])) ? 1 : 0;
+			$manage_links = (isset($_POST['1_manage_links'])) ? 1 : 0;
+			$manage_options = (isset($_POST['1_manage_options'])) ? 1 : 0;
+			$manage_comments = (isset($_POST['1_manage_comments'])) ? 1 : 0;
+			$manage_plugins = (isset($_POST['1_manage_plugins'])) ? 1 : 0;
+			$update_core = (isset($_POST['1_update_core'])) ? 1 : 0;
+			add_option('wpe_user_role_1',$_POST['1_user_role'].';'.$edit_dashboard.';'.$edit_files.';'.$edit_theme.';'.$manage_others_pages.';'.$manage_others_posts.';'.$manage_pages.';'.$manage_posts.';'.$manage_users.';'.$manage_categories.';'.$manage_links.';'.$manage_options.';'.$manage_comments.';'.$manage_plugins.';'.$update_core);
+			update_option('wpe_total_user_roles',$_POST['wpe_total_user_roles']);
+			include("system/user-roles.php");
 			update_option('wpe_error_reports_google_analytics',$_POST['error_reports_google_analytics']);
 			update_option('wpe_error_reports_search_engines',$_POST['error_reports_search_engines']);
 			update_option('wpe_google_analytics',$_POST['google_analytics']);
@@ -55,12 +72,62 @@
 					</div>
 				</div>
 				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_003_user.png"></strong> Client Role</span></h3>
+					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_024_parents.png"></strong> User Roles</span></h3>
 					<div class="inside">
-						<p>A new user role called &lsquo;Client&rsquo; is included to remove the client&rsquo;s privileges for updating the WordPress core and installed plugins.</p>
-						<h4>Usage</h4>
-						<p>When adding the client as a user, select &lsquo;Client&rsquo; instead of &lsquo;Administrator&rsquo;.</p>
-						<label for="client_role"><input type="checkbox" name="client_role" id="client_role" value="1" <?php if (get_option('wpe_client_role')==1) { ?>checked="checked"<?php } ?>> Enable Client Role</label>
+                    	<p>Use this table to control what your additional User Role can access.</p>
+                        <p>Additional User Roles can only be added by upgrading to <a href="http://www.wp-essentials.net/">WP Essentials Premium</a>.</p>
+						<table id="user_role_table" cellpadding="0" cellspacing="0">
+							<thead>
+                            	<tr>
+                                    <th>Role</th>
+                                    <th class="center">Edit Dashboard</th>
+                                    <th class="center">Edit Files</th>
+                                    <th class="center">Edit Theme</th>
+                                    <th class="center">Manage Others Pages</th>
+                                    <th class="center">Manage Others Posts</th>
+                                    <th class="center">Manage Pages</th>
+                                    <th class="center">Manage Posts</th>
+                                    <th class="center">Manage Users</th>
+                                    <th class="center">Manage Categories</th>
+                                    <th class="center">Manage Links</th>
+                                    <th class="center">Manage Options</th>
+                                    <th class="center">Manage Comments</th>
+                                    <th class="center">Manage Plugins</th>
+                                    <th class="center">Update Core</th>
+                                    <th class="center">&nbsp;</th>
+                                </tr>
+							</thead>
+							<tbody>
+                            	<?php
+									$role = get_option('wpe_user_role_1');
+									$roles = explode(';',$role);
+								?>
+                                <tr>
+                                    <td><input type="text" class="medium-text" name="1_user_role" id="user_role" value="<?php echo $roles[0]; ?>"></td>
+                                    <td class="center"><input type="checkbox" name="1_edit_dashboard" <?php if ($roles[1]==1) { echo 'checked'; } ?>></td>
+                                    <td class="center"><input type="checkbox" name="1_edit_files" <?php if ($roles[2]==1) { echo 'checked'; } ?>></td>
+                                    <td class="center"><input type="checkbox" name="1_edit_theme" <?php if ($roles[3]==1) { echo 'checked'; } ?>></td>
+                                    <td class="center"><input type="checkbox" name="1_manage_others_pages" <?php if ($roles[4]==1) { echo 'checked'; } ?>></td>
+                                    <td class="center"><input type="checkbox" name="1_manage_others_posts" <?php if ($roles[5]==1) { echo 'checked'; } ?>></td>
+                                    <td class="center"><input type="checkbox" name="1_manage_pages" <?php if ($roles[6]==1) { echo 'checked'; } ?>></td>
+                                    <td class="center"><input type="checkbox" name="1_manage_posts" <?php if ($roles[7]==1) { echo 'checked'; } ?>></td>
+                                    <td class="center"><input type="checkbox" name="1_manage_users" <?php if ($roles[8]==1) { echo 'checked'; } ?>></td>
+                                    <td class="center"><input type="checkbox" name="1_manage_categories" <?php if ($roles[9]==1) { echo 'checked'; } ?>></td>
+                                    <td class="center"><input type="checkbox" name="1_manage_links" <?php if ($roles[10]==1) { echo 'checked'; } ?>></td>
+                                    <td class="center"><input type="checkbox" name="1_manage_options" <?php if ($roles[11]==1) { echo 'checked'; } ?>></td>
+                                    <td class="center"><input type="checkbox" name="1_manage_comments" <?php if ($roles[12]==1) { echo 'checked'; } ?>></td>
+                                    <td class="center"><input type="checkbox" name="1_manage_plugins" <?php if ($roles[13]==1) { echo 'checked'; } ?>></td>
+                                    <td class="center"><input type="checkbox" name="1_update_core" <?php if ($roles[14]==1) { echo 'checked'; } ?>></td>
+                                    <td class="center"><button class="button button-secondary delete_user_role" disabled="disabled">Delete</button></td>
+                                </tr>
+							</tbody>
+                            <tfoot>
+                            	<tr>
+                                    <td colspan="16" class="center"><button id="add_user_role" class="button button-secondary" disabled="disabled">Add User Role</button></td>
+                                </tr>
+                            </tfoot>
+						</table>
+                        <input type="hidden" name="wpe_total_user_roles" id="wpe_total_user_roles" value="1">
 					</div>
 				</div>
 				<div class="postbox pro_version">

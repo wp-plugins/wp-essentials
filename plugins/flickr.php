@@ -32,7 +32,7 @@
 							array(
 								'count' => 3,
 								'order' => null,
-								'class' => 'flickr'
+								'class' => 'wpe_flickr'
 							),
 							$atts
 						 )
@@ -68,9 +68,11 @@
 					
 					$photos = '<ul class="'.$class.'">';
 					foreach($flickr as $photo) {
-						$photos .= '<li><a href="'.$photo->photo_id.'" target="_blank" rel="nofollow"><img border="0" alt="'.$photo->photo_title.'" title="'.$photo->photo_title.'" src="'.$photo->photo_src.'"></a></li>';
+						$photos .= '<li><a href="'.$photo->photo_id.'" target="_blank" rel="nofollow"><img border="0" alt="'.$photo->photo_title.'" title="'.$photo->photo_title.'" src="'.$photo->photo_src.'"></a></li>
+						';
 					}
-					$photos .= '</ul>';
+					$photos .= '</ul>
+					';
 					return $photos;
 				}
 				add_shortcode('flickr','flickr');
@@ -85,6 +87,7 @@
 				
 				function widget($args,$instance) {
 					extract($args);
+					$title = apply_filters('count',$instance['title']);
 					$count = apply_filters('count',$instance['count']);
 						if ($count) { $args = 'count="'.$count.'"'; }
 					$order = apply_filters('order',$instance['order']);
@@ -92,11 +95,14 @@
 					$class = apply_filters('class',$instance['class']);
 						if ($class) { $args .= ' class="'.$class.'"'; }
 					echo $before_widget;
+					if ($title) { echo '<h3 class="widget-title">'.$title.'</h3>'; }
 					echo do_shortcode('[flickr '.$args.']');
+					echo $after_widget;
 				}
 				
 				function update($new_instance,$old_instance) {
 					$instance = $old_instance;
+					$instance['title'] = strip_tags($new_instance['title']);
 					$instance['count'] = strip_tags($new_instance['count']);
 					$instance['order'] = strip_tags($new_instance['order']);
 					$instance['class'] = strip_tags($new_instance['class']);
@@ -105,11 +111,20 @@
 				
 				function form($instance) {
 					if ($instance) {
+						$title = esc_attr($instance['title']);
 						$count = esc_attr($instance['count']);
 						$order = esc_attr($instance['order']);
 						$class = esc_attr($instance['class']);
 					}
 					?>
+					<p>
+						<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Sidebar Title'); ?></label> 
+						<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>">
+					</p>
+					<p>
+						<label for="<?php echo $this->get_field_id('count'); ?>"><?php _e('Number of Images'); ?></label> 
+						<input class="widefat" id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>" type="text" value="<?php echo $count; ?>">
+					</p>
 					<p>
 						<label for="<?php echo $this->get_field_id('count'); ?>"><?php _e('Number of Images'); ?></label> 
 						<input class="widefat" id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>" type="text" value="<?php echo $count; ?>">

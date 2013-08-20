@@ -3,20 +3,21 @@
 		Plugin Name: WP Essentials
 		Plugin URI: http://www.wp-essentials.net
 		Description: All-in-one bundle of essential plugins and functions for all WordPress websites.
-		Version: 1.0.2
-		Author: WP Essentials
+		Version: 1.0.3
+		Author: wp-essentials
 		Author URI: http://www.wp-essentials.net
 	*/
 	
 	// Essentails Setup
-		define('ESSENTIALS_VERSION', '1.0.1');
+		define('ESSENTIALS_VERSION', '1.0.3');
 		define('ESSENTIALS_DIR', dirname(__FILE__));
 		define('ESSENTIALS_PATH', plugins_url().'/wp-essentials');
 		
 	// Add Options		
 		function add_options() {
 			add_option('wpe_cleanup',1);
-			add_option('wpe_client_role',1);
+			add_option('wpe_total_user_roles',1);
+			add_option('wpe_user_role_1','Client;1;1;1;1;1;1;1;1;1;1;1;1;0;0');
 			add_option('wpe_custom_image_sizes',1);
 			add_option('wpe_error_reports',1);
 			add_option('wpe_error_reports_google_analytics',1);
@@ -51,7 +52,7 @@
 		function essentials_load(){			
 			// System
 				if (get_option('wpe_cleanup')==1) { include("system/cleanup.php"); }
-				if (get_option('wpe_client_role')==1) { include("system/client-role.php"); }
+				include("system/user-roles.php");
 				include("system/custom-image-sizes.php");
 				if (get_option('wpe_debug_mode')==1) { include("system/debug-mode.php"); }
 				if (get_option('wpe_error_reports')==1) { include("system/error-reports.php"); }

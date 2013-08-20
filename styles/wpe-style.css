@@ -26,6 +26,10 @@ ul { list-style:disc;margin:13px 30px; }
 #license_check input { text-align:center; }
 .valid { color:#3c0 }
 .invalid { color:#c30; }
+#user_role_table { width:100%;background:#fff;border-collapse:collapse; }
+	#user_role_table th:first-child { border-top-left-radius:3px; }
+	#user_role_table th:last-child { border-top-right-radius:3px; }
+	#user_role_table th,#user_role_table td { border:1px solid #DFDFDF;padding:5px; }
 	
 	
 /* Slider */

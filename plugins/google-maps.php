@@ -38,6 +38,7 @@
 				
 				function widget($args,$instance) {
 					extract($args);
+					$title = apply_filters('title',$instance['title']);
 					$address = apply_filters('address',$instance['address']);
 						if ($address) { $args = 'address="'.$address.'"'; }
 					$zoom = apply_filters('zoom',$instance['zoom']);
@@ -51,12 +52,14 @@
 					$height = apply_filters('height',$instance['height']);
 						if ($height) { $args .= ' height="'.$height.'"'; }
 					echo $before_widget;
+					if ($title) { echo '<h3 class="widget-title">'.$title.'</h3>'; }
 					echo do_shortcode('[google_maps '.$args.']');
 					echo $after_widget;
 				}
 				
 				function update($new_instance,$old_instance) {
 					$instance = $old_instance;
+					$instance['title'] = strip_tags($new_instance['title']);
 					$instance['address'] = strip_tags($new_instance['address']);
 					$instance['zoom'] = strip_tags($new_instance['zoom']);
 					$instance['controls'] = strip_tags($new_instance['controls']);
@@ -68,6 +71,7 @@
 				
 				function form($instance) {
 					if ($instance) {
+						$title = esc_attr($instance['title']);
 						$address = esc_attr($instance['address']);
 						$zoom = esc_attr($instance['zoom']);
 						$controls = esc_attr($instance['controls']);
@@ -76,6 +80,10 @@
 						$height = esc_attr($instance['height']);
 					}
 					?>
+					<p>
+						<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Sidebar Title'); ?></label> 
+						<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>">
+					</p>
 					<p>
 						<label for="<?php echo $this->get_field_id('address'); ?>"><?php _e('Address'); ?></label> 
 						<input class="widefat" id="<?php echo $this->get_field_id('address'); ?>" name="<?php echo $this->get_field_name('address'); ?>" type="text" value="<?php echo $address; ?>">

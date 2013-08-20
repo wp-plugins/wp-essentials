@@ -18,20 +18,6 @@
 			require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 			dbDelta($sql);
 		}
-	
-	// Admin Settings
-			
-		// Admin Notices
-			if ($_GET['cache']=="twitter"&&current_user_can('administrator')) {
-				function twitter_cache(){
-					echo '
-						<div class="updated">
-						   <p>The Twitter cache has been refreshed.</a></p>
-						</div>
-					';
-				}
-				add_action('admin_notices', 'twitter_cache');	
-			}
 		
 	// Shortcode Setup
 		// Twitter
@@ -46,7 +32,7 @@
 							array(
 								'count' => 3,
 								'order' => null,
-								'class' => 'twitter'
+								'class' => 'wpe_twitter'
 							),
 							$atts
 						 )
@@ -135,9 +121,11 @@
 					
 					$tweets = '<ul class="'.$class.'">';
 					foreach($twitter as $tweet) {
-						$tweets .= '<li><span class="author"><a href="http://twitter.com/'.get_option('wpe_twitter_username','').'" target="_blank" rel="nofollow" title="'.get_option('twitter_username','').'">'.get_option('wpe_twitter_username','').'</a></span> '.link_tweet($tweet->content).' <span class="date"><a href="http://twitter.com/'.get_option('wpe_twitter_username','').'/status/'.$tweet->status.'" target="_blank" rel="nofollow" title="'.date('D, j M Y h:i:s T',$tweet->posted).'">'.relative_time($tweet->posted).'</a></span></li>';
+						$tweets .= '<li><span class="wpe_twitter_author"><a href="http://twitter.com/'.get_option('wpe_twitter_username','').'" target="_blank" rel="nofollow" title="'.get_option('twitter_username','').'">'.get_option('wpe_twitter_username','').'</a></span> '.link_tweet($tweet->content).' <span class="wpe_twitter_date"><a href="http://twitter.com/'.get_option('wpe_twitter_username','').'/status/'.$tweet->status.'" target="_blank" rel="nofollow" title="'.date('D, j M Y h:i:s T',$tweet->posted).'">'.relative_time($tweet->posted).'</a></span></li>
+						';
 					}
-					$tweets .= '</ul>';
+					$tweets .= '</ul>
+					';
 					return $tweets;
 				}
 				add_shortcode('twitter','twitter');
@@ -192,57 +180,64 @@
 			}
 			
 	// Widget Set up
-		if (!function_exists('twitter')) {
-			if (get_option('wpe_twitter_username')) {
-				class Twitter extends WP_Widget {
-					function __construct() {
-						parent::WP_Widget('twitter', 'Twitter', array( 'description' => 'Add a Twitter feed to your page.' ) );
-					}
-					
-					function widget($args,$instance) {
-						extract($args);
-						$count = apply_filters('count',$instance['count']);
-							if ($count) { $args = 'count="'.$count.'"'; }
-						$order = apply_filters('order',$instance['order']);
-							if ($order) { $args .= ' order="random"'; }
-						$class = apply_filters('class',$instance['class']);
-							if ($class) { $args .= ' class="'.$class.'"'; }
-						echo $before_widget;
-						echo do_shortcode('[twitter '.$args.']');
-					}
-					
-					function update($new_instance,$old_instance) {
-						$instance = $old_instance;
-						$instance['count'] = strip_tags($new_instance['count']);
-						$instance['order'] = strip_tags($new_instance['order']);
-						$instance['class'] = strip_tags($new_instance['class']);
-						return $instance;
-					}
-					
-					function form($instance) {
-						if ($instance) {
-							$count = esc_attr($instance['count']);
-							$order = esc_attr($instance['order']);
-							$class = esc_attr($instance['class']);
-						}
-						?>
-						<p>
-							<label for="<?php echo $this->get_field_id('count'); ?>"><?php _e('Number of Tweets'); ?></label> 
-							<input class="widefat" id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>" type="text" value="<?php echo $count; ?>">
-						</p>
-						<p>
-							<label for="<?php echo $this->get_field_id('order'); ?>"><?php _e('Random'); ?></label> 
-							<input id="<?php echo $this->get_field_id('order'); ?>" name="<?php echo $this->get_field_name('order'); ?>" type="checkbox" value="1" <?php if ($order) { echo 'checked="checked"'; } ?>>
-						</p>
-						<p>
-							<label for="<?php echo $this->get_field_id('class'); ?>"><?php _e('Class name (Optional)'); ?></label> 
-							<input class="widefat" id="<?php echo $this->get_field_id('class'); ?>" name="<?php echo $this->get_field_name('class'); ?>" type="text" value="<?php echo $class; ?>">
-						</p>
-						<?php 
-					}
+		if (get_option('wpe_twitter_username')) {
+			class Twitter extends WP_Widget {
+				function __construct() {
+					parent::WP_Widget('twitter', 'Twitter', array( 'description' => 'Add a Twitter feed to your page.' ) );
 				}
-				register_widget('Twitter');
+				
+				function widget($args,$instance) {
+					extract($args);
+					$title = apply_filters('title',$instance['title']);
+					$count = apply_filters('count',$instance['count']);
+						if ($count) { $args = 'count="'.$count.'"'; }
+					$order = apply_filters('order',$instance['order']);
+						if ($order) { $args .= ' order="random"'; }
+					$class = apply_filters('class',$instance['class']);
+						if ($class) { $args .= ' class="'.$class.'"'; }
+					echo $before_widget;
+					if ($title) { echo '<h3 class="widget-title">'.$title.'</h3>'; }
+					echo do_shortcode('[twitter '.$args.']');
+					echo $after_widget;
+				}
+				
+				function update($new_instance,$old_instance) {
+					$instance = $old_instance;
+					$instance['title'] = strip_tags($new_instance['title']);
+					$instance['count'] = strip_tags($new_instance['count']);
+					$instance['order'] = strip_tags($new_instance['order']);
+					$instance['class'] = strip_tags($new_instance['class']);
+					return $instance;
+				}
+				
+				function form($instance) {
+					if ($instance) {
+						$title = esc_attr($instance['title']);
+						$count = esc_attr($instance['count']);
+						$order = esc_attr($instance['order']);
+						$class = esc_attr($instance['class']);
+					}
+					?>
+					<p>
+						<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Sidebar Title'); ?></label> 
+						<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>">
+					</p>
+					<p>
+						<label for="<?php echo $this->get_field_id('count'); ?>"><?php _e('Number of Tweets'); ?></label> 
+						<input class="widefat" id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>" type="text" value="<?php echo $count; ?>">
+					</p>
+					<p>
+						<label for="<?php echo $this->get_field_id('order'); ?>"><?php _e('Random'); ?></label> 
+						<input id="<?php echo $this->get_field_id('order'); ?>" name="<?php echo $this->get_field_name('order'); ?>" type="checkbox" value="1" <?php if ($order) { echo 'checked="checked"'; } ?>>
+					</p>
+					<p>
+						<label for="<?php echo $this->get_field_id('class'); ?>"><?php _e('Class name (Optional)'); ?></label> 
+						<input class="widefat" id="<?php echo $this->get_field_id('class'); ?>" name="<?php echo $this->get_field_name('class'); ?>" type="text" value="<?php echo $class; ?>">
+					</p>
+					<?php 
+				}
 			}
+			register_widget('Twitter');
 		}
 		
 	// Cache set up
