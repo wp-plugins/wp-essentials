@@ -123,7 +123,7 @@ Features will include:
 
 == Frequently Asked Questions ==
 
-If you have any questions, please email me at [craig@wp-essentials.net]](mailto:craig@wp-essentials.net]).
+If you have any questions, please email me at [craig@wp-essentials.net](mailto:craig@wp-essentials.net).
 
 == Screenshots ==
 
