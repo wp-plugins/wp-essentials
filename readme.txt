@@ -3,8 +3,8 @@ Contributors: iprogressltd
 Donate link: http://www.wp-essentials.net
 Tags: iprogress,wp-essentials,security,backups,database-backups,debug,error-reporting,login-notification,analytics,facebook,flickr,twitter,youtube,vimeo,instagram,user-roles
 Requires at least: 3.4
-Tested up to: 3.6
-Stable tag: 1.0.3
+Tested up to: 3.8
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -132,6 +132,12 @@ If you have any questions, please email me at [craig@wp-essentials.net](mailto:c
 3. Screenshots show to Admin options
 
 == Changelog ==
+
+= 1.0.4 =
+
+* Updated [video] shortcode to stop conflicting with the native WordPress shortcode.
+* Fixed Client Role bug which wouldn't let new users add client roles.
+* Updated to WordPress 3.8 compatibility.
 
 = 1.0.3 =
 

@@ -3,10 +3,10 @@
 		function render_video($video,$width,$height) {
 			parse_str(parse_url($video,PHP_URL_QUERY),$embed_code);
 			if ($embed_code['v']) {
-				return '<iframe width="'.$width.'" height="'.$height.'" src="http://www.youtube.com/embed/'.$embed_code['v'].'?rel=0" allowfullscreen></iframe>';
+				return '<iframe width="'.$width.'" height="'.$height.'" src="http://www.youtube.com/embed/'.$embed_code['v'].'?rel=0" frameborder="0" allowfullscreen></iframe>';
 			} else {
 				sscanf(parse_url($video, PHP_URL_PATH), '/%d', $embed_code);
-				return '<iframe src="http://player.vimeo.com/video/'.$embed_code.'?title=1&amp;byline=1&amp;portrait=1" width="'.$width.'" height="'.$height.'" allowFullScreen></iframe>';
+				return '<iframe src="http://player.vimeo.com/video/'.$embed_code.'?title=1&amp;byline=1&amp;portrait=1" width="'.$width.'" height="'.$height.'" frameborder="0" allowFullScreen></iframe>';
 			}
 		}
 	}
@@ -47,7 +47,7 @@
 			);
 			return render_video($content,$width,$height);
 		}
-		add_shortcode('video','embed_video');
+		add_shortcode('wpe_video','embed_video');
 	}
 			
 	// Widget Set up
@@ -65,7 +65,7 @@
 					$height = apply_filters('height',$instance['height']);
 						if ($height) { $args .= ' height="'.$height.'"'; }
 					echo $before_widget;
-					echo do_shortcode('[video '.$args.']'.$url.'[/video]');
+					echo do_shortcode('[wpe_video '.$args.']'.$url.'[/wpe_video]');
 				}
 				
 				function update($new_instance,$old_instance) {

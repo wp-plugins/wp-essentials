@@ -3,6 +3,7 @@
 	global $license;
 		
 	// Update Settings
+		if (!get_option('wpe_total_user_roles')) { update_option('wpe_total_user_roles',1); }
 		if (isset($_POST['submitted'])) {
 			update_option('wpe_cleanup',$_POST['cleanup']);
 			delete_option('wpe_user_role_1');
@@ -152,6 +153,16 @@
 						<p>WP Essentials can alert you to several errors that are important when a site goes live.</p>
 						<label for="error_reports_google_analytics"><input type="checkbox" name="error_reports_google_analytics" id="error_reports_google_analytics" value="1" <?php if (get_option('wpe_error_reports_google_analytics')==1) { ?>checked="checked"<?php } ?>> Ensure Google Analytics is installed</label><br>
 						<label for="error_reports_search_engines"><input type="checkbox" name="error_reports_search_engines" id="error_reports_search_engines" value="1" <?php if (get_option('wpe_error_reports_search_engines')==1) { ?>checked="checked"<?php } ?>> Ensure search engines aren&rsquo;t blocked</label>
+						<h4 class="pro_version">Custom Error Messages <sup>Premium License Required</sup></h4>
+						<p>This function supports custom error messages by adding the following code to your <code>functions.php</code> file:</p>
+						<pre>
+function wpe_error_reports() {
+&nbsp;&nbsp;&nbsp;&nbsp;// Each error message should appear in an &lt;li>
+&nbsp;&nbsp;&nbsp;&nbsp;$errors = '&lt;li>Your first error message.&lt;/li>';
+&nbsp;&nbsp;&nbsp;&nbsp;$errors .= '&lt;li>Your second error message.&lt;/li>';
+
+&nbsp;&nbsp;&nbsp;&nbsp;return $errors;
+}</pre>
 					</div>
 				</div>
 				<div class="postbox">
@@ -284,16 +295,24 @@
 				<div class="postbox">
 					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_social_31_twitter.png"></strong> Twitter Feed</span></h3>
 					<div class="inside">
-					<p>The <code>[twitter]</code> shortcode is our own built in Twitter feed with cache support (Refreshes every 15 minutes).</p>
-					<p>There's also a &lsquo;Post to Twitter&rsquo; checkbox included when adding / editing Posts.</p>
-					<h4>Usage</h4>
-					<p>Enter your Twitter username and Application access codes below, it&rsquo;ll enable a Twitter feed on the website. You can then display the feed by using the <code>[twitter]</code> shortcode.</p>
-					<p>The shortcode also supports the following:</p>
-					<ul>
-						<li><code>[twitter count="3"]</code> This will display the latest 3 tweets.</li>
-						<li><code>[twitter order="random"]</code> This will display random tweets.</li>
-						<li><code>[twitter class="tweets"]</code> This will give your Twitter <code>&lt;ul&gt;</code> a custom class name.</li>
-					</ul>
+						<p>The <code>[twitter]</code> shortcode is our own built in Twitter feed with cache support (Refreshes every 15 minutes).</p>
+						<p>There's also a &lsquo;Post to Twitter&rsquo; checkbox included when adding / editing Posts.</p>
+						<h4>Usage</h4>
+						<p>Enter your Twitter username and Application access codes below, it&rsquo;ll enable a Twitter feed on the website. You can then display the feed by using the <code>[twitter]</code> shortcode.</p>
+						<p>The shortcode also supports the following:</p>
+						<ul>
+							<li><code>[twitter count="3"]</code> This will display the latest 3 tweets.</li>
+							<li><code>[twitter order="random"]</code> This will display random tweets.</li>
+							<li><code>[twitter class="tweets"]</code> This will give your Twitter <code>&lt;ul&gt;</code> a custom class name.</li>
+						</ul>
+						<h4 class="pro_version">Custom Tweet Format <sup>Premium License Required</sup></h4>
+						<p>Tweets are displayed in the site inside a <code>&lt;ul></code>. You can change the format of the tweet by adding the following code to your <code>functions.php</code> file:</p>
+						<pre>
+function wpe_twitter_format($data) {
+&nbsp;&nbsp;&nbsp;&nbsp;$wpe_twitter_format = '&lt;a href="'.$data['link'].'">'.$data['date'].'&lt;/a> '.$data['content'].' by '.$data['author'];
+&nbsp;&nbsp;&nbsp;&nbsp;return $wpe_twitter_format;
+}
+						</pre>
 						<h4>Setup</h4>
 						<label for="twitter_username"><input type="text" class="regular-text" name="twitter_username" id="twitter_username" value="<?php echo get_option('wpe_twitter_username'); ?>"> Twitter Username</label><br>
 						<label for="twitter_consumer_key"><input type="text" class="regular-text" name="twitter_consumer_key" id="twitter_consumer_key" value="<?php echo get_option('wpe_twitter_consumer_key'); ?>"> Consumer Key (<a href="https://dev.twitter.com/apps/new" target="_blank">Get it here</a>)</label><br>
@@ -336,10 +355,10 @@
 					<div class="inside">
 						<p>Converts YouTube or Vimeo links into embedded videos.</p>
 						<h4>Usage</h4>
-						<p>Wrap either a YouTube or Vimeo URL in the <code>[video]</code> shortcode.</p>
-						<p>Example: <code>[video]http://www.youtube.com/watch?v=ZH986n94ELA[/video]</code></p>
+						<p>Wrap either a YouTube or Vimeo URL in the <code>[wpe_video]</code> shortcode.</p>
+						<p>Example: <code>[wpe_video]http://www.youtube.com/watch?v=ZH986n94ELA[/wpe_video]</code></p>
 						<p>You can also set a custom width and height:</p>
-						<p>Example: <code>[video width="200" height="200"]http://www.youtube.com/watch?v=ZH986n94ELA[/video]</code></p>
+						<p>Example: <code>[wpe_video width="200" height="200"]http://www.youtube.com/watch?v=ZH986n94ELA[/wpe_video]</code></p>
 						<label for="video"><input type="checkbox" name="video" id="video" value="1" <?php if (get_option('wpe_video')==1) { ?>checked="checked"<?php } ?>> Enable <code>[video]</code></label>
 					</div>
 				</div>
