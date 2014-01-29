@@ -16,21 +16,15 @@ All-in-one bundle of essential plugins and functions for all WordPress websites.
 **Twitter Feed**
 
 * Twitter feed shortcode and widget available.
-
 * WP Essentials uses the new Twitter 1.1 API.
-
 * Post new WordPress Posts to your Twitter feed instantly.
-
 * Filter your Twitter feed by hashtags.
-
 * Cache system prevents API call limit.
 
 **Flickr**
 
 * Flickr feed shortcode and widget available.
-
 * Cache system prevents API call limit.
-
 * Comes with multiple options, including a custom image count and a 'random image' feature.
 
 **Google Analytics**
@@ -40,7 +34,6 @@ All-in-one bundle of essential plugins and functions for all WordPress websites.
 **Google Maps**
 
 * Easily include multiple Google Maps throughout your site either as a shortcode or a sidebar widget.
-
 * Includes options for setting the address, zoom level, etc.
 
 **The 'Email' Button**
@@ -50,7 +43,6 @@ All-in-one bundle of essential plugins and functions for all WordPress websites.
 **Date Shortcode**
 
 * Includes a simple shortcode for displaying today's date.
-
 * Customise the date format to whatever you want.
 
 **Video Shortcode**
@@ -60,11 +52,8 @@ All-in-one bundle of essential plugins and functions for all WordPress websites.
 **The 'Cleanup' function:**
 
 * Sets search engine friendly permalink structure (if one hasn't already been set)
-
 * Removes useless widgets from the dashboard
-
 * Removes superfluous meta tags from your theme head (including the WordPress version number)
-
 * Removes detailed login errors (for extra security)
 
 **The 'User Roles' function:**
@@ -86,11 +75,8 @@ All-in-one bundle of essential plugins and functions for all WordPress websites.
 **Advanced PHP Functions**
 
 * Custom Excerpt function lets you override the default WordPress excerpt with additional options.
-
 * A Get Image Source function lets you get the image URL for any image uploaded to WordPress at any custom thumbnail size.
-
 * An automatic link function lets you hyperlink any web or email addresses that may otherwise be plaintext.
-
 * A Relative Time function lets you display dates and times in a relative manner (i.e. '5 minutes ago').
 
 **And more...**
@@ -106,9 +92,7 @@ Features include:
 **Instagram Feed**
 
 * Include an Instagram feed either as a shortcode or a sidebar widget anywhere throughout your website.
-
 * Includes a caching system to protect you from reaching your API call limit.
-
 * Comes with multiple options, including a custom image count and a 'random image' feature.
 
 **Login Notification**
@@ -122,21 +106,17 @@ Features include:
 **The 'Database' functions:**
 
 * Allows you to email yourself a database backup at any time.
-
 * Includes an automatic weekly backup function that emails you with full database backups.
 
 **Styling Options**
 
 * WP Essentials includes functions to render LESS or SASS files directly on the server before outputting the CSS to the browser.
-
 * Choose between CSS, LESS or SASS.
 
 == Installation ==
 
 1. Upload the 'wp-essentials' folder to the '/wp-content/plugins/' directory 
-
 2. Activate the plugin through the 'Plugins' menu in WordPress
-
 3. Go to WP Essentials page in the Admin menu and set up your options from there.
 
 == Frequently Asked Questions ==
