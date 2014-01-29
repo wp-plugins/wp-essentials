@@ -1,6 +1,6 @@
 <?php
 	// Database Set up
-		if (get_option('wpe_twitter_username')) {
+		if (get_option('wpe_twitter_username') && get_option('wpe_twitter_db') == 0) {
 			global $wpdb;
 			
 			$table_name = $wpdb->prefix."wpe_twitter";
@@ -17,6 +17,7 @@
 			
 			require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 			dbDelta($sql);
+			update_option('wpe_twitter_db',1);
 		}
 		
 	// Shortcode Setup
@@ -234,6 +235,10 @@
 						<label for="<?php echo $this->get_field_id('class'); ?>"><?php _e('Class name (Optional)'); ?></label> 
 						<input class="widefat" id="<?php echo $this->get_field_id('class'); ?>" name="<?php echo $this->get_field_name('class'); ?>" type="text" value="<?php echo $class; ?>">
 					</p>
+					<p>
+						<label for="<?php echo $this->get_field_id('search'); ?>"><?php _e('Hash tag filter (Comma separated for multiple hashtags)'); ?></label> 
+						<input class="widefat" id="" name="" type="text" value="WP Essentials Premium Only" disabled="disabled">
+					</p>
 					<?php 
 				}
 			}
@@ -247,7 +252,6 @@
 		function wpe_twitter_cache() {
 			global $wpdb;
 			$table_name = $wpdb->prefix."wpe_twitter";
-
 			function buildBaseString($baseURI, $method, $params) {
 				$r = array(); ksort($params);
 				foreach($params as $key=>$value){

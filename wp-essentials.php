@@ -3,13 +3,13 @@
 		Plugin Name: WP Essentials
 		Plugin URI: http://www.wp-essentials.net
 		Description: All-in-one bundle of essential plugins and functions for all WordPress websites.
-		Version: 1.0.4
+		Version: 1.0.5
 		Author: wp-essentials
 		Author URI: http://www.wp-essentials.net
 	*/
 	
 	// Essentails Setup
-		define('ESSENTIALS_VERSION', '1.0.4');
+		define('ESSENTIALS_VERSION', '1.0.5');
 		define('ESSENTIALS_DIR', dirname(__FILE__));
 		define('ESSENTIALS_PATH', plugins_url().'/wp-essentials');
 		
@@ -29,9 +29,11 @@
 			add_option('wpe_php_date',1);
 			add_option('wpe_debug_mode',0);
 			add_option('wpe_facebook',1);
+			add_option('wpe_flickr_db',0);
 			add_option('wpe_flickr_username','');
 			add_option('wpe_flickr_api','');
 			add_option('wpe_google_maps',1);
+			add_option('wpe_twitter_db',0);
 			add_option('wpe_twitter_username','');
 			add_option('wpe_twitter_consumer_key','');
 			add_option('wpe_twitter_consumer_secret','');

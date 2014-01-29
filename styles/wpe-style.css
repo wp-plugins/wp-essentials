@@ -14,6 +14,7 @@ h2.title img { vertical-align:bottom; }
 	#wpe_right .postbox { min-width:0px !important; }
 	.sticky { position:fixed !important;top:40px;right:15px;width:19%; }
 .center { text-align:center; }
+	.center .submit { text-align:center; }
 #wpe-image-content { float:left;margin:0px 40px 0px 0px; }
 #wpe-image-preview { float:left; }
 	#wpe-image-preview p { margin:0px; }
@@ -21,6 +22,7 @@ h2.title img { vertical-align:bottom; }
 		#wpe-image-preview .image-1 { width:71px;height:71px;position:absolute;z-index:1; }
 		#wpe-image-preview .image-2 { width:71px;height:71px;position:absolute;z-index:0; }
 #wpe_left ul { list-style:disc;margin:13px 30px; }
+	#wpe_left li sup { color:#f00; }
 .pro_version { }
 	.pro_version sup { color:#f00; }
 #license_check input { text-align:center; }

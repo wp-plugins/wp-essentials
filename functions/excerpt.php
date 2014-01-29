@@ -1,6 +1,6 @@
 <?php
 	if (!function_exists('excerpt')) {
-		function excerpt($words = 40, $end = '&hellip;', $link = false, $id = false) {
+		function excerpt($words = 40, $end = '&hellip;', $link = true, $id = false, $echo = true) {
 			if (!$id) { global $post; } else { $post = get_post($id); }
 			$text = preg_replace("/(<h[1-6]>.*?<\/h[1-6]>|\[.*\])/m","",$post->post_content);
 			$text = preg_replace("/\n/m","",$post->post_content);
@@ -27,13 +27,19 @@
 				}
 			}
 			
-			echo force_balance_tags($output);
+			$excerpt = force_balance_tags($output);
 			if ($i<$tot) {
-				if ($link==false) {
-					echo ' <a href="'.get_permalink($post->ID).'">'.$end.'</a>';
+				if ($link==true) {
+					$excerpt .= '<a href="'.get_permalink($post->ID).'">'.$end.'</a>';
 				} else {
-					echo ' '.$end;
+					$excerpt .= ''.$end;
 				}
+			}
+			
+			if ($echo) {
+				echo "Echo: ".$excerpt;	
+			} else {
+				return "Return: ".$excerpt;
 			}
 		}
 	}

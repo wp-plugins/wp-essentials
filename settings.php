@@ -160,7 +160,6 @@ function wpe_error_reports() {
 &nbsp;&nbsp;&nbsp;&nbsp;// Each error message should appear in an &lt;li>
 &nbsp;&nbsp;&nbsp;&nbsp;$errors = '&lt;li>Your first error message.&lt;/li>';
 &nbsp;&nbsp;&nbsp;&nbsp;$errors .= '&lt;li>Your second error message.&lt;/li>';
-
 &nbsp;&nbsp;&nbsp;&nbsp;return $errors;
 }</pre>
 					</div>
@@ -304,6 +303,7 @@ function wpe_error_reports() {
 							<li><code>[twitter count="3"]</code> This will display the latest 3 tweets.</li>
 							<li><code>[twitter order="random"]</code> This will display random tweets.</li>
 							<li><code>[twitter class="tweets"]</code> This will give your Twitter <code>&lt;ul&gt;</code> a custom class name.</li>
+							<li><code>[twitter search="#keyword"]</code> This will filter your Tweets with the hastag keyword you choose. <sup>Premium License Required</sup></li>
 						</ul>
 						<h4 class="pro_version">Custom Tweet Format <sup>Premium License Required</sup></h4>
 						<p>Tweets are displayed in the site inside a <code>&lt;ul></code>. You can change the format of the tweet by adding the following code to your <code>functions.php</code> file:</p>
@@ -375,6 +375,7 @@ function wpe_twitter_format($data) {
 							<li><code>excerpt(50, 'Read more');</code> This will display a &lsquo;Read more&rsquo; link after the cut off.</li>
 							<li><code>excerpt(50, 'Read more', false);</code> This will remove the hyperlink from &lsquo;Read more&rsquo;.</li>
 							<li><code>excerpt(50, 'Read more', false, 123);</code> This will show the excerpt of post ID <code>123</code>.</li>
+							<li><code>excerpt(50, 'Read more', false, 123, false);</code> This will <code>return</code> the excerpt instead of <code>echo</code>.</li>
 						</ul>
 						<label for="custom_excerpt"><input type="checkbox" name="excerpt" id="custom_excerpt" value="1" <?php if (get_option('wpe_excerpt')==1) { ?>checked="checked"<?php } ?>> Enable <code>excerpt()</code></label>
 					</div>
@@ -427,7 +428,13 @@ function wpe_twitter_format($data) {
 					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_022_fire.png"></strong> About this Plugin</span></h3>
 					<div class="inside">
 						<p>WP Essentials is developed and maintained by Craig at <a href="http://www.wp-essentials.net">WP Essentials</a>.</p>
-						<p>You can also follow me on twitter <a href="http://twitter.com/wpessentials">@wpessentials</a>.</p>
+						<p>You can follow me on twitter <a href="http://twitter.com/ceefitzpee">@ceefitzpee</a>.</p>
+					</div>
+				</div>
+				<div class="postbox">
+					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_049_star.png"></strong> Review This Plugin</span></h3>
+					<div class="inside">
+						<p>If you like this plugin, please <a href="http://wordpress.org/support/view/plugin-reviews/wp-essentials">write me a review</a>.</p>
 					</div>
 				</div>
 				<div class="postbox" id="license_check">

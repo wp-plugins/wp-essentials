@@ -9,17 +9,6 @@ jQuery(document).ready(function() {
 			jQuery(jQuery(this).parent().get(0)).toggleClass('closed');
 		});
 		
-		var rightPos = jQuery("#wpe_right").position();
-		jQuery("#wpe_right").css("width",jQuery("#wpe_right").width());
-		jQuery(window).scroll(function(){
-			if (jQuery(document).scrollTop()>rightPos.top) {
-				jQuery("#wpe_right").addClass("sticky");
-			} else {
-				jQuery("#wpe_right").removeClass("sticky");
-			}
-		}).on("resize",function(){
-			jQuery("#wpe_right").css("width","17%").css("width",jQuery("#wpe_right").width());
-		});
 		jQuery(".pro_version").each(function(){
 			var thisPostbox = jQuery(this);
 			thisPostbox.find("input").attr("disabled","disabled");

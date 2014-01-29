@@ -1,6 +1,6 @@
 <?php
 	// Database Set up
-		if (get_option('wpe_flickr_username')) {
+		if (get_option('wpe_flickr_username') && get_option('wpe_twitter_db') == 0) {
 			global $wpdb;
 			
 			$table_name = $wpdb->prefix."wpe_flickr";
@@ -17,6 +17,7 @@
 			
 			require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 			dbDelta($sql);
+			update_option('wpe_flickr_db',1);
 		}
 		
 	// Shortcode Setup
