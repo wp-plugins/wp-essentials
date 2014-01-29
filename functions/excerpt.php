@@ -37,9 +37,9 @@
 			}
 			
 			if ($echo) {
-				echo "Echo: ".$excerpt;	
+				echo $excerpt;	
 			} else {
-				return "Return: ".$excerpt;
+				return $excerpt;
 			}
 		}
 	}
