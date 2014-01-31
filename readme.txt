@@ -121,7 +121,7 @@ Features include:
 
 == Frequently Asked Questions ==
 
-If you have any questions, please visit [www.wp-essentials.net/support](mailto:http://www.wp-essentials.net/support/).
+If you have any questions, please visit [www.wp-essentials.net/support](http://www.wp-essentials.net/support/).
 
 == Screenshots ==
 
