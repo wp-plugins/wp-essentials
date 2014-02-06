@@ -7,7 +7,9 @@
 						shortcode_atts(
 							array(
 								'page' => '',
+								'colorscheme' => 'light',
 								'connections' => '12',
+								'faces' => 'true',
 								'width' => '300',
 								'height' => '300',
 								'stream' => 'false',
@@ -24,7 +26,7 @@
 						}
 						add_action('wp_footer', 'add_fb_script');
 					}
-					return '<div class="fanbox"><div class="fb-like-box" data-href="'.$page.'" data-connections="'.$connections.'" data-width="'.$width.'" data-height="'.$height.'" data-show-faces="true" data-stream="'.$stream.'" data-header="'.$header.'" data-show-border="'.$border.'"></div></div>
+					return '<div class="fanbox"><div class="fb-like-box" data-href="'.$page.'" data-connections="'.$connections.'" data-width="'.$width.'" data-height="'.$height.'" data-show-faces="'.$faces.'" data-stream="'.$stream.'" data-colorscheme="'.$colorscheme.'" data-header="'.$header.'" data-show-border="'.$border.'"></div></div>
 					';
 				}
 				add_shortcode('facebook','facebook');
@@ -34,7 +36,7 @@
 		if (function_exists('facebook')) {
 			class Facebook_Fanbox extends WP_Widget {
 				function __construct() {
-					parent::WP_Widget('facebook_fanbox', 'Facebook Fanbox', array( 'description' => 'Add a Facebook Fanbox to your page.'));
+					parent::WP_Widget('facebook_fanbox', 'Facebook Like Box', array( 'description' => 'Add a Facebook Like Box to your page.'));
 				}
 				
 				function widget($args,$instance) {
@@ -42,8 +44,11 @@
 					$title = apply_filters('title',$instance['title']);
 					$page = apply_filters('page',$instance['page']);
 						if ($page) { $args = 'page="'.$page.'"'; }
+					$colorscheme = apply_filters('colorscheme',$instance['colorscheme']);
+						if ($colorscheme) { $args .= ' colorscheme="dark"'; }
 					$connections = apply_filters('connections',$instance['connections']);
 						if ($connections) { $args .= ' connections="'.$connections.'"'; }
+						if ($connections==0) { $args .= ' faces="false"'; }
 					$width = apply_filters('width',$instance['width']);
 						if ($width) { $args .= ' width="'.$width.'"'; }
 					$height = apply_filters('height',$instance['height']);
@@ -64,6 +69,7 @@
 				function update($new_instance,$old_instance) {
 					$instance = $old_instance;
 					$instance['title'] = strip_tags($new_instance['title']);
+					$instance['colorscheme'] = strip_tags($new_instance['colorscheme']);
 					$instance['page'] = strip_tags($new_instance['page']);
 					$instance['connections'] = strip_tags($new_instance['connections']);
 					$instance['width'] = strip_tags($new_instance['width']);
@@ -77,6 +83,7 @@
 				function form($instance) {
 					if ($instance) {
 						$title = esc_attr($instance['title']);
+						$colorscheme = esc_attr($instance['colorscheme']);
 						$page = esc_attr($instance['page']);
 						$connections = esc_attr($instance['connections']);
 						$width = esc_attr($instance['width']);
@@ -95,7 +102,7 @@
 						<input class="widefat" id="<?php echo $this->get_field_id('page'); ?>" name="<?php echo $this->get_field_name('page'); ?>" type="text" value="<?php echo $page; ?>">
 					</p>
 					<p>
-						<label for="<?php echo $this->get_field_id('connections'); ?>"><?php _e('Number of Connections'); ?></label>
+						<label for="<?php echo $this->get_field_id('connections'); ?>"><?php _e('Number of Faces (Stream must be enabled if set to zero.)'); ?></label>
 						<input class="widefat" id="<?php echo $this->get_field_id('connections'); ?>" name="<?php echo $this->get_field_name('connections'); ?>" type="text" value="<?php echo $connections; ?>">
 					</p>
 					<p>
@@ -105,6 +112,10 @@
 					<p>
 						<label for="<?php echo $this->get_field_id('height'); ?>"><?php _e('Height'); ?></label>
 						<input class="widefat" id="<?php echo $this->get_field_id('height'); ?>" name="<?php echo $this->get_field_name('height'); ?>" type="text" value="<?php echo $height; ?>">
+					</p>
+					<p>
+						<label for="<?php echo $this->get_field_id('colorscheme'); ?>"><?php _e('Dark Colour Scheme'); ?></label>
+						<input class="" id="<?php echo $this->get_field_id('colorscheme'); ?>" name="<?php echo $this->get_field_name('colorscheme'); ?>" type="checkbox" value="1" <?php if ($colorscheme) { echo 'checked="colorscheme"'; } ?>>
 					</p>
 					<p>
 						<label for="<?php echo $this->get_field_id('header'); ?>"><?php _e('Show Header'); ?></label>

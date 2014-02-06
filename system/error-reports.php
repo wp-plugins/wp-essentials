@@ -15,6 +15,10 @@
 				$errors .= '<li>Your Instagram set up is almost complete. <a href="'.get_bloginfo('wpurl').'/wp-admin/admin.php?page=wp-essentials">Fix &raquo;</a></li>';
 			}
 			
+			if (username_exists('admin')&&get_option('wpe_error_reports_check_username')) { 
+				$errors .= '<li>The username <code>admin</code> is vulnerable to attacks. Please set up a new user and delete <code>admin</code> <a href="'.get_bloginfo('wpurl').'/wp-admin/user-new.php">Fix &raquo;</a></li>';
+			}
+			
 			if ($errors) {
 				echo '
 					<div class="error">

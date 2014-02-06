@@ -26,6 +26,7 @@
 			include("system/user-roles.php");
 			update_option('wpe_error_reports_google_analytics',$_POST['error_reports_google_analytics']);
 			update_option('wpe_error_reports_search_engines',$_POST['error_reports_search_engines']);
+			update_option('wpe_error_reports_check_username',$_POST['wpe_error_reports_check_username']);
 			update_option('wpe_google_analytics',$_POST['google_analytics']);
 			update_option('wpe_footer_link',$_POST['footer_link']);
 			update_option('wpe_php_date',$_POST['php_date']);
@@ -152,7 +153,8 @@
 					<div class="inside">
 						<p>WP Essentials can alert you to several errors that are important when a site goes live.</p>
 						<label for="error_reports_google_analytics"><input type="checkbox" name="error_reports_google_analytics" id="error_reports_google_analytics" value="1" <?php if (get_option('wpe_error_reports_google_analytics')==1) { ?>checked="checked"<?php } ?>> Ensure Google Analytics is installed</label><br>
-						<label for="error_reports_search_engines"><input type="checkbox" name="error_reports_search_engines" id="error_reports_search_engines" value="1" <?php if (get_option('wpe_error_reports_search_engines')==1) { ?>checked="checked"<?php } ?>> Ensure search engines aren&rsquo;t blocked</label>
+						<label for="error_reports_search_engines"><input type="checkbox" name="error_reports_search_engines" id="error_reports_search_engines" value="1" <?php if (get_option('wpe_error_reports_search_engines')==1) { ?>checked="checked"<?php } ?>> Ensure search engines aren&rsquo;t blocked</label><br>
+						<label for="wpe_error_reports_check_username"><input type="checkbox" name="wpe_error_reports_check_username" id="wpe_error_reports_check_username" value="1" <?php if (get_option('wpe_error_reports_check_username')==1) { ?>checked="checked"<?php } ?>> Check for <code>admin</code> username</label>
 						<h4 class="pro_version">Custom Error Messages <sup>Premium License Required</sup></h4>
 						<p>This function supports custom error messages by adding the following code to your <code>functions.php</code> file:</p>
 						<pre>
@@ -337,7 +339,6 @@ function wpe_twitter_format($data) {
 						<p class="style_less" <?php if (get_option('wpe_style')!='less') { ?>style="display:none;"<?php } ?>>Please save your LESS file to <code><?php bloginfo('template_url'); ?>/css/style.less</code></p>
 					</div>
 				</div>
-				<h2>Shortcodes</h2>
 				<div class="postbox">
 					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_045_calendar.png"></strong> Date</span></h3>
 					<div class="inside">

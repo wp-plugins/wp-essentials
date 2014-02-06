@@ -108,7 +108,8 @@
 								$status=$data[$i]->id_str;
 								$posted=strtotime($data[$i]->created_at);
 								
-								$wpdb->query('INSERT INTO '.$table_name.' VALUES ("","'.$name.'","'.$content.'","'.$status.'","'.$posted.'",NOW())');
+								$sql = $wpdb->prepare('INSERT INTO '.$table_name.' (id, name, content, status, posted, added) VALUES ("",%s,%s,%s,%s,NOW())',$name, $content, $status, $posted);
+								$wpdb->query($sql);
 							}
 						}
 					}
@@ -316,7 +317,8 @@
 					$status=$data[$i]->id_str;
 					$posted=strtotime($data[$i]->created_at);
 					
-					$wpdb->query('INSERT INTO '.$table_name.' VALUES ("","'.$name.'","'.$content.'","'.$status.'","'.$posted.'",NOW())');
+					$sql = $wpdb->prepare('INSERT INTO '.$table_name.' (id, name, content, status, posted, added) VALUES ("",%s,%s,%s,%s,NOW())',$name, $content, $status, $posted);
+					$wpdb->query($sql);
 				}
 			}
 			die();

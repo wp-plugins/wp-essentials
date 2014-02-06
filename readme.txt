@@ -4,7 +4,7 @@ Donate link: http://www.wp-essentials.net
 Tags: iprogress,wp-essentials,security,backups,database-backups,debug,error-reporting,login-notification,analytics,facebook,flickr,twitter,youtube,vimeo,instagram,user-roles
 Requires at least: 3.4
 Tested up to: 3.8.1
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 All-in-one bundle of essential plugins and functions for all WordPress websites.
@@ -130,6 +130,12 @@ If you have any questions, please visit [www.wp-essentials.net/support](http://w
 3. Screenshots show to Admin options
 
 == Changelog ==
+
+= 1.0.6 =
+* Added 'admin' username check.
+* Added new Facebook Like Box options.
+* Tidied up Settings page.
+* Improved Twitter DB updates.
 
 = 1.0.5 =
 * Added echo or return options to Excerpt function.
