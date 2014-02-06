@@ -13,6 +13,7 @@ All-in-one bundle of essential plugins and functions for all WordPress websites.
 All-in-one bundle of essential plugins and functions for all WordPress websites.
 
 = Features include: =
+
 **Twitter Feed**
 
 * Twitter feed shortcode and widget available.
