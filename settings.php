@@ -266,6 +266,7 @@ function wpe_error_reports() {
 						<li><code>[google_maps controls="false"]</code> This will disable the zoom / street view controls. Default: true</li>
 						<li><code>[google_maps marker="false"]</code> This will disable the red marker on your address. Default: true</li>
 						<li><code>[google_maps width="200px" height="200px"]</code> This will allow you to customise the width and height of your map Default: 300px x 300px</li>
+						<li><code>[google_maps icon="http://www.example.com/icon.png"]</code> This allows you to add a custom marker icon.</li>
 					</ul>
 						<label for="google_maps"><input type="checkbox" name="google_maps" id="google_maps" value="1" <?php if (get_option('wpe_google_maps')==1) { ?>checked="checked"<?php } ?>> Enable Google Maps</label>
 					</div>
@@ -315,6 +316,14 @@ function wpe_twitter_format($data) {
 &nbsp;&nbsp;&nbsp;&nbsp;return $wpe_twitter_format;
 }
 						</pre>
+						<p>You can use the following options below to build your custom tweet format:</p>
+						<ul>
+							<li><code>$data['author']</code> The author&rsquo;s name.</li>
+							<li><code>$data['link']</code> The direct link to the tweet.</li>
+							<li><code>$data['content']</code> The tweet content.</li>
+							<li><code>$data['date']</code> The datestamp of the tweet.</li>
+							<li><code>$data['interact']</code> The reply/retweet/favourite links.</li>
+						</ul>
 						<h4>Setup</h4>
 						<label for="twitter_username"><input type="text" class="regular-text" name="twitter_username" id="twitter_username" value="<?php echo get_option('wpe_twitter_username'); ?>"> Twitter Username</label><br>
 						<label for="twitter_consumer_key"><input type="text" class="regular-text" name="twitter_consumer_key" id="twitter_consumer_key" value="<?php echo get_option('wpe_twitter_consumer_key'); ?>"> Consumer Key (<a href="https://dev.twitter.com/apps/new" target="_blank">Get it here</a>)</label><br>

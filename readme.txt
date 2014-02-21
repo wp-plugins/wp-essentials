@@ -1,10 +1,10 @@
 === WP Essentials ===
 Contributors: iprogressltd
 Donate link: http://www.wp-essentials.net
-Tags: iprogress,wp-essentials,security,backups,database-backups,debug,error-reporting,login-notification,analytics,facebook,flickr,twitter,youtube,vimeo,instagram,user-roles
+Tags: iprogress,wp-essentials,security,backups,database-backups,debug,error-reporting,login-notification,analytics,facebook,flickr,twitter,youtube,vimeo,instagram,user-roles,google-maps
 Requires at least: 3.4
 Tested up to: 3.8.1
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 All-in-one bundle of essential plugins and functions for all WordPress websites.
@@ -35,7 +35,7 @@ All-in-one bundle of essential plugins and functions for all WordPress websites.
 **Google Maps**
 
 * Easily include multiple Google Maps throughout your site either as a shortcode or a sidebar widget.
-* Includes options for setting the address, zoom level, etc.
+* Includes options for setting the address, zoom level, custom marker, etc.
 
 **The 'Email' Button**
 
@@ -131,6 +131,11 @@ If you have any questions, please visit [www.wp-essentials.net/support](http://w
 3. Screenshots show to Admin options
 
 == Changelog ==
+
+= 1.0.7 =
+* Increased Twitter count from 20 to 200.
+* Added Twitter interaction links.
+* Added Custom Marker option to Google Maps.
 
 = 1.0.6 =
 * Added 'admin' username check.

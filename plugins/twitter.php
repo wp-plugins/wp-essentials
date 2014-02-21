@@ -43,75 +43,41 @@
 					$check = $wpdb->get_row('SELECT * FROM '.$table_name.' LIMIT 1');
 					$now = strtotime('-15 minutes');
 					$last_update = strtotime($check->added);
-					if ($now > $last_update) {
-						function buildBaseString($baseURI, $method, $params) {
-							$r = array(); ksort($params);
-							foreach($params as $key=>$value){
-								$r[] = "$key=" . rawurlencode($value);
-							}
-							return $method."&" . rawurlencode($baseURI) . '&' . rawurlencode(implode('&', $r));
-						}
-						
-						function buildAuthorizationHeader($oauth) {
-							$r = 'Authorization: OAuth ';
-							$values = array();
-							foreach($oauth as $key=>$value) $values[] = "$key=\"" . rawurlencode($value) . "\""; $r .= implode(', ', $values); return $r;
-						}
-						
-						$url = "https://api.twitter.com/1.1/statuses/user_timeline.json";
-						
-						$consumer_key = get_option('wpe_twitter_consumer_key','');
-						$consumer_secret = get_option('wpe_twitter_consumer_secret','');
-						$oauth_access_token = get_option('wpe_twitter_oauth_access_token','');
-						$oauth_access_token_secret = get_option('wpe_twitter_oauth_access_token_secret','');
-						
-						$oauth = array(
-							'oauth_consumer_key' => $consumer_key,
-							'oauth_nonce' => time(),
-							'oauth_signature_method' => 'HMAC-SHA1',
-							'oauth_token' => $oauth_access_token,
-							'oauth_timestamp' => time(),
-							'oauth_version' => '1.0'
-						);
-						
-						$base_info = buildBaseString($url, 'GET', $oauth);
-						$composite_key = rawurlencode($consumer_secret) . '&' . rawurlencode($oauth_access_token_secret);
-						$oauth_signature = base64_encode(hash_hmac('sha1', $base_info, $composite_key, true));
-						$oauth['oauth_signature'] = $oauth_signature;
-						
+					if ($now > $last_update) {	
 						// Make Requests
-						$header = array(buildAuthorizationHeader($oauth), 'Expect:');
-						$options = array(
-							CURLOPT_HTTPHEADER => $header,
-							CURLOPT_HEADER => false,
-							CURLOPT_URL => $url,
-							CURLOPT_RETURNTRANSFER => true,
-							CURLOPT_SSL_VERIFYPEER => false
-						);
+							$settings = array(
+								'oauth_access_token' => get_option('wpe_twitter_oauth_access_token',''),
+								'oauth_access_token_secret' => get_option('wpe_twitter_oauth_access_token_secret',''),
+								'consumer_key' => get_option('wpe_twitter_consumer_key',''),
+								'consumer_secret' => get_option('wpe_twitter_consumer_secret','')
+							);
 						
-						$feed = curl_init();
-						curl_setopt_array($feed, $options);
-						$json = curl_exec($feed);
-						curl_close($feed);
-						
-						$data = json_decode($json);
-						$total=count($data);
-						$errors = $data->errors[0];
-						if ($errors) {
-							echo '<p>Twitter Error: '.$errors->message.'</p>';
-						} else if ($total>0) {
-							$wpdb->query('TRUNCATE TABLE '.$table_name);
+							$url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
+							$getfield = '?screen_name='.get_option('wpe_twitter_username','').'&count=200';
+							$requestMethod = 'GET';
 							
-							for($i=0;$i<$total;$i++){
-								$name=$data[$i]->user->name;
-								$content=$data[$i]->text;
-								$status=$data[$i]->id_str;
-								$posted=strtotime($data[$i]->created_at);
+							$twitter = new TwitterAPIExchange($settings);
+							$response = $twitter->setGetfield($getfield)
+												->buildOauth($url, $requestMethod)
+												->performRequest();
+							$data = json_decode($response);
+							$total=count($data);
+							$errors = $data->errors[0];
+							if ($errors) {
+								echo '<p>Twitter Error: '.$errors->message.'</p>';
+							} else if ($total>0) {
+								$wpdb->query('TRUNCATE TABLE '.$table_name);
 								
-								$sql = $wpdb->prepare('INSERT INTO '.$table_name.' (id, name, content, status, posted, added) VALUES ("",%s,%s,%s,%s,NOW())',$name, $content, $status, $posted);
-								$wpdb->query($sql);
+								for($i=0;$i<$total;$i++){
+									$name=$data[$i]->user->name;
+									$content=str_replace("…","&hellip;",$data[$i]->text);
+									$status=$data[$i]->id_str;
+									$posted=strtotime($data[$i]->created_at);
+									
+									$sql = $wpdb->prepare('INSERT INTO '.$table_name.' (id, name, content, status, posted, added) VALUES ("",%s,%s,%s,%s,NOW())',$name, $content, $status, $posted);
+									$wpdb->query($sql);
+								}
 							}
-						}
 					}
 					
 					// Get Tweets
@@ -123,7 +89,7 @@
 					
 					$tweets = '<ul class="'.$class.'">';
 					foreach($twitter as $tweet) {
-						$tweets .= '<li><span class="wpe_twitter_author"><a href="http://twitter.com/'.get_option('wpe_twitter_username','').'" target="_blank" rel="nofollow" title="'.get_option('twitter_username','').'">'.get_option('wpe_twitter_username','').'</a></span> '.link_tweet($tweet->content).' <span class="wpe_twitter_date"><a href="http://twitter.com/'.get_option('wpe_twitter_username','').'/status/'.$tweet->status.'" target="_blank" rel="nofollow" title="'.date('D, j M Y h:i:s T',$tweet->posted).'">'.relative_time($tweet->posted).'</a></span></li>
+						$tweets .= '<li><span class="wpe_twitter_author"><a href="http://twitter.com/'.get_option('wpe_twitter_username','').'" target="_blank" rel="nofollow" title="'.get_option('twitter_username','').'">'.get_option('wpe_twitter_username','').'</a></span> '.link_tweet($tweet->content).' <p><span class="wpe_twitter_interact"><a href="https://twitter.com/intent/tweet?in_reply_to='.$tweet->status.'"><span class="wpe-redo"></span></a> <a href="https://twitter.com/intent/retweet?tweet_id='.$tweet->status.'"><span class="wpe-loop"></span></a> <a href="https://twitter.com/intent/favorite?tweet_id='.$tweet->status.'"><span class="wpe-star"></span></a></span> <span class="wpe_twitter_date"><a href="http://twitter.com/'.get_option('wpe_twitter_username','').'/status/'.$tweet->status.'" target="_blank" rel="nofollow" title="'.date('D, j M Y h:i:s T',$tweet->posted).'">'.relative_time($tweet->posted).'</a></span></p></li>
 						';
 					}
 					$tweets .= '</ul>
@@ -253,74 +219,41 @@
 		function wpe_twitter_cache() {
 			global $wpdb;
 			$table_name = $wpdb->prefix."wpe_twitter";
-			function buildBaseString($baseURI, $method, $params) {
-				$r = array(); ksort($params);
-				foreach($params as $key=>$value){
-					$r[] = "$key=" . rawurlencode($value);
-				}
-				return $method."&" . rawurlencode($baseURI) . '&' . rawurlencode(implode('&', $r));
-			}
-			
-			function buildAuthorizationHeader($oauth) {
-				$r = 'Authorization: OAuth ';
-				$values = array();
-				foreach($oauth as $key=>$value) $values[] = "$key=\"" . rawurlencode($value) . "\""; $r .= implode(', ', $values); return $r;
-			}
-			
-			$url = "https://api.twitter.com/1.1/statuses/user_timeline.json";
-			
-			$consumer_key = get_option('wpe_twitter_consumer_key','');
-			$consumer_secret = get_option('wpe_twitter_consumer_secret','');
-			$oauth_access_token = get_option('wpe_twitter_oauth_access_token','');
-			$oauth_access_token_secret = get_option('wpe_twitter_oauth_access_token_secret','');
-			
-			$oauth = array(
-				'oauth_consumer_key' => $consumer_key,
-				'oauth_nonce' => time(),
-				'oauth_signature_method' => 'HMAC-SHA1',
-				'oauth_token' => $oauth_access_token,
-				'oauth_timestamp' => time(),
-				'oauth_version' => '1.0'
-			);
-			
-			$base_info = buildBaseString($url, 'GET', $oauth);
-			$composite_key = rawurlencode($consumer_secret) . '&' . rawurlencode($oauth_access_token_secret);
-			$oauth_signature = base64_encode(hash_hmac('sha1', $base_info, $composite_key, true));
-			$oauth['oauth_signature'] = $oauth_signature;
-			
+
 			// Make Requests
-			$header = array(buildAuthorizationHeader($oauth), 'Expect:');
-			$options = array(
-				CURLOPT_HTTPHEADER => $header,
-				CURLOPT_HEADER => false,
-				CURLOPT_URL => $url,
-				CURLOPT_RETURNTRANSFER => true,
-				CURLOPT_SSL_VERIFYPEER => false
-			);
+				$settings = array(
+					'oauth_access_token' => get_option('wpe_twitter_oauth_access_token',''),
+					'oauth_access_token_secret' => get_option('wpe_twitter_oauth_access_token_secret',''),
+					'consumer_key' => get_option('wpe_twitter_consumer_key',''),
+					'consumer_secret' => get_option('wpe_twitter_consumer_secret','')
+				);
 			
-			$feed = curl_init();
-			curl_setopt_array($feed, $options);
-			$json = curl_exec($feed);
-			curl_close($feed);
-			
-			$data = json_decode($json);
-			$total=count($data);
-			$errors = $data->errors[0];
-			if ($errors) {
-				echo '<p>Twitter Error: '.$errors->message.'</p>';
-			} else if ($total>0) {
-				$wpdb->query('TRUNCATE TABLE '.$table_name);
+				$url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
+				$getfield = '?screen_name='.get_option('wpe_twitter_username','').'&count=200';
+				$requestMethod = 'GET';
 				
-				for($i=0;$i<$total;$i++){
-					$name=$data[$i]->user->name;
-					$content=$data[$i]->text;
-					$status=$data[$i]->id_str;
-					$posted=strtotime($data[$i]->created_at);
+				$twitter = new TwitterAPIExchange($settings);
+				$response = $twitter->setGetfield($getfield)
+									->buildOauth($url, $requestMethod)
+									->performRequest();
+				$data = json_decode($response);
+				$total=count($data);
+				$errors = $data->errors[0];
+				if ($errors) {
+					echo '<p>Twitter Error: '.$errors->message.'</p>';
+				} else if ($total>0) {
+					$wpdb->query('TRUNCATE TABLE '.$table_name);
 					
-					$sql = $wpdb->prepare('INSERT INTO '.$table_name.' (id, name, content, status, posted, added) VALUES ("",%s,%s,%s,%s,NOW())',$name, $content, $status, $posted);
-					$wpdb->query($sql);
+					for($i=0;$i<$total;$i++){
+						$name=$data[$i]->user->name;
+						$content=str_replace("…","&hellip;",$data[$i]->text);
+						$status=$data[$i]->id_str;
+						$posted=strtotime($data[$i]->created_at);
+						
+						$sql = $wpdb->prepare('INSERT INTO '.$table_name.' (id, name, content, status, posted, added) VALUES ("",%s,%s,%s,%s,NOW())',$name, $content, $status, $posted);
+						$wpdb->query($sql);
+					}
 				}
-			}
 			die();
 		}
 		
@@ -361,192 +294,189 @@
 		}
 		
 	// Twitter Class
-		if (!function_exists('twitter')) {
-			class TwitterAPIExchange 
+		class TwitterAPIExchange {
+			private $oauth_access_token;
+			private $oauth_access_token_secret;
+			private $consumer_key;
+			private $consumer_secret;
+			private $postfields;
+			private $getfield;
+			protected $oauth;
+			public $url;
+		
+			public function __construct(array $settings)
 			{
-				private $oauth_access_token;
-				private $oauth_access_token_secret;
-				private $consumer_key;
-				private $consumer_secret;
-				private $postfields;
-				private $getfield;
-				protected $oauth;
-				public $url;
-			
-				public function __construct(array $settings)
+				if (!in_array('curl', get_loaded_extensions())) 
 				{
-					if (!in_array('curl', get_loaded_extensions())) 
-					{
-						throw new Exception('You need to install cURL, see: http://curl.haxx.se/docs/install.html');
-					}
-					
-					if (!isset($settings['oauth_access_token'])
-						|| !isset($settings['oauth_access_token_secret'])
-						|| !isset($settings['consumer_key'])
-						|| !isset($settings['consumer_secret']))
-					{
-						throw new Exception('Make sure you are passing in the correct parameters');
-					}
-			
-					$this->oauth_access_token = $settings['oauth_access_token'];
-					$this->oauth_access_token_secret = $settings['oauth_access_token_secret'];
-					$this->consumer_key = $settings['consumer_key'];
-					$this->consumer_secret = $settings['consumer_secret'];
-				}
-			
-				public function setPostfields(array $array)
-				{
-					if (!is_null($this->getGetfield())) 
-					{ 
-						throw new Exception('You can only choose get OR post fields.'); 
-					}
-					
-					if (isset($array['status']) && substr($array['status'], 0, 1) === '@')
-					{
-						$array['status'] = sprintf("\0%s", $array['status']);
-					}
-					
-					$this->postfields = $array;
-					
-					return $this;
-				}
-			
-				public function setGetfield($string)
-				{
-					if (!is_null($this->getPostfields())) 
-					{ 
-						throw new Exception('You can only choose get OR post fields.'); 
-					}
-					
-					$search = array('#', ',', '+', ':');
-					$replace = array('%23', '%2C', '%2B', '%3A');
-					$string = str_replace($search, $replace, $string);  
-					
-					$this->getfield = $string;
-					
-					return $this;
-				}
-			
-				public function getGetfield()
-				{
-					return $this->getfield;
-				}
-			
-				public function getPostfields()
-				{
-					return $this->postfields;
-				}
-			
-				public function buildOauth($url, $requestMethod)
-			
-				{
-					if (!in_array(strtolower($requestMethod), array('post', 'get')))
-					{
-						throw new Exception('Request method must be either POST or GET');
-					}
-					
-					$consumer_key = $this->consumer_key;
-					$consumer_secret = $this->consumer_secret;
-					$oauth_access_token = $this->oauth_access_token;
-					$oauth_access_token_secret = $this->oauth_access_token_secret;
-					
-					$oauth = array( 
-						'oauth_consumer_key' => $consumer_key,
-						'oauth_nonce' => time(),
-						'oauth_signature_method' => 'HMAC-SHA1',
-						'oauth_token' => $oauth_access_token,
-						'oauth_timestamp' => time(),
-						'oauth_version' => '1.0'
-					);
-					
-					$getfield = $this->getGetfield();
-					
-					if (!is_null($getfield))
-					{
-						$getfields = str_replace('?', '', explode('&', $getfield));
-						foreach ($getfields as $g)
-						{
-							$split = explode('=', $g);
-							$oauth[$split[0]] = $split[1];
-						}
-					}
-					
-					$base_info = $this->buildBaseString($url, $requestMethod, $oauth);
-					$composite_key = rawurlencode($consumer_secret) . '&' . rawurlencode($oauth_access_token_secret);
-					$oauth_signature = base64_encode(hash_hmac('sha1', $base_info, $composite_key, true));
-					$oauth['oauth_signature'] = $oauth_signature;
-					
-					$this->url = $url;
-					$this->oauth = $oauth;
-					
-					return $this;
-				}
-			
-				public function performRequest($return = true)
-				{
-					if (!is_bool($return)) 
-					{ 
-						throw new Exception('performRequest parameter must be true or false'); 
-					}
-					
-					$header = array($this->buildAuthorizationHeader($this->oauth), 'Expect:');
-					
-					$getfield = $this->getGetfield();
-					$postfields = $this->getPostfields();
-			
-					$options = array( 
-						CURLOPT_HTTPHEADER => $header,
-						CURLOPT_HEADER => false,
-						CURLOPT_URL => $this->url,
-						CURLOPT_RETURNTRANSFER => true,
-						CURLOPT_SSL_VERIFYPEER => false
-					);
-			
-					if (!is_null($postfields))
-					{
-						$options[CURLOPT_POSTFIELDS] = $postfields;
-					}
-					else
-					{
-						if ($getfield !== '')
-						{
-							$options[CURLOPT_URL] .= $getfield;
-						}
-					}
-			
-					$feed = curl_init();
-					curl_setopt_array($feed, $options);
-					$json = curl_exec($feed);
-					curl_close($feed);
-			
-					if ($return) { return $json; }
-				}
-			
-				private function buildBaseString($baseURI, $method, $params) 
-				{
-					$return = array();
-					ksort($params);
-					
-					foreach($params as $key=>$value)
-					{
-						$return[] = "$key=" . $value;
-					}
-					
-					return $method . "&" . rawurlencode($baseURI) . '&' . rawurlencode(implode('&', $return)); 
+					throw new Exception('You need to install cURL, see: http://curl.haxx.se/docs/install.html');
 				}
 				
-				private function buildAuthorizationHeader($oauth) 
+				if (!isset($settings['oauth_access_token'])
+					|| !isset($settings['oauth_access_token_secret'])
+					|| !isset($settings['consumer_key'])
+					|| !isset($settings['consumer_secret']))
 				{
-					$return = 'Authorization: OAuth ';
-					$values = array();
-					
-					foreach($oauth as $key => $value)
-					{
-						$values[] = "$key=\"" . rawurlencode($value) . "\"";
-					}
-					
-					$return .= implode(', ', $values);
-					return $return;
+					throw new Exception('Make sure you are passing in the correct parameters');
 				}
+		
+				$this->oauth_access_token = $settings['oauth_access_token'];
+				$this->oauth_access_token_secret = $settings['oauth_access_token_secret'];
+				$this->consumer_key = $settings['consumer_key'];
+				$this->consumer_secret = $settings['consumer_secret'];
+			}
+		
+			public function setPostfields(array $array)
+			{
+				if (!is_null($this->getGetfield())) 
+				{ 
+					throw new Exception('You can only choose get OR post fields.'); 
+				}
+				
+				if (isset($array['status']) && substr($array['status'], 0, 1) === '@')
+				{
+					$array['status'] = sprintf("\0%s", $array['status']);
+				}
+				
+				$this->postfields = $array;
+				
+				return $this;
+			}
+		
+			public function setGetfield($string)
+			{
+				if (!is_null($this->getPostfields())) 
+				{ 
+					throw new Exception('You can only choose get OR post fields.'); 
+				}
+				
+				$search = array('#', ',', '+', ':');
+				$replace = array('%23', '%2C', '%2B', '%3A');
+				$string = str_replace($search, $replace, $string);  
+				
+				$this->getfield = $string;
+				
+				return $this;
+			}
+		
+			public function getGetfield()
+			{
+				return $this->getfield;
+			}
+		
+			public function getPostfields()
+			{
+				return $this->postfields;
+			}
+		
+			public function buildOauth($url, $requestMethod)
+		
+			{
+				if (!in_array(strtolower($requestMethod), array('post', 'get')))
+				{
+					throw new Exception('Request method must be either POST or GET');
+				}
+				
+				$consumer_key = $this->consumer_key;
+				$consumer_secret = $this->consumer_secret;
+				$oauth_access_token = $this->oauth_access_token;
+				$oauth_access_token_secret = $this->oauth_access_token_secret;
+				
+				$oauth = array( 
+					'oauth_consumer_key' => $consumer_key,
+					'oauth_nonce' => time(),
+					'oauth_signature_method' => 'HMAC-SHA1',
+					'oauth_token' => $oauth_access_token,
+					'oauth_timestamp' => time(),
+					'oauth_version' => '1.0'
+				);
+				
+				$getfield = $this->getGetfield();
+				
+				if (!is_null($getfield))
+				{
+					$getfields = str_replace('?', '', explode('&', $getfield));
+					foreach ($getfields as $g)
+					{
+						$split = explode('=', $g);
+						$oauth[$split[0]] = $split[1];
+					}
+				}
+				
+				$base_info = $this->buildBaseString($url, $requestMethod, $oauth);
+				$composite_key = rawurlencode($consumer_secret) . '&' . rawurlencode($oauth_access_token_secret);
+				$oauth_signature = base64_encode(hash_hmac('sha1', $base_info, $composite_key, true));
+				$oauth['oauth_signature'] = $oauth_signature;
+				
+				$this->url = $url;
+				$this->oauth = $oauth;
+				
+				return $this;
+			}
+		
+			public function performRequest($return = true)
+			{
+				if (!is_bool($return)) 
+				{ 
+					throw new Exception('performRequest parameter must be true or false'); 
+				}
+				
+				$header = array($this->buildAuthorizationHeader($this->oauth), 'Expect:');
+				
+				$getfield = $this->getGetfield();
+				$postfields = $this->getPostfields();
+		
+				$options = array( 
+					CURLOPT_HTTPHEADER => $header,
+					CURLOPT_HEADER => false,
+					CURLOPT_URL => $this->url,
+					CURLOPT_RETURNTRANSFER => true,
+					CURLOPT_SSL_VERIFYPEER => false
+				);
+		
+				if (!is_null($postfields))
+				{
+					$options[CURLOPT_POSTFIELDS] = $postfields;
+				}
+				else
+				{
+					if ($getfield !== '')
+					{
+						$options[CURLOPT_URL] .= $getfield;
+					}
+				}
+		
+				$feed = curl_init();
+				curl_setopt_array($feed, $options);
+				$json = curl_exec($feed);
+				curl_close($feed);
+		
+				if ($return) { return $json; }
+			}
+		
+			private function buildBaseString($baseURI, $method, $params) 
+			{
+				$return = array();
+				ksort($params);
+				
+				foreach($params as $key=>$value)
+				{
+					$return[] = "$key=" . $value;
+				}
+				
+				return $method . "&" . rawurlencode($baseURI) . '&' . rawurlencode(implode('&', $return)); 
+			}
+			
+			private function buildAuthorizationHeader($oauth) 
+			{
+				$return = 'Authorization: OAuth ';
+				$values = array();
+				
+				foreach($oauth as $key => $value)
+				{
+					$values[] = "$key=\"" . rawurlencode($value) . "\"";
+				}
+				
+				$return .= implode(', ', $values);
+				return $return;
 			}
 		}

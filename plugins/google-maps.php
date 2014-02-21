@@ -11,6 +11,7 @@
 							'marker' => "true",
 							'width' => '300px',
 							'height' => '300px',
+							'icon' => false
 						),
 						$atts
 					 )
@@ -23,7 +24,7 @@
 					add_action('wp_footer', 'google_api');
 				}
 				
-				$map = '<div id="google_map_'.rand(100,999).'" class="google_map" data-zoom="'.$zoom.'" data-controls="'.$controls.'" data-marker="'.$marker.'" style="width:'.$width.';height:'.$height.';">'.$address.'</div>';
+				$map = '<div id="google_map_'.rand(100,999).'" class="google_map" data-zoom="'.$zoom.'" data-controls="'.$controls.'" data-marker="'.$marker.'" data-icon="'.$icon.'" style="width:'.$width.';height:'.$height.';">'.$address.'</div>';
 				return $map;
 			}
 			add_shortcode('google_maps','google_maps');
@@ -51,6 +52,8 @@
 						if ($width) { $args .= ' width="'.$width.'"'; }
 					$height = apply_filters('height',$instance['height']);
 						if ($height) { $args .= ' height="'.$height.'"'; }
+					$icon = apply_filters('icon',$instance['icon']);
+						if ($icon) { $args .= ' icon="'.$icon.'"'; }
 					echo $before_widget;
 					if ($title) { echo '<h3 class="widget-title">'.$title.'</h3>'; }
 					echo do_shortcode('[google_maps '.$args.']');
@@ -66,6 +69,7 @@
 					$instance['marker'] = strip_tags($new_instance['marker']);
 					$instance['width'] = strip_tags($new_instance['width']);
 					$instance['height'] = strip_tags($new_instance['height']);
+					$instance['icon'] = strip_tags($new_instance['icon']);
 					return $instance;
 				}
 				
@@ -78,6 +82,7 @@
 						$marker = esc_attr($instance['marker']);
 						$width = esc_attr($instance['width']);
 						$height = esc_attr($instance['height']);
+						$icon = esc_attr($instance['icon']);
 					}
 					?>
 					<p>
@@ -95,6 +100,10 @@
 					<p>
 						<label for="<?php echo $this->get_field_id('controls'); ?>"><?php _e('Disable Controls'); ?></label> 
 						<input id="<?php echo $this->get_field_id('controls'); ?>" name="<?php echo $this->get_field_name('controls'); ?>" type="checkbox" value="1" <?php if ($controls) { echo 'checked="checked"'; } ?>>
+					</p>
+					<p>
+						<label for="<?php echo $this->get_field_id('icon'); ?>"><?php _e('Custom Marker URL'); ?></label>
+						<input class="widefat" id="<?php echo $this->get_field_id('icon'); ?>" name="<?php echo $this->get_field_name('icon'); ?>" type="text" value="<?php echo $icon; ?>">
 					</p>
 					<p>
 						<label for="<?php echo $this->get_field_id('marker'); ?>"><?php _e('Disable Marker'); ?></label> 
