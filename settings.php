@@ -356,11 +356,11 @@ function wpe_twitter_format($data) {
 				<div class="postbox" id="wpe_date">
 					<h3 class="hndle"><span><span class="wpe-calendar"></span> Date</span></h3>
 					<div class="inside">
-						<p>The <code>[date]</code> shortcode will display today&rsquo;s date.</p>
+						<p>The <code>[wpe_date]</code> shortcode will display today&rsquo;s date.</p>
 						<h4>Usage</h4>
-						<p>Simply use <code>[date]</code> as a shortcode and it will output the date in the format: DD/MM/YYYY.</p>
+						<p>Simply use <code>[wpe_date]</code> as a shortcode and it will output the date in the format: DD/MM/YYYY.</p>
 						<p>The date format can be changed by using any of the parameters from the <a href="http://php.net/manual/en/function.date.php" target="_blank">PHP Date manual</a>.</p>
-						<p>Example: <code>[date format="l jS F Y"]</code></p>
+						<p>Example: <code>[wpe_date format="l jS F Y"]</code></p>
 						<p>Output: <?php echo date("l jS F Y"); ?></p>
 						<label for="php_date"><input type="checkbox" name="php_date" id="php_date" value="1" <?php if (get_option('wpe_php_date')==1) { ?>checked="checked"<?php } ?>> Enable <code>[date]</code></label>
 					</div>
