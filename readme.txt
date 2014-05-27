@@ -3,8 +3,8 @@ Contributors: iprogressltd
 Donate link: http://www.wp-essentials.net
 Tags: iprogress,wp-essentials,security,backups,database-backups,debug,error-reporting,login-notification,analytics,facebook,flickr,twitter,youtube,vimeo,instagram,user-roles,google-maps
 Requires at least: 3.4
-Tested up to: 3.8.1
-Stable tag: 1.0.7
+Tested up to: 3.9.1
+Stable tag: 1.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 All-in-one bundle of essential plugins and functions for all WordPress websites.
@@ -131,6 +131,13 @@ If you have any questions, please visit [www.wp-essentials.net/support](http://w
 3. Screenshots show to Admin options
 
 == Changelog ==
+
+= 1.0.8 =
+* Added 'None' option to Styling
+* Renamed PHP Function names to include wpe_ naming convention.
+* Fixed jQuery conflict bug with public JS.
+* Added responsive CSS to WP Essentials admin page.
+* Improved navigation when handling errors and warnings.
 
 = 1.0.7 =
 * Increased Twitter count from 20 to 200.

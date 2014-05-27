@@ -12,7 +12,7 @@
 				);
 				return date($format);
 			}
-			add_shortcode('date','show_date');
+			add_shortcode('wpe_date','show_date');
 		}
 			
 	// Widget Setup
@@ -26,7 +26,7 @@
 					extract($args);
 					$format = apply_filters('format',$instance['format']);
 					echo $before_widget;
-					echo do_shortcode('[date format="'.$format.'"]');
+					echo do_shortcode('[wpe_date format="'.$format.'"]');
 				}
 				
 				function update($new_instance,$old_instance) {

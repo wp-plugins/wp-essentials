@@ -52,15 +52,15 @@
 		}
 ?>
 <div class="wrap">
-	<h2 class="title"><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_022_fire.png"></strong> WP Essentials</h2>
+	<h2 class="title"><span class="wpe-fire"></span> WP Essentials</h2>
 	
 	<div id="post-stuff">
 	<form action="admin.php?page=wp-essentials" method="post" id="wpe-settings-form">
 		<div id="post-body" class="metabox-holder wpe-settings-container columns-2 clearfix">
 			<div id="wpe_left">
 				<h2>System</h2>
-				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_067_cleaning.png"></strong> Cleanup</span></h3>						
+				<div class="postbox" id="wpe_cleanup">
+					<h3 class="hndle"><span><span class="wpe-remove"></span> Cleanup</span></h3>						
 					<div class="inside">
 						<p>The Cleanup function performs a few different tasks:</p>
 						<ul>
@@ -73,8 +73,8 @@
 						<label for="cleanup"><input type="checkbox" name="cleanup" id="cleanup" value="1" <?php if (get_option('wpe_cleanup')==1) { ?>checked="checked"<?php } ?>> Enable Cleanup</label>
 					</div>
 				</div>
-				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_024_parents.png"></strong> User Roles</span></h3>
+				<div class="postbox" id="wpe_user_roles">
+					<h3 class="hndle"><span><span class="wpe-users"></span> User Roles</span></h3>
 					<div class="inside">
                     	<p>Use this table to control what your additional User Role can access.</p>
                         <p>Additional User Roles can only be added by upgrading to <a href="http://www.wp-essentials.net/">WP Essentials Premium</a>.</p>
@@ -132,8 +132,8 @@
                         <input type="hidden" name="wpe_total_user_roles" id="wpe_total_user_roles" value="1">
 					</div>
 				</div>
-				<div class="postbox pro_version">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_140_database_lock.png"></strong> Database Backups</span></h3>
+				<div class="postbox pro_version" id="wpe_database_backups">
+					<h3 class="hndle"><span><span class="wpe-download"></span> Database Backups</span></h3>
 					<div class="inside">
 						<p>Use the field below to email a full database backup.</p>
 						<input type="text" class="regular-text" name="database_backup" id="database_backup" class="regular-text ltr" value="<?php if ($license==1) { echo get_option('admin_email'); } ?>"> <a href="#" id="email_backup">Email a full database backup.</a>
@@ -141,15 +141,15 @@
 						<label for="backup"><input type="checkbox" name="backup" id="backup" value="1" <?php if (get_option('wpe_backup')==1) { ?>checked="checked"<?php } ?>> Enable Weekly Backups</label>
 					</div>
 				</div>
-				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_137_cogwheels.png"></strong> Debug Mode</span></h3>
+				<div class="postbox" id="wpe_debug_mode">
+					<h3 class="hndle"><span><span class="wpe-cogs"></span> Debug Mode</span></h3>
 					<div class="inside">
 						<p>Debug Mode turns on descriptive error reporting for logged in Admins only; the public will still see the site as normal.</p>
 						<label for="debug_mode"><input type="checkbox" name="debug_mode" id="debug_mode" value="1" <?php if (get_option('wpe_debug_mode')==1) { ?>checked="checked"<?php } ?>> Enable Debug Mode</label>
 					</div>
 				</div>
-				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_196_circle_exclamation_mark.png"></strong> WordPress Error Reporting</span></h3>
+				<div class="postbox" id="wpe_error_reporting">
+					<h3 class="hndle"><span><span class="wpe-spam"></span> WordPress Error Reporting</span></h3>
 					<div class="inside">
 						<p>WP Essentials can alert you to several errors that are important when a site goes live.</p>
 						<label for="error_reports_google_analytics"><input type="checkbox" name="error_reports_google_analytics" id="error_reports_google_analytics" value="1" <?php if (get_option('wpe_error_reports_google_analytics')==1) { ?>checked="checked"<?php } ?>> Ensure Google Analytics is installed</label><br>
@@ -166,16 +166,16 @@ function wpe_error_reports() {
 }</pre>
 					</div>
 				</div>
-				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_050_link.png"></strong> WP Essentials Footer Link</span></h3>
+				<div class="postbox" id="wpe_footer_link">
+					<h3 class="hndle"><span><span class="wpe-link"></span> WP Essentials Footer Link</span></h3>
 					<div class="inside">
 						<p>Please consider giving us credit for this free plugin.</p>
 						<p>It&rsquo;s completely optional, and won&rsquo;t affect any support you receive.</p>
 						<label for="footer_link"><input type="checkbox" name="footer_link" id="footer_link" value="1" <?php if (get_option('wpe_footer_link')==1) { ?>checked="checked"<?php } ?>> Enable Footer Link</label>
 					</div>
 				</div>
-				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_138_picture.png"></strong> Image Quality</span></h3>
+				<div class="postbox" id="wpe_image_quality">
+					<h3 class="hndle"><span><span class="wpe-image"></span> Image Quality</span></h3>
 					<div class="inside clearfix">
 						<div id="wpe-image-content">
 							<p>Change the quality of images that are uploaded to WordPress.</p>
@@ -194,23 +194,23 @@ function wpe_error_reports() {
 						</div>
 					</div>
 				</div>
-				<div class="postbox pro_version">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_129_message_new.png"></strong> Login Notification</span></h3>
+				<div class="postbox pro_version" id="wpe_login_notification">
+					<h3 class="hndle"><span><span class="wpe-envelope"></span> Login Notification</span></h3>
 					<div class="inside">
 						<p>Sends an automatic notification to a user&rsquo;s email address whenever their account has logged in.</p>
 						<label for="login_notification"><input type="checkbox" name="login_notification" id="login_notification" value="1" <?php if (get_option('wpe_login_notification')==1) { ?>checked="checked"<?php } ?>> Enable Login Notifications</label>
 					</div>
 				</div>
 				<h2>Plugins</h2>
-				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_124_message_plus.png"></strong> Email</span></h3>
+				<div class="postbox" id="wpe_email">
+					<h3 class="hndle"><span><span class="wpe-envelope"></span> Email</span></h3>
 					<div class="inside">
 						<p>The WYSIWYG editor comes with an email button for easily adding <code>mailto:</code> links without any HTML knowledge.</p>
 						<label for="email"><input type="checkbox" name="email" id="email" value="1" <?php if (get_option('wpe_email')==1) { ?>checked="checked"<?php } ?>> Enable Email Button</label>
 					</div>
 				</div>
-				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_040_stats.png"></strong> Google Analytics</span></h3>
+				<div class="postbox" id="wpe_google_analytics">
+					<h3 class="hndle"><span><span class="wpe-stats"></span> Google Analytics</span></h3>
 					<div class="inside">
 						<p>Adds Google Analytics tracking code to every page.</p>
 						<h4>Setup</h4>
@@ -218,25 +218,29 @@ function wpe_error_reports() {
 						<p><em>Please note: you can add multiple tracking IDs by comma separating them.</em></p>
 					</div>
 				</div>
-				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_social_30_facebook.png"></strong> Facebook Fanbox</span></h3>
+				<div class="postbox" id="wpe_facebook_likebox">
+					<h3 class="hndle"><span><span class="wpe-facebook"></span> Facebook Like Box</span></h3>
 					<div class="inside">
-						<p>The <code>[facebook]</code> shortcode will display a Facebook Fanbox for any Facebook Page.</p>
+						<p>The <code>[facebook]</code> shortcode will display a Facebook Like Box for any Facebook Page.</p>
 						<h4>Usage</h4>
 						<p>The shortcode supports the following:</p>
 						<ul>
-							<li><code>[facebook id="123456"]</code> This is the ID of the Facebook Page.</li>
-							<li><code>[facebook connections="12"]</code> This is the number of Facebook profiles the Fanbox will display.</li>
-							<li><code>[facebook width="300"]</code> This is the width of your Fanbox.</li>
-							<li><code>[facebook height="300"]</code> This is the height of your Fanbox.</li>
+							<li><code>[facebook page="http://www.facebook.com/yourpage"]</code> This is the URL of the Facebook Page.</li>
+							<li><code>[facebook colorscheme="dark"]</code> Uses the dark color scheme instead of the default scheme.</li>
+							<li><code>[facebook connections="12"]</code> This is the number of Facebook profiles the Like Box will display. (Stream must be <code>true</code> if set to zero.)</li>
+							<li><code>[facebook width="300"]</code> This is the width of your Like Box.</li>
+							<li><code>[facebook height="300"]</code> This is the height of your Like Box.</li>
+							<li><code>[facebook stream="true"]</code> Includes your pages stream of latest posts.</li>
+							<li><code>[facebook header="true"]</code> Includes the Facebook header at the top of the Like Box.</li>
+							<li><code>[facebook border="false"]</code> Removes the default Facebook border from around your Like Box.</li>
 						</ul>
 						<h4>Output</h4>
 						<p>Your fanbox will be displayed with a <code>&lt;div&gt;</code> with the class <code>.fanbox</code>.</p>
 						<label for="facebook"><input type="checkbox" name="facebook" id="facebook" value="1" <?php if (get_option('wpe_facebook')==1) { ?>checked="checked"<?php } ?>> Enable Facebook Fanbox</label>
 					</div>
 				</div>
-				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_social_35_flickr.png"></strong> Flickr Feed</span></h3>
+				<div class="postbox" id="wpe_flickr_feed">
+					<h3 class="hndle"><span><span class="wpe-flickr"></span> Flickr Feed</span></h3>
 					<div class="inside">
 						<p>The <code>[flickr]</code> shortcode is our own built in Flickr feed with cache support (Refreshes every hour).</p>
 						<h4>Usage</h4>
@@ -254,8 +258,8 @@ function wpe_error_reports() {
 						<p><a href="#" id="wpe_cache_flickr">Click here to force a cache refresh.</a></p>
 					</div>
 				</div>
-				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_242_google_maps.png"></strong> Google Maps</span></h3>
+				<div class="postbox" id="wpe_google_maps">
+					<h3 class="hndle"><span><span class="wpe-location"></span> Google Maps</span></h3>
 					<div class="inside">
 					<p>The <code>[google_maps]</code> shortcode allows you to embed a Google Map anywhere on your site.</p>
 					<h4>Usage</h4>
@@ -271,8 +275,8 @@ function wpe_error_reports() {
 						<label for="google_maps"><input type="checkbox" name="google_maps" id="google_maps" value="1" <?php if (get_option('wpe_google_maps')==1) { ?>checked="checked"<?php } ?>> Enable Google Maps</label>
 					</div>
 				</div>
-				<div class="postbox pro_version">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_social_32_instagram.png"></strong> Instagram Feed</span></h3>
+				<div class="postbox pro_version" id="wpe_instagram_feed">
+					<h3 class="hndle"><span><span class="wpe-instagram"></span> Instagram Feed</span></h3>
 					<div class="inside">
 					<p>The <code>[instagram]</code> shortcode is our own built in Instagram feed with cache support (Refreshes every 15 minutes).</p>
 					<h4>Usage</h4>
@@ -294,8 +298,8 @@ function wpe_error_reports() {
 						<p><a href="#" id="wpe_cache_instagram">Click here to force a cache refresh.</a></p>
 					</div>
 				</div>
-				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_social_31_twitter.png"></strong> Twitter Feed</span></h3>
+				<div class="postbox" id="wpe_twitter_feed">
+					<h3 class="hndle"><span><span class="wpe-twitter"></span> Twitter Feed</span></h3>
 					<div class="inside">
 						<p>The <code>[twitter]</code> shortcode is our own built in Twitter feed with cache support (Refreshes every 15 minutes).</p>
 						<p>There's also a &lsquo;Post to Twitter&rsquo; checkbox included when adding / editing Posts.</p>
@@ -306,9 +310,9 @@ function wpe_error_reports() {
 							<li><code>[twitter count="3"]</code> This will display the latest 3 tweets.</li>
 							<li><code>[twitter order="random"]</code> This will display random tweets.</li>
 							<li><code>[twitter class="tweets"]</code> This will give your Twitter <code>&lt;ul&gt;</code> a custom class name.</li>
-							<li><code>[twitter search="#keyword"]</code> This will filter your Tweets with the hastag keyword you choose. <sup>Premium License Required</sup></li>
+							<li><code>[twitter search="#keyword"]</code> This will filter your Tweets with the hastag keyword you choose. <sup><span class="wpe-lock"></span> <em>Premium License Required</em></sup></li>
 						</ul>
-						<h4 class="pro_version">Custom Tweet Format <sup>Premium License Required</sup></h4>
+						<h4 class="pro_version">Custom Tweet Format <sup><span class="wpe-lock"></span> <em>Premium License Required</em></sup></h4>
 						<p>Tweets are displayed in the site inside a <code>&lt;ul></code>. You can change the format of the tweet by adding the following code to your <code>functions.php</code> file:</p>
 						<pre>
 function wpe_twitter_format($data) {
@@ -335,10 +339,11 @@ function wpe_twitter_format($data) {
 						<p><a href="#" id="wpe_cache_twitter">Click here to force a cache refresh.</a></p>
 					</div>
 				</div>
-				<div class="postbox pro_version">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_234_brush.png"></strong> Styling</span></h3>
+				<div class="postbox pro_version" id="wpe_styling">
+					<h3 class="hndle"><span><span class="wpe-quill"></span> Styling</span></h3>
 					<div class="inside">
-						<p>Choose whether your website uses CSS, <a href="http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#sassscript" target="_blank">SASS</a>, or <a href="http://lesscss.org/#reference" target="_blank">LESS</a>.</p>
+						<p>Choose whether your website uses CSS, <a href="http://sass-lang.com/" target="_blank">SASS</a>, or <a href="http://lesscss.org/" target="_blank">LESS</a>.</p>
+						<label for="none"><input type="radio" name="style" id="none" value="none" <?php if (get_option('wpe_style_none')=='none') { ?>checked="checked"<?php } ?>> None</label>
 						<label for="css"><input type="radio" name="style" id="css" value="css" <?php if (get_option('wpe_style')=='css') { ?>checked="checked"<?php } ?>> CSS</label>
 						<label for="sass"><input type="radio" name="style" id="sass" value="sass" <?php if (get_option('wpe_style')=='sass') { ?>checked="checked"<?php } ?>> SASS</label>
 						<label for="less"><input type="radio" name="style" id="less" value="less" <?php if (get_option('wpe_style')=='less') { ?>checked="checked"<?php } ?>> LESS</label>
@@ -348,8 +353,8 @@ function wpe_twitter_format($data) {
 						<p class="style_less" <?php if (get_option('wpe_style')!='less') { ?>style="display:none;"<?php } ?>>Please save your LESS file to <code><?php bloginfo('template_url'); ?>/css/style.less</code></p>
 					</div>
 				</div>
-				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_045_calendar.png"></strong> Date</span></h3>
+				<div class="postbox" id="wpe_date">
+					<h3 class="hndle"><span><span class="wpe-calendar"></span> Date</span></h3>
 					<div class="inside">
 						<p>The <code>[date]</code> shortcode will display today&rsquo;s date.</p>
 						<h4>Usage</h4>
@@ -360,8 +365,8 @@ function wpe_twitter_format($data) {
 						<label for="php_date"><input type="checkbox" name="php_date" id="php_date" value="1" <?php if (get_option('wpe_php_date')==1) { ?>checked="checked"<?php } ?>> Enable <code>[date]</code></label>
 					</div>
 				</div>
-				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_008_film.png"></strong> Video</span></h3>
+				<div class="postbox" id="wpe_video">
+					<h3 class="hndle"><span><span class="wpe-play"></span> Video</span></h3>
 					<div class="inside">
 						<p>Converts YouTube or Vimeo links into embedded videos.</p>
 						<h4>Usage</h4>
@@ -373,82 +378,83 @@ function wpe_twitter_format($data) {
 					</div>
 				</div>
 				<h2>PHP Functions</h2>
-				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_118_embed_close.png"></strong> Custom Excerpt</span></h3>
+                <p class="warning">The PHP Function names have been changed to include the new <code>wpe_</code> naming convention. The old names will work but will be phased out eventually.</p>
+				<div class="postbox" id="wpe_custom_excerpt">
+					<h3 class="hndle"><span><span class="wpe-code"></span> Custom Excerpt</span></h3>
 					<div class="inside">
 						<p>Allows you use a custom excerpt length.</p>
 						<h4>Usage</h4>
 						<p>The function echos out the post or page content and cuts off at your specified length.</p>
 						<p>The function supports the following options:</p>
 						<ul>
-							<li><code>excerpt(50);</code> This will display the first 50 characters.</li>
-							<li><code>excerpt(50, 'Read more');</code> This will display a &lsquo;Read more&rsquo; link after the cut off.</li>
-							<li><code>excerpt(50, 'Read more', false);</code> This will remove the hyperlink from &lsquo;Read more&rsquo;.</li>
-							<li><code>excerpt(50, 'Read more', false, 123);</code> This will show the excerpt of post ID <code>123</code>.</li>
-							<li><code>excerpt(50, 'Read more', false, 123, false);</code> This will <code>return</code> the excerpt instead of <code>echo</code>.</li>
+							<li><code>wpe_excerpt(50);</code> This will display the first 50 characters.</li>
+							<li><code>wpe_excerpt(50, 'Read more');</code> This will display a &lsquo;Read more&rsquo; link after the cut off.</li>
+							<li><code>wpe_excerpt(50, 'Read more', false);</code> This will remove the hyperlink from &lsquo;Read more&rsquo;.</li>
+							<li><code>wpe_excerpt(50, 'Read more', false, 123);</code> This will show the excerpt of post ID <code>123</code>.</li>
+							<li><code>wpe_excerpt(50, 'Read more', false, 123, false);</code> This will <code>return</code> the excerpt instead of <code>echo</code>.</li>
 						</ul>
-						<label for="custom_excerpt"><input type="checkbox" name="excerpt" id="custom_excerpt" value="1" <?php if (get_option('wpe_excerpt')==1) { ?>checked="checked"<?php } ?>> Enable <code>excerpt()</code></label>
+						<label for="custom_excerpt"><input type="checkbox" name="excerpt" id="custom_excerpt" value="1" <?php if (get_option('wpe_excerpt')==1) { ?>checked="checked"<?php } ?>> Enable <code>wpe_excerpt()</code></label>
 					</div>
 				</div>
-				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_118_embed_close.png"></strong> Get Image Source</span></h3>
+				<div class="postbox" id="wpe_get_image_source">
+					<h3 class="hndle"><span><span class="wpe-code"></span> Get Image Source</span></h3>
 					<div class="inside">
 					<p>Allows you to grab an image source based on the attachment ID.</p>
 					<h4>Usage</h4>
 					<p>The function echos out the image source based on the attachment ID and thumbnail size.</p>
-					<p>Example: <code>get_image_source('123','thumbnail',false);</code></p>
+					<p>Example: <code>wpe_get_image_source('123','thumbnail',false);</code></p>
 					<p>Outout: <code>http://www.domain.com/wp-content/uploads/01/01/image.jpg</code></p>
 					<p>If the last option is set to <code>true</code> then the image source will be returned rather than echoed.</p>
 					<p><em>Please Note: this function is very useful (and recommended) when using image IDs via Advanced Custom Fields.</em></p>
-						<label for="get_image_source"><input type="checkbox" name="get_image_source" id="get_image_source" value="1" <?php if (get_option('wpe_get_image_source')==1) { ?>checked="checked"<?php } ?>> Enable <code>get_image_source()</code></label>
+						<label for="get_image_source"><input type="checkbox" name="get_image_source" id="get_image_source" value="1" <?php if (get_option('wpe_get_image_source')==1) { ?>checked="checked"<?php } ?>> Enable <code>wpe_get_image_source()</code></label>
 					</div>
 				</div>
-				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_118_embed_close.png"></strong> Link It</span></h3>
+				<div class="postbox" id="wpe_link_it">
+					<h3 class="hndle"><span><span class="wpe-code"></span> Link It</span></h3>
 					<div class="inside">
 						<p>This function allows you to hyperlink any website or email addresses that may otherwise be plain text.</p>
 						<h4>Usage</h4>
-						<p>Example: <code>link_it('http://www.wp-essentials.net');</code></p>
-						<p>Output: <code><?php echo link_it('http://www.wp-essentials.net'); ?></code></p>
-						<label for="link_it"><input type="checkbox" name="link_it" id="link_it" value="1" <?php if (get_option('wpe_link_it')==1) { ?>checked="checked"<?php } ?>> Enable <code>link_it()</code></label>
+						<p>Example: <code>wpe_link_it('http://www.wp-essentials.net');</code></p>
+						<p>Output: <code><?php echo wpe_link_it('http://www.wp-essentials.net'); ?></code></p>
+						<label for="link_it"><input type="checkbox" name="link_it" id="link_it" value="1" <?php if (get_option('wpe_link_it')==1) { ?>checked="checked"<?php } ?>> Enable <code>wpe_link_it()</code></label>
 					</div>
 				</div>
-				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_118_embed_close.png"></strong> Relative Time</span></h3>
+				<div class="postbox" id="wpe_relative_time">
+					<h3 class="hndle"><span><span class="wpe-code"></span> Relative Time</span></h3>
 					<div class="inside">
 						<p>Allows you to display a relative time based on a Unix timestamp.</p>
 						<h4>Usage</h4>
 						<p>The function echos out the relative time based on the datestamp.</p>
-						<p>Example: <code>relative_time("<?php echo strtotime("5 minutes ago"); ?>");</code></p>
-						<p>Outout: <code><?php echo relative_time(strtotime("5 minutes ago")); ?></code></p>
-						<label for="relative_time"><input type="checkbox" name="relative_time" id="relative_time" value="1" <?php if (get_option('wpe_relative_time')==1) { ?>checked="checked"<?php } ?>> Enable <code>relative_time()</code></label>
+						<p>Example: <code>wpe_relative_time("<?php echo strtotime("5 minutes ago"); ?>");</code></p>
+						<p>Outout: <code><?php echo wpe_relative_time(strtotime("5 minutes ago")); ?></code></p>
+						<label for="relative_time"><input type="checkbox" name="relative_time" id="relative_time" value="1" <?php if (get_option('wpe_relative_time')==1) { ?>checked="checked"<?php } ?>> Enable <code>wpe_relative_time()</code></label>
 					</div>
 				</div>
 			</div>
 			<div id="wpe_right">
 				<input type="hidden" name="submitted" value="true">
 				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_169_record.png"></strong> Update</span></h3>
+					<h3 class="hndle"><span><span class="wpe-spinner"></span> Update</span></h3>
 					<div class="inside center">
 						<?php submit_button(__( 'Update Settings','plugin_domain'),'primary large','submit'); ?>
 						</form>
 					</div>
 				</div>
 				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_022_fire.png"></strong> About this Plugin</span></h3>
+					<h3 class="hndle"><span><span class="wpe-fire"></span> About this Plugin</span></h3>
 					<div class="inside">
 						<p>WP Essentials is developed and maintained by Craig at <a href="http://www.wp-essentials.net">WP Essentials</a>.</p>
 						<p>You can follow me on twitter <a href="http://twitter.com/ceefitzpee">@ceefitzpee</a>.</p>
 					</div>
 				</div>
 				<div class="postbox">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_049_star.png"></strong> Review This Plugin</span></h3>
+					<h3 class="hndle"><span><span class="wpe-star"></span> Review This Plugin</span></h3>
 					<div class="inside">
 						<p>If you like this plugin, please <a href="http://wordpress.org/support/view/plugin-reviews/wp-essentials">write me a review</a>.</p>
 					</div>
 				</div>
 				<div class="postbox" id="license_check">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_274_beer.png"></strong> Keep this plugin free!</span></h3>
+					<h3 class="hndle"><span><span class="wpe-heart"></span> Keep this plugin free!</span></h3>
 					<div class="inside center">
 						<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 							<input type="hidden" name="cmd" value="_s-xclick">
@@ -459,7 +465,7 @@ function wpe_twitter_format($data) {
 					</div>
 				</div>
 				<div class="postbox" id="license_check">
-					<h3 class="hndle"><span><strong><img src="<?php echo ESSENTIALS_PATH; ?>/images/glyphicons/glyphicons_044_keys.png"></strong> WP Essentials Premium</span></h3>
+					<h3 class="hndle"><span><span class="wpe-key"></span> WP Essentials Premium</span></h3>
 					<div class="inside">
                     	<p>WP Essentials Premium includes:</p>
 						<ul>
