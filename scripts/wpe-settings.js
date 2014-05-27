@@ -12,8 +12,15 @@ jQuery(document).ready(function() {
 		jQuery(".pro_version").each(function(){
 			var thisPostbox = jQuery(this);
 			thisPostbox.find("input").attr("disabled","disabled");
-			thisPostbox.find("h3").append(' <sup>Premium License Required</sup>');
+			thisPostbox.find("h3").append(' <sup><span class="wpe-lock"></span> <em>Premium License Required</em></sup>');
 		});
+		
+		if (window.location.hash) {
+			jQuery(window.location.hash+" h3").each(function() {
+				jQuery(jQuery(this).parent().get(0)).toggleClass('closed');
+				jQuery("html, body").animate({ scrollTop: (jQuery(window.location.hash).offset().top-60) }, 1000);
+			});
+		}
 		
 		// Image Quality
 			jQuery("#wpe-slider").slider({
@@ -30,6 +37,9 @@ jQuery(document).ready(function() {
 			jQuery("#image_quality").hide();
 			
 		// Styling
+			jQuery("#none").on("click",function(){
+				jQuery(".style_css,.style_sass,.style_less").hide();
+			});
 			jQuery("#css").on("click",function(){
 				jQuery(".style_sass,.style_less").hide();
 				jQuery(".style_css").fadeIn();

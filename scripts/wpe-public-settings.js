@@ -2,11 +2,11 @@ jQuery(document).ready(function() {
 	var baseURL="http://"+window.location.hostname;
 	var currentURL=window.location;
 	
-	$('.wpe_twitter_interact a').click(function(e) {
+	jQuery('.wpe_twitter_interact a').click(function(e) {
 		var width  = 575,
 		height = 400,
-		left   = ($(window).width()  - width)  / 2,
-		top    = ($(window).height() - height) / 2,
+		left   = (jQuery(window).width()  - width)  / 2,
+		top    = (jQuery(window).height() - height) / 2,
 		url    = this.href,
 		opts   = 'status=1' +
 		',width='  + width  +
