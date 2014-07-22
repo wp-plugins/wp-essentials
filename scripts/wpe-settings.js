@@ -7,12 +7,49 @@ jQuery(document).ready(function() {
 			jQuery(jQuery(this).parent().get(0)).addClass('closed');
 		}).click(function() {
 			jQuery(jQuery(this).parent().get(0)).toggleClass('closed');
+			jQuery(".wp-submenu .current").removeClass("current");
+			jQuery(".wp-submenu a[href*='#"+jQuery(this).parent().attr("id")+"']").parent().addClass("current");
 		});
+		jQuery("#wpe_total_user_roles").val(jQuery("#user_role_table tbody tr").length);
+		var rightPos = jQuery("#wpe_right").position();
 		
 		jQuery(".pro_version").each(function(){
 			var thisPostbox = jQuery(this);
 			thisPostbox.find("input").attr("disabled","disabled");
 			thisPostbox.find("h3").append(' <sup><span class="wpe-lock"></span> <em>Premium License Required</em></sup>');
+		});
+		
+		jQuery("#add_user_role").live("click",function(e){
+			e.preventDefault();
+			var dupe = jQuery("#user_role_table tbody tr:last").clone();
+			var newRow = jQuery("#user_role_table tbody tr").length + 1;
+			
+			dupe.html(function(i, dupe) {
+				return dupe
+				.replace('Client', '')
+				.replace(/[\d\.]+/g, newRow)
+				.replace('checked=""', '')
+				.replace('checked=""', '')
+				.replace('checked=""', '')
+				.replace('checked=""', '')
+				.replace('checked=""', '')
+				.replace('checked=""', '')
+				.replace('checked=""', '')
+				.replace('checked=""', '')
+				.replace('checked=""', '')
+				.replace('checked=""', '')
+				.replace('checked=""', '')
+				.replace('checked=""', '')
+				.replace('checked=""', '')
+				.replace('checked=""', '')
+				.replace('checked=""', '')
+				.replace('checked=""', '')
+				.replace('disabled="disabled"', '');
+			});
+			
+			jQuery("#wpe_total_user_roles").val(newRow);
+			jQuery("#user_role_table tbody").append(dupe);
+			jQuery("#user_role_table tbody tr:last input[type=text]").val("");
 		});
 		
 		if (window.location.hash) {
@@ -21,6 +58,24 @@ jQuery(document).ready(function() {
 				jQuery("html, body").animate({ scrollTop: (jQuery(window.location.hash).offset().top-60) }, 1000);
 			});
 		}
+		
+		// Submenu
+			jQuery(".wp-submenu a[href*='wp-essentials']").on("click",function(e){
+				var url = jQuery(this).attr("href");
+				var hash = url.substring(url.indexOf('#'));
+				
+				jQuery("#wpe_left h3").each(function() {
+					jQuery(this).parent().addClass('closed');
+				});
+				
+				jQuery(".wp-submenu .current").removeClass("current");
+				jQuery(this).parent().addClass("current");
+				
+				jQuery(hash+" h3").each(function() {
+					jQuery(jQuery(this).parent().get(0)).toggleClass('closed');
+					jQuery("html, body").animate({ scrollTop: (jQuery(hash).offset().top-60) }, 1000);
+				});
+			});
 		
 		// Image Quality
 			jQuery("#wpe-slider").slider({

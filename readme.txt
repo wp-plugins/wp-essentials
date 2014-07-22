@@ -4,7 +4,7 @@ Donate link: http://www.wp-essentials.net
 Tags: iprogress,wp-essentials,security,backups,database-backups,debug,error-reporting,login-notification,analytics,facebook,flickr,twitter,youtube,vimeo,instagram,user-roles,google-maps
 Requires at least: 3.4
 Tested up to: 3.9.1
-Stable tag: 1.0.8
+Stable tag: 1.10.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 All-in-one bundle of essential plugins and functions for all WordPress websites.
@@ -48,7 +48,7 @@ All-in-one bundle of essential plugins and functions for all WordPress websites.
 
 **Video Shortcode**
 
-* Includes a simple shortcode for embedding any YouTube or Vimeo videos anywhere on your website.
+* Includes a simple shortcode for embedding any YouTube, Vimeo, or Facebook videos anywhere on your website.
 
 **The 'Cleanup' function:**
 
@@ -131,6 +131,14 @@ If you have any questions, please visit [www.wp-essentials.net/support](http://w
 3. Screenshots show to Admin options
 
 == Changelog ==
+
+= 1.10.0 =
+* Added IP address to login notifications.
+* Added Submenu for better navigation.
+* Added Facebook Video support to [wpe_video] shortcode.
+
+= 1.0.9 =
+* Replaced Glyphicons with font icons.
 
 = 1.0.8 =
 * Added 'None' option to Styling

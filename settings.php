@@ -368,9 +368,9 @@ function wpe_twitter_format($data) {
 				<div class="postbox" id="wpe_video">
 					<h3 class="hndle"><span><span class="wpe-play"></span> Video</span></h3>
 					<div class="inside">
-						<p>Converts YouTube or Vimeo links into embedded videos.</p>
+						<p>Converts YouTube, Vimeo, or Facebook links into embedded videos.</p>
 						<h4>Usage</h4>
-						<p>Wrap either a YouTube or Vimeo URL in the <code>[wpe_video]</code> shortcode.</p>
+						<p>Wrap either a YouTube, Vimeo, or Facebook URL in the <code>[wpe_video]</code> shortcode.</p>
 						<p>Example: <code>[wpe_video]http://www.youtube.com/watch?v=ZH986n94ELA[/wpe_video]</code></p>
 						<p>You can also set a custom width and height:</p>
 						<p>Example: <code>[wpe_video width="200" height="200"]http://www.youtube.com/watch?v=ZH986n94ELA[/wpe_video]</code></p>

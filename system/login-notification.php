@@ -18,7 +18,7 @@
 		$message .= '<h1 style="margin:0px;padding:0px;font-family:arial,sans-serif;font-size:18px;color:#000;">WordPress Login Notification</h1>';
 		$message .= '<p style="margin:0px;padding:0px;font-family:arial,sans-serif;font-size:12px;color:#000;">&nbsp;</p>';
 		$message .= '<p style="margin:0px;padding:0px;font-family:arial,sans-serif;font-size:12px;color:#000;">';
-		$message .= 'This is an automated email to let you know that your user account <strong>'.$user->data->user_login.'</strong> has just logged in to <a href="'.get_site_url().'" style="color:#21759B;text-decoration:none;"><span style="color:#21759B;text-decoration:none;">'.get_site_url().'</span></a>';
+		$message .= 'This is an automated email to let you know that your user account <strong>'.$user->data->user_login.'</strong> has just logged in to <a href="'.get_site_url().'" style="color:#21759B;text-decoration:none;"><span style="color:#21759B;text-decoration:none;">'.get_site_url().'</span></a> from the IP address: <a href="http://ip-adress.com/ip_tracer/'.wpe_get_ip().'" style="color:#21759B;text-decoration:none;"><span style="color:#21759B;text-decoration:none;">'.wpe_get_ip().'</span></a>';
 		$message .= '<br><br>';
 		$message .= 'If this isn&rsquo;t you or someone you know, please change your password and reset your wp-config.php unique keys.';
 		$message .= '<br><br>';
@@ -39,4 +39,24 @@
 		
 		remove_filter('wp_mail_content_type','set_html_content_type');
 	}
+	
+	function wpe_get_ip() {
+		$ipaddress = '';
+		if (getenv('HTTP_CLIENT_IP'))
+			$ipaddress = getenv('HTTP_CLIENT_IP');
+		else if(getenv('HTTP_X_FORWARDED_FOR'))
+			$ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+		else if(getenv('HTTP_X_FORWARDED'))
+			$ipaddress = getenv('HTTP_X_FORWARDED');
+		else if(getenv('HTTP_FORWARDED_FOR'))
+			$ipaddress = getenv('HTTP_FORWARDED_FOR');
+		else if(getenv('HTTP_FORWARDED'))
+		   $ipaddress = getenv('HTTP_FORWARDED');
+		else if(getenv('REMOTE_ADDR'))
+			$ipaddress = getenv('REMOTE_ADDR');
+		else
+			$ipaddress = 'UNKNOWN';
+		return $ipaddress;
+	}
+	
 	add_action('wp_login', 'login_notification', 10, 2);

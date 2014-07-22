@@ -3,13 +3,13 @@
 		Plugin Name: WP Essentials
 		Plugin URI: http://www.wp-essentials.net
 		Description: All-in-one bundle of essential plugins and functions for all WordPress websites.
-		Version: 1.0.8
+		Version: 1.10.0
 		Author: wp-essentials
 		Author URI: http://www.wp-essentials.net
 	*/
 	
 	// Essentails Setup
-		define('ESSENTIALS_VERSION', '1.0.8');
+		define('ESSENTIALS_VERSION', '1.10.0');
 		define('ESSENTIALS_DIR', dirname(__FILE__));
 		define('ESSENTIALS_PATH', plugins_url().'/wp-essentials');
 		
@@ -106,6 +106,34 @@
 	// Add Essentails Menu
 		function wpe_menu() {
 			add_menu_page('WP Essentials', 'WP Essentials', 'manage_options', 'wp-essentials', 'wpe_function',plugins_url('wp-essentials/images/icon.png'));
+			
+			// System
+				add_submenu_page('wp-essentials','Cleanup','Cleanup','manage_options','admin.php?page=wp-essentials#wpe_cleanup');
+				add_submenu_page('wp-essentials','User Roles','User Roles','manage_options','admin.php?page=wp-essentials#wpe_user_roles');
+				add_submenu_page('wp-essentials','Database Backups','Database Backups','manage_options','admin.php?page=wp-essentials#wpe_database_backups');
+				add_submenu_page('wp-essentials','Debug Mode','Debug Mode','manage_options','admin.php?page=wp-essentials#wpe_debug_mode');
+				add_submenu_page('wp-essentials','Error Reporting','Error Reporting','manage_options','admin.php?page=wp-essentials#wpe_error_reporting');
+				add_submenu_page('wp-essentials','Footer Link','Footer Link','manage_options','admin.php?page=wp-essentials#wpe_footer_link');
+				add_submenu_page('wp-essentials','Image Quality','Image Quality','manage_options','admin.php?page=wp-essentials#wpe_image_quality');
+				add_submenu_page('wp-essentials','Login Notification','Login Notification','manage_options','admin.php?page=wp-essentials#wpe_login_notification');
+				
+			// Plugins
+				add_submenu_page('wp-essentials','Google Analytics','Google Analytics','manage_options','admin.php?page=wp-essentials#wpe_google_analytics');
+				add_submenu_page('wp-essentials','Facebook Like Box','Facebook Like Box','manage_options','admin.php?page=wp-essentials#wpe_facebook_likebox');
+				add_submenu_page('wp-essentials','Flickr Feed','Flickr Feed','manage_options','admin.php?page=wp-essentials#wpe_flickr_feed');
+				add_submenu_page('wp-essentials','Google Maps','Google Maps','manage_options','admin.php?page=wp-essentials#wpe_google_maps');
+				add_submenu_page('wp-essentials','Instagram Feed','Instagram Feed','manage_options','admin.php?page=wp-essentials#wpe_instagram_feed');
+				add_submenu_page('wp-essentials','Twitter Feed','Twitter Feed','manage_options','admin.php?page=wp-essentials#wpe_twitter_feed');
+				add_submenu_page('wp-essentials','Styling','Styling','manage_options','admin.php?page=wp-essentials#wpe_styling');
+				add_submenu_page('wp-essentials','Email Shortcode','Email Shortcode','manage_options','admin.php?page=wp-essentials#wpe_email');
+				add_submenu_page('wp-essentials','Date Shortcode','Date Shortcode','manage_options','admin.php?page=wp-essentials#wpe_date');
+				add_submenu_page('wp-essentials','Video Shortcode','Video Shortcode','manage_options','admin.php?page=wp-essentials#wpe_video');
+				
+			// PHP Functions
+				add_submenu_page('wp-essentials','Custom Excerpt','Custom Excerpt','manage_options','admin.php?page=wp-essentials#wpe_custom_excerpt');
+				add_submenu_page('wp-essentials','Get Image Source','Get Image Source','manage_options','admin.php?page=wp-essentials#wpe_get_image_source');
+				add_submenu_page('wp-essentials','Link It','Link It','Cleanup','manage_options','admin.php?page=wp-essentials#wpe_link_it');
+				add_submenu_page('wp-essentials','Relative Time','Relative Time','manage_options','admin.php?page=wp-essentials#wpe_relative_time');
 		}
 		
 		function wpe_function() {
