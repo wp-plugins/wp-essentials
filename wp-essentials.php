@@ -3,13 +3,13 @@
 		Plugin Name: WP Essentials
 		Plugin URI: http://www.wp-essentials.net
 		Description: All-in-one bundle of essential plugins and functions for all WordPress websites.
-		Version: 1.10.0
+		Version: 1.10.1
 		Author: wp-essentials
 		Author URI: http://www.wp-essentials.net
 	*/
 	
 	// Essentails Setup
-		define('ESSENTIALS_VERSION', '1.10.0');
+		define('ESSENTIALS_VERSION', '1.10.1');
 		define('ESSENTIALS_DIR', dirname(__FILE__));
 		define('ESSENTIALS_PATH', plugins_url().'/wp-essentials');
 		
@@ -85,12 +85,17 @@
 		
 	// Load Scripts & Styles
 		function wpe_scripts() {
-			$screen = get_current_screen();
-			if ($screen->base == 'toplevel_page_wp-essentials') {
-				wp_enqueue_script('wpe_slider',ESSENTIALS_PATH.'/scripts/wpe-slider.js',false);
-				wp_enqueue_script('wpe_settings',ESSENTIALS_PATH.'/scripts/wpe-settings.js',false);
-				wp_enqueue_style('wpe_styles',ESSENTIALS_PATH.'/styles/wpe-style.css',false);
-			}
+			
+			// Load Font CSS
+				wp_enqueue_style('wpe_fonts',ESSENTIALS_PATH.'/styles/wpe-font.css',false);
+			
+			// Load WPE Styles
+				$screen = get_current_screen();
+				if ($screen->base == 'toplevel_page_wp-essentials') {
+					wp_enqueue_script('wpe_slider',ESSENTIALS_PATH.'/scripts/wpe-slider.js',false);
+					wp_enqueue_script('wpe_settings',ESSENTIALS_PATH.'/scripts/wpe-settings.js',false);
+					wp_enqueue_style('wpe_styles',ESSENTIALS_PATH.'/styles/wpe-style.css',false);
+				}
 		}
 		add_action('admin_enqueue_scripts','wpe_scripts');
 		
@@ -105,7 +110,7 @@
 	
 	// Add Essentails Menu
 		function wpe_menu() {
-			add_menu_page('WP Essentials', 'WP Essentials', 'manage_options', 'wp-essentials', 'wpe_function',plugins_url('wp-essentials/images/icon.png'));
+			add_menu_page('WP Essentials', 'WP Essentials', 'manage_options', 'wp-essentials', 'wpe_function','none');
 			
 			// System
 				add_submenu_page('wp-essentials','Cleanup','Cleanup','manage_options','admin.php?page=wp-essentials#wpe_cleanup');
