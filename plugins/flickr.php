@@ -1,6 +1,6 @@
 <?php
 	// Database Set up
-		if (get_option('wpe_flickr_username') && get_option('wpe_twitter_db') == 0) {
+		if (get_option('wpe_flickr_username') && get_option('wpe_flickr_db') == 0) {
 			global $wpdb;
 			
 			$table_name = $wpdb->prefix."wpe_flickr";
@@ -44,20 +44,7 @@
 					$now = strtotime('-15 minutes');
 					$last_update = strtotime($check->added);
 					if ($now > $last_update) {
-						require_once("phpFlickr/phpFlickr.php");
-					
-						$f = new phpFlickr(get_option('wpe_flickr_api'));
-	
-						$i = 0;
-						$person = $f->people_findByUsername(get_option('wpe_flickr_username',''));
-						$photos_url = $f->urls_getUserPhotos($person['id']);
-						$photos = $f->people_getPublicPhotos($person['id'], NULL, NULL, 20);
-							
-						$wpdb->query('TRUNCATE TABLE '.$table_name);
-					 
-						foreach ((array)$photos['photos']['photo'] as $photo) {
-							$wpdb->query('INSERT INTO '.$table_name.' VALUES ("","'.get_option('wpe_flickr_username','').'","'.$photos_url.''.$photo['id'].'","'.$photo[title].'","'.$f->buildPhotoURL($photo, "Square").'",NOW())');
-						}
+						wpe_getFlickrPhotos(get_option('wpe_flickr_api'),get_option('wpe_flickr_username'));
 					}
 					
 					// Get Feed
@@ -127,10 +114,6 @@
 						<input class="widefat" id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>" type="text" value="<?php echo $count; ?>">
 					</p>
 					<p>
-						<label for="<?php echo $this->get_field_id('count'); ?>"><?php _e('Number of Images'); ?></label> 
-						<input class="widefat" id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>" type="text" value="<?php echo $count; ?>">
-					</p>
-					<p>
 						<label for="<?php echo $this->get_field_id('order'); ?>"><?php _e('Random'); ?></label> 
 						<input id="<?php echo $this->get_field_id('order'); ?>" name="<?php echo $this->get_field_name('order'); ?>" type="checkbox" value="1" <?php if ($order) { echo 'checked="checked"'; } ?>>
 					</p>
@@ -150,22 +133,7 @@
 		add_action('wp_ajax_nopriv_wpe_flickr_cache', 'wpe_flickr_cache');
 	
 		function wpe_flickr_cache() {
-			global $wpdb;
-			$table_name = $wpdb->prefix."wpe_flickr";
-			require_once("phpFlickr/phpFlickr.php");
-		
-			$f = new phpFlickr(get_option('wpe_flickr_api'));
-		
-			$i = 0;
-			$person = $f->people_findByUsername(get_option('wpe_flickr_username',''));
-			$photos_url = $f->urls_getUserPhotos($person['id']);
-			$photos = $f->people_getPublicPhotos($person['id'], NULL, NULL, 20);
-				
-			$wpdb->query('TRUNCATE TABLE '.$table_name);
-		 
-			foreach ((array)$photos['photos']['photo'] as $photo) {
-				$wpdb->query('INSERT INTO '.$table_name.' VALUES ("","'.get_option('wpe_flickr_username','').'","'.$photos_url.''.$photo['id'].'","'.$photo[title].'","'.$f->buildPhotoURL($photo, "Square").'",NOW())');
-			}
+			wpe_getFlickrPhotos(get_option('wpe_flickr_api'),get_option('wpe_flickr_username'));
 			die();
 		}
 		
@@ -193,3 +161,37 @@
 				});
 			</script>
 		<?php }
+		
+	/* Functions */	
+		function wpe_getFlickrPhotos($api,$username) {
+			global $wpdb;
+			$table_name = $wpdb->prefix."wpe_flickr";
+			
+			$get_user  = 'https://api.flickr.com/services/rest/?method=flickr.people.findByUsername';
+			$get_user .= '&api_key='.$api;
+			$get_user .= '&username='.$username;
+			$get_user .= '&format=json';
+			$get_user .= '&nojsoncallback=1';
+			$response = json_decode(file_get_contents($get_user));
+			$get_photos = 'https://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos';
+			$get_photos .= '&api_key='.$api;
+			$get_photos .= '&user_id='.$response->user->nsid;
+			$get_photos .= '&per_page=500';
+			$get_photos .= '&format=json';
+			$get_photos .= '&nojsoncallback=1';
+			$response = json_decode(file_get_contents($get_photos));
+			$photos = $response->photos->photo;
+			
+			foreach($photos as $photo) {
+				$farm_id = $photo->farm;
+				$server_id = $photo->server;
+				$photo_id = $photo->id;
+				$secret_id = $photo->secret;
+				$title = $single_photo->title;
+				$size = 'm';
+				$photo_url = 'https://www.flickr.com/photos/'.$username.'/'.$photo_id;
+				$photo_src = 'http://farm'.$farm_id.'.staticflickr.com/'.$server_id.'/'.$photo_id.'_'.$secret_id.'_'.$size.'.'.'jpg';
+				
+				$wpdb->query('INSERT INTO '.$table_name.' VALUES ("","'.get_option('wpe_flickr_username').'","'.$photo_url.'","'.$title.'","'.$photo_src.'",NOW())');
+			}
+		}

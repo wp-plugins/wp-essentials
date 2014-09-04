@@ -3,8 +3,8 @@ Contributors: iprogressltd
 Donate link: http://www.wp-essentials.net
 Tags: iprogress,wp-essentials,security,backups,database-backups,debug,error-reporting,login-notification,analytics,facebook,flickr,twitter,youtube,vimeo,instagram,user-roles,google-maps
 Requires at least: 3.4
-Tested up to: 3.9.1
-Stable tag: 1.10.1
+Tested up to: 4.0
+Stable tag: 1.10.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 All-in-one bundle of essential plugins and functions for all WordPress websites.
@@ -131,6 +131,11 @@ If you have any questions, please visit [www.wp-essentials.net/support](http://w
 3. Screenshots show to Admin options
 
 == Changelog ==
+
+= 1.10.2 =
+* Upgraded to WordPress 4 compatibility.
+* Fixed Vimeo playback bug.
+* Rewrote Flickr functionality.
 
 = 1.10.1 =
 * Fixed Admin menu font icon.

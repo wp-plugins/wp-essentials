@@ -12,7 +12,7 @@
 					add_action('wp_footer', 'add_fb_script');
 				}
 				return '<div class="fb-post" data-href="'.$video.'" data-width="'.$width.'"></div>';
-			} else if (strpos($video,'video') !== false) {
+			} else if (strpos($video,'vimeo') !== false) {
 				sscanf(parse_url($video, PHP_URL_PATH), '/%d', $embed_code);
 				return '<iframe src="http://player.vimeo.com/video/'.$embed_code.'?title=1&amp;byline=1&amp;portrait=1" width="'.$width.'" height="'.$height.'" frameborder="0" allowFullScreen></iframe>';
 			}
