@@ -31,6 +31,21 @@
 			update_option('wpe_footer_link',$_POST['footer_link']);
 			update_option('wpe_php_date',$_POST['php_date']);
 			update_option('wpe_debug_mode',$_POST['debug_mode']);
+			for($wpe_s=1;$wpe_s<=get_option('wpe_custom_image_sizes');$wpe_s++) {
+				delete_option('wpe_image_size_'.$wpe_s);
+			}
+			for($wpe_s=1;$wpe_s<=$_POST['wpe_total_image_sizes'];$wpe_s++) {	
+				$image_crop = (isset($_POST[$wpe_s.'_image_crop'])) ? 1 : 0;
+				
+				add_option(
+					'wpe_image_size_'.$wpe_s,
+					$_POST[$wpe_s.'_image_name'].';'.
+					$_POST[$wpe_s.'_image_width'].';'.
+					$_POST[$wpe_s.'_image_height'].';'.
+					$image_crop
+				);
+			}
+			update_option('wpe_custom_image_sizes',$_POST['wpe_total_image_sizes']);
 			update_option('wpe_image_quality',$_POST['image_quality']);
 			update_option('wpe_facebook',$_POST['facebook']);
 			update_option('wpe_flickr_username',$_POST['flickr_username']);
@@ -174,6 +189,45 @@ function wpe_error_reports() {
 						<label for="footer_link"><input type="checkbox" name="footer_link" id="footer_link" value="1" <?php if (get_option('wpe_footer_link')==1) { ?>checked="checked"<?php } ?>> Enable Footer Link</label>
 					</div>
 				</div>
+				<div class="postbox" id="wpe_image_sizes">
+					<h3 class="hndle"><span><span><span class="wpe-image"></span> Custom Image Sizes</span></h3>
+					<div class="inside">
+                    	<p>Use this table to control your custom image sizes.</p>
+						<p><em>Please note: changes won&rsquo;t take effect until you rebuild the thumbnails.</em></p>
+						<table id="image_size_table" cellpadding="0" cellspacing="0">
+							<thead>
+                            	<tr>
+                                    <th class="center">Name</th>
+                                    <th class="center">Width (px)</th>
+                                    <th class="center">Height (px)</th>
+                                    <th class="center">Crop</th>
+                                    <th class="center">&nbsp;</th>
+                                </tr>
+							</thead>
+							<tbody>
+                            	<?php
+									for($wpe_s=1;$wpe_s<=get_option('wpe_custom_image_sizes');$wpe_s++) {
+										$size = get_option('wpe_image_size_'.$wpe_s);
+										$sizes = explode(';',$size);
+								?>
+                                    <tr>
+                                        <td class="center"><input type="text" class="medium-text" name="<?php echo $wpe_s; ?>_image_name" id="custom_image_sizes" value="<?php echo $sizes[0]; ?>"></td>
+                                        <td class="center"><input type="text" class="medium-text" name="<?php echo $wpe_s; ?>_image_width" value="<?php echo $sizes[1]; ?>"></td>
+                                        <td class="center"><input type="text" class="medium-text" name="<?php echo $wpe_s; ?>_image_height" value="<?php echo $sizes[2]; ?>"></td>
+                                        <td class="center"><input type="checkbox" name="<?php echo $wpe_s; ?>_image_crop" <?php if ($sizes[3]==1) { echo 'checked'; } ?>></td>
+                                        <td class="center"><button class="button button-secondary delete_image_size" <?php if ($wpe_s==1) { echo 'disabled="disabled"'; } ?>>Delete</button></td>
+                                    </tr>
+                                <?php } ?>
+							</tbody>
+                            <tfoot>
+                            	<tr>
+                                    <td colspan="16" class="center"><button id="add_image_size" class="button button-secondary">Add Image Size</button></td>
+                                </tr>
+                            </tfoot>
+						</table>
+                        <input type="hidden" name="wpe_total_image_sizes" id="wpe_total_image_sizes" value="">
+					</div>
+				</div>
 				<div class="postbox" id="wpe_image_quality">
 					<h3 class="hndle"><span><span class="wpe-image"></span> Image Quality</span></h3>
 					<div class="inside clearfix">
@@ -285,6 +339,7 @@ function wpe_error_reports() {
 					<ul>
 						<li><code>[instagram count="3"]</code> This will display the latest 3 tweets.</li>
 						<li><code>[instagram order="random"]</code> This will display random tweets.</li>
+						<li><code>[instagram keyword="snowflake"]</code> This will display images from a hashtag search.</li>
 						<li><code>[instagram class="instagram"]</code> This will give your Instagram <code>&lt;ul&gt;</code> a custom class name.</li>
 					</ul>
 						<h4>Setup</h4>
@@ -441,10 +496,10 @@ function wpe_twitter_format($data) {
 					</div>
 				</div>
 				<div class="postbox">
-					<h3 class="hndle"><span><span class="wpe-fire"></span> About this Plugin</span></h3>
+					<h3 class="hndle"><span><span class="wpe-fire"></span> About this Plugin <span class="wpe_version">v<?php echo ESSENTIALS_VERSION; ?></span></span></h3>
 					<div class="inside">
-						<p>WP Essentials is developed and maintained by Craig at <a href="http://www.wp-essentials.net">WP Essentials</a>.</p>
-						<p>You can follow me on twitter <a href="http://twitter.com/ceefitzpee">@ceefitzpee</a>.</p>
+						<p>WP Essentials is developed and maintained by Craig at <a href="http://www.iprogress.co.uk">iprogress</a>.</p>
+						<p>You can also follow me on twitter <a href="http://twitter.com/ceefitzpee">@ceefitzpee</a>.</p>
 					</div>
 				</div>
 				<div class="postbox">

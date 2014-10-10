@@ -182,16 +182,19 @@
 			$response = json_decode(file_get_contents($get_photos));
 			$photos = $response->photos->photo;
 			
-			foreach($photos as $photo) {
-				$farm_id = $photo->farm;
-				$server_id = $photo->server;
-				$photo_id = $photo->id;
-				$secret_id = $photo->secret;
-				$title = $single_photo->title;
-				$size = 'm';
-				$photo_url = 'https://www.flickr.com/photos/'.$username.'/'.$photo_id;
-				$photo_src = 'http://farm'.$farm_id.'.staticflickr.com/'.$server_id.'/'.$photo_id.'_'.$secret_id.'_'.$size.'.'.'jpg';
-				
-				$wpdb->query('INSERT INTO '.$table_name.' VALUES ("","'.get_option('wpe_flickr_username').'","'.$photo_url.'","'.$title.'","'.$photo_src.'",NOW())');
+			if ($photos) {
+				$wpdb->query('TRUNCATE TABLE '.$table_name);
+				foreach($photos as $photo) {
+					$farm_id = $photo->farm;
+					$server_id = $photo->server;
+					$photo_id = $photo->id;
+					$secret_id = $photo->secret;
+					$title = $photo->title;
+					$size = 'm';
+					$photo_url = 'https://www.flickr.com/photos/'.$username.'/'.$photo_id;
+					$photo_src = 'http://farm'.$farm_id.'.staticflickr.com/'.$server_id.'/'.$photo_id.'_'.$secret_id.'_'.$size.'.'.'jpg';
+					
+					$wpdb->query('INSERT INTO '.$table_name.' VALUES ("","'.get_option('wpe_flickr_username').'","'.$photo_url.'","'.$title.'","'.$photo_src.'",NOW())');
+				}
 			}
 		}

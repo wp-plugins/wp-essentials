@@ -4,7 +4,7 @@ Donate link: http://www.wp-essentials.net
 Tags: iprogress,wp-essentials,security,backups,database-backups,debug,error-reporting,login-notification,analytics,facebook,flickr,twitter,youtube,vimeo,instagram,user-roles,google-maps
 Requires at least: 3.4
 Tested up to: 4.0
-Stable tag: 1.10.2
+Stable tag: 1.10.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 All-in-one bundle of essential plugins and functions for all WordPress websites.
@@ -73,6 +73,10 @@ All-in-one bundle of essential plugins and functions for all WordPress websites.
 
 * Change the quality of uploaded images to your website.
 
+** Custom Image Sizes**
+
+* Add your own custom thumbnail sizes for your images.
+
 **Advanced PHP Functions**
 
 * Custom Excerpt function lets you override the default WordPress excerpt with additional options.
@@ -131,6 +135,11 @@ If you have any questions, please visit [www.wp-essentials.net/support](http://w
 3. Screenshots show to Admin options
 
 == Changelog ==
+
+= 1.10.3 =
+* Fixed Flickr DB truncate bug.
+* Added new Custom Image Sizes option.
+* Removed frameBorder attribute from video iframes.
 
 = 1.10.2 =
 * Upgraded to WordPress 4 compatibility.

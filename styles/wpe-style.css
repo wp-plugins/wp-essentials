@@ -6,11 +6,10 @@ h2.title img { vertical-align:bottom; }
 	#wpe_left h2 { font:normal normal 20px/24px "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",sans-serif;margin-bottom:10px; }
 	#wpe_left h3 { font:normal normal 14px/18px "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",sans-serif;cursor:pointer !important; }
 		#wpe_left h3 strong { width:25px;display:block;float:left; }
-			#wpe_left h3 img { width:auto;height:15px;vertical-align:bottom; }
 #wpe_right { float:right;width:19%; }
 	#wpe_right h3 { cursor:default !important; }
 		#wpe_right h3 span[class^="wpe-"],#wpe_right h3 span[class*=" wpe-"] { width:25px;display:block;float:left; }
-		#wpe_right h3 img { width:auto;height:15px;vertical-align:bottom; }
+		#wpe_right h3 .wpe_version { float:right;font-size:10px;line-height:22px;color:#999; }
 	#wpe_right .postbox { min-width:0px !important; }
 	.sticky { position:fixed !important;top:40px;right:15px;width:19%; }
 .center { text-align:center; }
@@ -37,6 +36,10 @@ h2.title img { vertical-align:bottom; }
 	#user_role_table th:first-child { border-top-left-radius:3px; }
 	#user_role_table th:last-child { border-top-right-radius:3px; }
 	#user_role_table th,#user_role_table td { border:1px solid #DFDFDF;padding:5px; }
+#image_size_table { width:100%;background:#fff;border-collapse:collapse; }
+	#image_size_table th:first-child { border-top-left-radius:3px; }
+	#image_size_table th:last-child { border-top-right-radius:3px; }
+	#image_size_table th,#image_size_table td { border:1px solid #DFDFDF;padding:5px; }
 	
 /* Responsive */
 	@media only screen and (max-width:900px){

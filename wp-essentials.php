@@ -3,13 +3,13 @@
 		Plugin Name: WP Essentials
 		Plugin URI: http://www.wp-essentials.net
 		Description: All-in-one bundle of essential plugins and functions for all WordPress websites.
-		Version: 1.10.2
+		Version: 1.10.3
 		Author: wp-essentials
 		Author URI: http://www.wp-essentials.net
 	*/
 	
 	// Essentails Setup
-		define('ESSENTIALS_VERSION', '1.10.2');
+		define('ESSENTIALS_VERSION', '1.10.3');
 		define('ESSENTIALS_DIR', dirname(__FILE__));
 		define('ESSENTIALS_PATH', plugins_url().'/wp-essentials');
 		
@@ -119,6 +119,7 @@
 				add_submenu_page('wp-essentials','Debug Mode','Debug Mode','manage_options','admin.php?page=wp-essentials#wpe_debug_mode');
 				add_submenu_page('wp-essentials','Error Reporting','Error Reporting','manage_options','admin.php?page=wp-essentials#wpe_error_reporting');
 				add_submenu_page('wp-essentials','Footer Link','Footer Link','manage_options','admin.php?page=wp-essentials#wpe_footer_link');
+				add_submenu_page('wp-essentials','Custom Image Sizes','Custom Image Sizes','manage_options','admin.php?page=wp-essentials#wpe_image_sizes');
 				add_submenu_page('wp-essentials','Image Quality','Image Quality','manage_options','admin.php?page=wp-essentials#wpe_image_quality');
 				add_submenu_page('wp-essentials','Login Notification','Login Notification','manage_options','admin.php?page=wp-essentials#wpe_login_notification');
 				

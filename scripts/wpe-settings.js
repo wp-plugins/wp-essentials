@@ -11,6 +11,7 @@ jQuery(document).ready(function() {
 			jQuery(".wp-submenu a[href*='#"+jQuery(this).parent().attr("id")+"']").parent().addClass("current");
 		});
 		jQuery("#wpe_total_user_roles").val(jQuery("#user_role_table tbody tr").length);
+		jQuery("#wpe_total_image_sizes").val(jQuery("#image_size_table tbody tr").length);
 		var rightPos = jQuery("#wpe_right").position();
 		
 		jQuery(".pro_version").each(function(){
@@ -50,6 +51,44 @@ jQuery(document).ready(function() {
 			jQuery("#wpe_total_user_roles").val(newRow);
 			jQuery("#user_role_table tbody").append(dupe);
 			jQuery("#user_role_table tbody tr:last input[type=text]").val("");
+		});
+		
+		jQuery("#add_image_size").on("click",function(e){
+			e.preventDefault();
+			var dupe = jQuery("#image_size_table tbody tr:last").clone();
+			var newRow = jQuery("#image_size_table tbody tr").length + 1;
+			
+			dupe.html(function(i, dupe) {
+				return dupe
+				.replace(/[\d\.]+/g, newRow)
+				.replace('disabled="disabled"', '')
+				.replace('checked=""', '');
+			});
+			
+			jQuery("#wpe_total_image_sizes").val(newRow);
+			jQuery("#image_size_table tbody").append(dupe);
+			jQuery("#image_size_table tbody tr:last input[type=text]").val("");
+		});
+		
+		jQuery(".delete_image_size").live("click",function(e){
+			e.preventDefault();
+			jQuery(this).parent('td').parent('tr').fadeOut(function(){
+				jQuery(this).remove();
+				var oldRow = jQuery("#wpe_total_image_sizes").val();
+				var newRow = oldRow - 1;
+				jQuery("#wpe_total_image_sizes").val(newRow);
+				
+				var numRows = 1;
+				jQuery("#image_size_table tbody tr").each(function(){
+					var thisRow = jQuery(this);
+					thisRow.html(thisRow.html());
+					thisRow.find("input:eq(0)").attr("name",numRows+"_image_name");
+					thisRow.find("input:eq(1)").attr("name",numRows+"_image_width");
+					thisRow.find("input:eq(2)").attr("name",numRows+"_image_height");
+					thisRow.find("input:eq(3)").attr("name",numRows+"_image_crop");
+					numRows++;
+				});
+			});
 		});
 		
 		if (window.location.hash) {

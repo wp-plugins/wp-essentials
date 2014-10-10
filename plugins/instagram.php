@@ -59,7 +59,7 @@
 							$wpdb->query('TRUNCATE TABLE '.$table_name);
 							
 							foreach ($result->data as $post) {								
-								$wpdb->query('INSERT INTO '.$table_name.' VALUES ("","'.$post->link.'","'.$post->images->thumbnail->url.'","'.$post->caption->text.'",NOW())');
+								$wpdb->query('INSERT INTO '.$table_name.' VALUES ("","'.$post->link.'","'.str_replace("http:","https:",$post->images->thumbnail->url).'","'.$post->caption->text.'",NOW())');
 							}
 						}
 					}
@@ -184,7 +184,7 @@
 				$wpdb->query('TRUNCATE TABLE '.$table_name);
 				
 				foreach ($result->data as $post) {
-					$wpdb->query('INSERT INTO '.$table_name.' VALUES ("","'.$post->link.'","'.$post->images->thumbnail->url.'","'.$post->caption->text.'",NOW())');
+					$wpdb->query('INSERT INTO '.$table_name.' VALUES ("","'.$post->link.'","'.str_replace("http:","https:",$post->images->thumbnail->url).'","'.$post->caption->text.'",NOW())');
 				}
 			}
 			die();
