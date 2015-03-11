@@ -18,7 +18,6 @@ All-in-one bundle of essential plugins and functions for all WordPress websites.
 
 * Twitter feed shortcode and widget available.
 * WP Essentials uses the new Twitter 1.1 API.
-* Post new WordPress Posts to your Twitter feed instantly.
 * Filter your Twitter feed by hashtags.
 * Cache system prevents API call limit.
 
