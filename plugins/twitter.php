@@ -1,12 +1,13 @@
 <?php
 	// Database Set up
-		if (get_option('wpe_twitter_username') && get_option('wpe_twitter_db') == 0) {
+		if (get_option('wpe_twitter_accounts') > 0 && get_option('wpe_twitter_db') == 0) {
 			global $wpdb;
 			
 			$table_name = $wpdb->prefix."wpe_twitter";
 			
 			$sql = "CREATE TABLE ".$table_name." (
 				id mediumint(9) NOT NULL AUTO_INCREMENT,
+				username VARCHAR(255) DEFAULT '' NOT NULL,
 				name VARCHAR(255) DEFAULT '' NOT NULL,
 				content VARCHAR(255) DEFAULT '' NOT NULL,
 				status VARCHAR(255) DEFAULT '' NOT NULL,
@@ -18,6 +19,23 @@
 			require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 			dbDelta($sql);
 			update_option('wpe_twitter_db',1);
+		}
+		
+		if (get_option('wpe_twitter_username')) {
+			$twitter_account = get_option('wpe_twitter_username','').';'.get_option('wpe_twitter_consumer_key','').';'.get_option('wpe_twitter_consumer_secret','').';'.get_option('wpe_twitter_oauth_access_token','').';'.get_option('wpe_twitter_oauth_access_token_secret','');
+			
+			delete_option('wpe_twitter_username');
+			delete_option('wpe_twitter_oauth_access_token');
+			delete_option('wpe_twitter_oauth_access_token_secret');
+			delete_option('wpe_twitter_consumer_key');
+			delete_option('wpe_twitter_consumer_secret');
+			
+			add_option('wpe_twitter_1',$twitter_account);
+			add_option('wpe_twitter_accounts',1);
+			
+			global $wpdb;
+			$table_name = $wpdb->prefix."wpe_twitter";
+			$wpdb->query('ALTER TABLE '.$table_name.' ADD username VARCHAR(255) NOT NULL AFTER id'); 
 		}
 		
 	// Shortcode Setup
@@ -33,58 +51,60 @@
 							array(
 								'count' => 3,
 								'order' => null,
-								'class' => 'wpe_twitter'
+								'class' => 'wpe_twitter',
 							),
 							$atts
 						 )
 					);
 					
+					$accounts = get_option('wpe_twitter_1');
+					$account = explode(';',$accounts);
+					$username = $account[0];
+					
 					// Cache Check
-					$check = $wpdb->get_row('SELECT * FROM '.$table_name.' LIMIT 1');
-					$now = strtotime('-15 minutes');
-					$last_update = strtotime($check->added);
-					if ($now > $last_update) {	
-						// Make Requests
-							$settings = array(
-								'oauth_access_token' => get_option('wpe_twitter_oauth_access_token',''),
-								'oauth_access_token_secret' => get_option('wpe_twitter_oauth_access_token_secret',''),
-								'consumer_key' => get_option('wpe_twitter_consumer_key',''),
-								'consumer_secret' => get_option('wpe_twitter_consumer_secret','')
-							);
-						
-							$url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
-							$getfield = '?screen_name='.get_option('wpe_twitter_username','').'&count=200';
-							$requestMethod = 'GET';
-							
-							$twitter = new TwitterAPIExchange($settings);
-							$response = $twitter->setGetfield($getfield)
-												->buildOauth($url, $requestMethod)
-												->performRequest();
-							$data = json_decode($response);
-							$total=count($data);
-							$errors = $data->errors[0];
-							if ($errors) {
-								echo '<p>Twitter Error: '.$errors->message.'</p>';
-							} else if ($total>0) {
-								$wpdb->query('TRUNCATE TABLE '.$table_name);
+						$check = $wpdb->get_row('SELECT * FROM '.$table_name.' WHERE username = "'.$username.'" LIMIT 1');
+						$now = strtotime('-15 minutes');
+						$last_update = strtotime($check->added);
+						if ($now > $last_update) {						
+							// Make Requests
+								$settings = array(
+									'consumer_key' => $account[1],
+									'consumer_secret' => $account[2],
+									'oauth_access_token' => $account[3],
+									'oauth_access_token_secret' => $account[4],
+								);
+								$url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
+								$getfield = '?screen_name='.$account[0].'&count=200';
+								$requestMethod = 'GET';
 								
-								for($i=0;$i<$total;$i++){
-									$name=$data[$i]->user->name;
-									$content=str_replace("…","&hellip;",$data[$i]->text);
-									$status=$data[$i]->id_str;
-									$posted=strtotime($data[$i]->created_at);
+								$twitter = new TwitterAPIExchange($settings);
+								$response = $twitter->setGetfield($getfield)->buildOauth($url, $requestMethod)->performRequest();
+								$data = json_decode($response);
+								$total=count($data);
+								$errors = $data->errors[0];
+								if ($errors) {
+									echo '<p>Twitter Error: '.$errors->message.'</p>';
+								} else if ($total>0) {
+									$wpdb->query('DELETE FROM '.$table_name.' WHERE username = "'.$username.'"');
 									
-									$sql = $wpdb->prepare('INSERT INTO '.$table_name.' (id, name, content, status, posted, added) VALUES ("",%s,%s,%s,%s,NOW())',$name, $content, $status, $posted);
-									$wpdb->query($sql);
+									for($i=0;$i<$total;$i++){
+										$username=$account[0];
+										$name=$data[$i]->user->name;
+										$content=str_replace("…","&hellip;",$data[$i]->text);
+										$status=$data[$i]->id_str;
+										$posted=strtotime($data[$i]->created_at);
+										
+										$sql = $wpdb->prepare('INSERT INTO '.$table_name.' (id, username, name, content, status, posted, added) VALUES ("",%s,%s,%s,%s,%s,NOW())',$username,$name, $content, $status, $posted);
+										$wpdb->query($sql);
+									}
 								}
-							}
-					}
+						}
 					
 					// Get Tweets
 					if ($order=="random") {
-						$twitter = $wpdb->get_results('SELECT * FROM '.$table_name.' ORDER BY RAND() LIMIT '.$count);
+						$twitter = $wpdb->get_results('SELECT * FROM '.$table_name.' WHERE username = '.$username.' ORDER BY RAND() LIMIT '.$count);
 					} else {
-						$twitter = $wpdb->get_results('SELECT * FROM '.$table_name.' LIMIT '.$count);
+						$twitter = $wpdb->get_results('SELECT * FROM '.$table_name.' WHERE username = "'.$username.'" ORDER BY posted DESC LIMIT '.$count);
 					}
 					
 					$tweets = '<ul class="'.$class.'">';
@@ -99,56 +119,8 @@
 				add_shortcode('twitter','twitter');
 			}
 			
-		// Post Tweets
-			if (!function_exists('post_to_twitter')) {
-				if (get_option('wpe_twitter_username')) {
-					add_action('post_submitbox_misc_actions', 'post_to_twitter');
-					add_action('save_post', 'save_post_to_twitter');
-					
-					function post_to_twitter() {
-						global $post;
-						if (get_post_type($post) == 'post') {
-							echo '<div class="misc-pub-section misc-pub-section-last" style="border-bottom: 1px solid #dfdfdf;">';
-							wp_nonce_field( plugin_basename(__FILE__), 'post_to_twitter_nonce' );
-							echo '<input type="checkbox" name="post_to_twitter" id="post_to_twitter" value="1" /> <label for="post_to_twitter" class="select-it">Post to Twitter</label>';
-							echo '</div>';
-						}
-					}
-					
-					function save_post_to_twitter($post_id) {
-						if (!isset($_POST['post_type'])) { return $post_id; }
-						if (!wp_verify_nonce($_POST['post_to_twitter_nonce'],plugin_basename(__FILE__))) { return $post_id; }
-						if (defined('DOING_AUTOSAVE')&&DOING_AUTOSAVE) { return $post_id; }
-						if ('post'==$_POST['post_type']&&!current_user_can('edit_post',$post_id)) { return $post_id; }
-						if (!isset($_POST['post_to_twitter'])) { return $post_id; }
-						else {
-							$the_post = get_post($post_id);
-							
-							if ($the_post->post_type=='post') {							
-								$settings = array(
-									'consumer_key' => get_option('wpe_twitter_consumer_key',''),
-									'consumer_secret' => get_option('wpe_twitter_consumer_secret',''),
-									'oauth_access_token' => get_option('wpe_twitter_oauth_access_token',''),
-									'oauth_access_token_secret' => get_option('wpe_twitter_oauth_access_token_secret','')
-								);
-								
-								$url = 'https://api.twitter.com/1.1/statuses/update.json';
-								$requestMethod = 'POST';
-								
-								$postfields = array(
-									'status' => $the_post->post_title.' '.get_permalink($the_post->ID)
-								);
-								
-								$twitter = new TwitterAPIExchange($settings);
-								$twitter->buildOauth($url, $requestMethod)->setPostfields($postfields)->performRequest();
-							}
-						}
-					}
-				}
-			}
-			
 	// Widget Set up
-		if (get_option('wpe_twitter_username')) {
+		if (get_option('wpe_twitter_accounts') > 0) {
 			class Twitter extends WP_Widget {
 				function __construct() {
 					parent::WP_Widget('twitter', 'Twitter', array( 'description' => 'Add a Twitter feed to your page.' ) );
@@ -175,6 +147,7 @@
 					$instance['count'] = strip_tags($new_instance['count']);
 					$instance['order'] = strip_tags($new_instance['order']);
 					$instance['class'] = strip_tags($new_instance['class']);
+					$instance['username'] = strip_tags($new_instance['username']);
 					return $instance;
 				}
 				
@@ -184,11 +157,25 @@
 						$count = esc_attr($instance['count']);
 						$order = esc_attr($instance['order']);
 						$class = esc_attr($instance['class']);
+						$username = esc_attr($instance['username']);
 					}
 					?>
 					<p>
 						<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Sidebar Title'); ?></label> 
 						<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>">
+					</p>
+					<p>
+						<label for="<?php echo $this->get_field_id('username'); ?>"><?php _e('Username'); ?></label> 
+						<select class="widefat" id="<?php echo $this->get_field_id('username'); ?>" name="<?php echo $this->get_field_name('username'); ?>">
+							<?php
+								for($wpe_t=1;$wpe_t<=1;$wpe_t++) {
+									$account = get_option('wpe_twitter_'.$wpe_t);
+									$accounts = explode(';',$account);
+									$selected = ($username == $accounts[0] ? $selected = 'selected="selected"' : $selected = '');
+									echo '<option value="'.$accounts[0].'" '.$selected.'>'.$accounts[0].'</option>';
+								}
+							?>
+						</select>
 					</p>
 					<p>
 						<label for="<?php echo $this->get_field_id('count'); ?>"><?php _e('Number of Tweets'); ?></label> 
@@ -212,76 +199,6 @@
 			register_widget('Twitter');
 		}
 		
-	// Cache set up
-		add_action('wp_ajax_wpe_twitter_cache', 'wpe_twitter_cache');
-		add_action('wp_ajax_nopriv_wpe_twitter_cache', 'wpe_twitter_cache');
-	
-		function wpe_twitter_cache() {
-			global $wpdb;
-			$table_name = $wpdb->prefix."wpe_twitter";
-
-			// Make Requests
-				$settings = array(
-					'oauth_access_token' => get_option('wpe_twitter_oauth_access_token',''),
-					'oauth_access_token_secret' => get_option('wpe_twitter_oauth_access_token_secret',''),
-					'consumer_key' => get_option('wpe_twitter_consumer_key',''),
-					'consumer_secret' => get_option('wpe_twitter_consumer_secret','')
-				);
-			
-				$url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
-				$getfield = '?screen_name='.get_option('wpe_twitter_username','').'&count=200';
-				$requestMethod = 'GET';
-				
-				$twitter = new TwitterAPIExchange($settings);
-				$response = $twitter->setGetfield($getfield)
-									->buildOauth($url, $requestMethod)
-									->performRequest();
-				$data = json_decode($response);
-				$total=count($data);
-				$errors = $data->errors[0];
-				if ($errors) {
-					echo '<p>Twitter Error: '.$errors->message.'</p>';
-				} else if ($total>0) {
-					$wpdb->query('TRUNCATE TABLE '.$table_name);
-					
-					for($i=0;$i<$total;$i++){
-						$name=$data[$i]->user->name;
-						$content=str_replace("…","&hellip;",$data[$i]->text);
-						$status=$data[$i]->id_str;
-						$posted=strtotime($data[$i]->created_at);
-						
-						$sql = $wpdb->prepare('INSERT INTO '.$table_name.' (id, name, content, status, posted, added) VALUES ("",%s,%s,%s,%s,NOW())',$name, $content, $status, $posted);
-						$wpdb->query($sql);
-					}
-				}
-			die();
-		}
-		
-		add_action('admin_footer', 'wpe_twitter_javascript');
-		function wpe_twitter_javascript() { ?>
-			<script type="text/javascript" >
-				jQuery(document).ready(function() {
-					jQuery("#wpe_cache_twitter").on("click",function(e){
-						e.preventDefault();
-						jQuery(this).hide().after('<img src="'+path_url+'/images/loading.gif" id="wpe_twitter_cache_loading">');
-						var data = {
-							action: 'wpe_twitter_cache'
-						};
-						
-						jQuery.post(ajaxurl,data,function(response) {
-							jQuery("#wpe_twitter_cache_loading").hide();
-							jQuery("#wpe_twitter_cache_message").fadeIn();
-							setTimeout(function(){
-								jQuery("#wpe_twitter_cache_message").hide();
-								jQuery("#wpe_cache_twitter").fadeIn();
-							},5000);
-						});
-					}).after('<span id="wpe_twitter_cache_message">The twitter cache has been cleared.</span>');
-					jQuery("#wpe_twitter_cache_message").hide();
-				});
-			</script>
-		<?php }
-		
 	// Functions
 		if (!function_exists('link_tweet')) {
 			function link_tweet($tweet) {
@@ -289,7 +206,7 @@
 				$tweet = preg_replace("#(^|[\n ])([\w]+?://[\w]+[^ \"\n\r\t<]*)#ise", "'\\1<a href=\"\\2\" rel=\"nofollow\" target=\"_blank\">\\2</a>'", $tweet);
 				$tweet = preg_replace("#(^|[\n ])((www|ftp)\.[^ \"\t\n\r<]*)#ise", "'\\1<a href=\"http://\\2\" rel=\"nofollow\" target=\"_blank\">\\2</a>'", $tweet);
 				$tweet = preg_replace('/(^|\s)#(\w+)/','\1<a href="https://twitter.com/search?q=%23\2&mode=realtime" rel="nofollow" target="_blank">#\2</a>',$tweet);
-				$tweet = str_replace("&","&amp;",$tweet);
+				$tweet = str_replace(" & "," &amp; ",$tweet);
 				return $tweet;
 			}
 		}

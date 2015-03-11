@@ -18,7 +18,7 @@
 				);
 				if (!function_exists('google_api')) {
 					function google_api() {
-						echo '<script src="http://maps.google.com/maps/api/js?sensor=false"></script>';
+						echo '<script src="//maps.google.com/maps/api/js?sensor=false"></script>';
 						echo '<script src="'.ESSENTIALS_PATH.'/scripts/wpe-google-maps.js"></script>';
 					}
 					add_action('wp_footer', 'google_api');

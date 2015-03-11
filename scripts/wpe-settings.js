@@ -1,5 +1,5 @@
 jQuery(document).ready(function() {
-	var baseURL="http://"+window.location.hostname;
+	var baseURL="//"+window.location.hostname;
 	var currentURL=window.location;
 	
 	if (jQuery("#wpe_left").length>0) {

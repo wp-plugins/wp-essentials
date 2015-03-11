@@ -4,7 +4,7 @@ Donate link: http://www.wp-essentials.net
 Tags: iprogress,wp-essentials,security,backups,database-backups,debug,error-reporting,login-notification,analytics,facebook,flickr,twitter,youtube,vimeo,instagram,user-roles,google-maps
 Requires at least: 3.4
 Tested up to: 4.0
-Stable tag: 1.10.3
+Stable tag: 2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 All-in-one bundle of essential plugins and functions for all WordPress websites.
@@ -94,6 +94,10 @@ A Premium version of this plugin is also available.
 
 Features include:
 
+**Twitter Feed**
+
+* Supports multiple Twitter accounts.
+
 **Instagram Feed**
 
 * Include an Instagram feed either as a shortcode or a sidebar widget anywhere throughout your website.
@@ -118,6 +122,10 @@ Features include:
 * WP Essentials includes functions to render LESS or SASS files directly on the server before outputting the CSS to the browser.
 * Choose between CSS, LESS or SASS.
 
+**Get Shortcode**
+
+* Utulise URL query strings with a simple shortcode.
+
 == Installation ==
 
 1. Upload the 'wp-essentials' folder to the '/wp-content/plugins/' directory 
@@ -135,6 +143,12 @@ If you have any questions, please visit [www.wp-essentials.net/support](http://w
 3. Screenshots show to Admin options
 
 == Changelog ==
+
+= 2.0 =
+* Force lowercase names to file uploads.
+* Added Demographics support to Google Analytics.
+* Added HTTPS support.
+* Fixed ampersand bug in Twitter.
 
 = 1.10.3 =
 * Fixed Flickr DB truncate bug.

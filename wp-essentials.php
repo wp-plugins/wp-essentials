@@ -3,13 +3,14 @@
 		Plugin Name: WP Essentials
 		Plugin URI: http://www.wp-essentials.net
 		Description: All-in-one bundle of essential plugins and functions for all WordPress websites.
-		Version: 1.10.3
+		Version: 2.0
 		Author: wp-essentials
 		Author URI: http://www.wp-essentials.net
 	*/
 	
 	// Essentails Setup
-		define('ESSENTIALS_VERSION', '1.10.3');
+		define('ESSENTIALS_VERSION', '2.0');
+		define('ESSENTIALS_DATE', '2015-02-26');
 		define('ESSENTIALS_DIR', dirname(__FILE__));
 		define('ESSENTIALS_PATH', plugins_url().'/wp-essentials');
 		
@@ -41,6 +42,7 @@
 			add_option('wpe_twitter_oauth_access_token','');
 			add_option('wpe_twitter_oauth_access_token_secret','');
 			add_option('wpe_style','css');
+			add_option('wpe_responsive',1);
 			add_option('wpe_email',1);
 			add_option('wpe_video',1);
 			add_option('wpe_excerpt',1);
@@ -70,6 +72,7 @@
 				include("plugins/flickr.php");
 				if (get_option('wpe_google_maps')==1) { include("plugins/google-maps.php"); }
 				include("plugins/twitter.php");
+				if (get_option('wpe_responsive')==1) { include("plugins/responsive.php"); }
 				
 			// Shortcodes
 				if (get_option('wpe_php_date')==1) { include("shortcodes/php-date.php"); }
@@ -131,9 +134,13 @@
 				add_submenu_page('wp-essentials','Instagram Feed','Instagram Feed','manage_options','admin.php?page=wp-essentials#wpe_instagram_feed');
 				add_submenu_page('wp-essentials','Twitter Feed','Twitter Feed','manage_options','admin.php?page=wp-essentials#wpe_twitter_feed');
 				add_submenu_page('wp-essentials','Styling','Styling','manage_options','admin.php?page=wp-essentials#wpe_styling');
+				add_submenu_page('wp-essentials','Responsive','Responsive','manage_options','admin.php?page=wp-essentials#wpe_responsive');
+				
+			// Shortcodes
 				add_submenu_page('wp-essentials','Email Shortcode','Email Shortcode','manage_options','admin.php?page=wp-essentials#wpe_email');
 				add_submenu_page('wp-essentials','Date Shortcode','Date Shortcode','manage_options','admin.php?page=wp-essentials#wpe_date');
 				add_submenu_page('wp-essentials','Video Shortcode','Video Shortcode','manage_options','admin.php?page=wp-essentials#wpe_video');
+				add_submenu_page('wp-essentials','Get Shortcode','Get Shortcode','manage_options','admin.php?page=wp-essentials#wpe_get');
 				
 			// PHP Functions
 				add_submenu_page('wp-essentials','Custom Excerpt','Custom Excerpt','manage_options','admin.php?page=wp-essentials#wpe_custom_excerpt');

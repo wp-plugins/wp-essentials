@@ -3,7 +3,7 @@
 		function render_video($video,$width,$height) {
 			parse_str(parse_url($video,PHP_URL_QUERY),$embed_code);
 			if (strpos($video,'youtube') !== false) {
-				return '<iframe width="'.$width.'" height="'.$height.'" src="http://www.youtube.com/embed/'.$embed_code['v'].'?rel=0" allowfullscreen></iframe>';
+				return '<iframe width="'.$width.'" height="'.$height.'" src="//www.youtube.com/embed/'.$embed_code['v'].'?rel=0" allowfullscreen></iframe>';
 			} else if (strpos($video,'facebook') !== false) {
 				if (!function_exists('add_fb_script')) {
 					function add_fb_script() {
@@ -14,7 +14,7 @@
 				return '<div class="fb-post" data-href="'.$video.'" data-width="'.$width.'"></div>';
 			} else if (strpos($video,'vimeo') !== false) {
 				sscanf(parse_url($video, PHP_URL_PATH), '/%d', $embed_code);
-				return '<iframe src="http://player.vimeo.com/video/'.$embed_code.'?title=1&amp;byline=1&amp;portrait=1" width="'.$width.'" height="'.$height.'" allowFullScreen></iframe>';
+				return '<iframe src="//player.vimeo.com/video/'.$embed_code.'?title=1&amp;byline=1&amp;portrait=1" width="'.$width.'" height="'.$height.'" allowFullScreen></iframe>';
 			}
 		}
 	}

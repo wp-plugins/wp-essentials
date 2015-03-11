@@ -21,7 +21,8 @@
 			
 			if ($errors) {
 				echo '
-					<div class="error">
+					<div class="error wpe_error_reporting">
+						<p style="float:right;">Powered by <a href="https://www.wp-essentials.net">WP Essentials</a></p>
 						<p>The following issues have been found:</p>
 						<ul style="margin:0px 20px;list-style:disc;">
 							'.$errors.'

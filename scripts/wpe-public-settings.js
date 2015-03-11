@@ -1,5 +1,5 @@
 jQuery(document).ready(function() {
-	var baseURL="http://"+window.location.hostname;
+	var baseURL="//"+window.location.hostname;
 	var currentURL=window.location;
 	
 	jQuery('.wpe_twitter_interact a').click(function(e) {

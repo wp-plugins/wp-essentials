@@ -51,13 +51,23 @@
 			update_option('wpe_flickr_username',$_POST['flickr_username']);
 			update_option('wpe_flickr_api',$_POST['flickr_api']);
 			update_option('wpe_google_maps',$_POST['google_maps']);
-			update_option('wpe_twitter_username',$_POST['twitter_username']);
-			update_option('wpe_twitter_consumer_key',$_POST['twitter_consumer_key']);
-			update_option('wpe_twitter_consumer_secret',$_POST['twitter_consumer_secret']);
-			update_option('wpe_twitter_oauth_access_token',$_POST['twitter_oauth_access_token']);
-			update_option('wpe_twitter_oauth_access_token_secret',$_POST['twitter_oauth_access_token_secret']);
+			for($wpe_s=1;$wpe_s<=1;$wpe_s++) {
+				delete_option('wpe_twitter_1');
+			}
+			for($wpe_s=1;$wpe_s<=1;$wpe_s++) {					
+				add_option(
+					'wpe_twitter_'.$wpe_s,
+					$_POST[$wpe_s.'_twitter_username'].';'.
+					$_POST[$wpe_s.'_consumer_key'].';'.
+					$_POST[$wpe_s.'_consumer_secret'].';'.
+					$_POST[$wpe_s.'_oauth_access_token'].';'.
+					$_POST[$wpe_s.'_oauth_access_token_secret']
+				);
+			}
+			update_option('wpe_responsive',$_POST['responsive']);
 			update_option('wpe_email',$_POST['email']);
 			update_option('wpe_video',$_POST['video']);
+			update_option('wpe_get',$_POST['get']);
 			update_option('wpe_excerpt',$_POST['excerpt']);
 			update_option('wpe_get_image_source',$_POST['get_image_source']);
 			update_option('wpe_link_it',$_POST['link_it']);
@@ -75,7 +85,7 @@
 			<div id="wpe_left">
 				<h2>System</h2>
 				<div class="postbox" id="wpe_cleanup">
-					<h3 class="hndle"><span><span class="wpe-remove"></span> Cleanup</span></h3>						
+					<h3 class="hndle"><span><span class="wpe-bin"></span> Cleanup</span></h3>						
 					<div class="inside">
 						<p>The Cleanup function performs a few different tasks:</p>
 						<ul>
@@ -83,6 +93,7 @@
 							<li>Removes useless widgets from the Dashboard</li>
 							<li>Removes superfluous meta tags from your theme head (including the WordPress version number)</li>
 							<li>Removes detailed login errors</li>
+							<li>Forces lowercase names to file uploads</li>
 						</ul>
 						<p>
 						<label for="cleanup"><input type="checkbox" name="cleanup" id="cleanup" value="1" <?php if (get_option('wpe_cleanup')==1) { ?>checked="checked"<?php } ?>> Enable Cleanup</label>
@@ -164,7 +175,7 @@
 					</div>
 				</div>
 				<div class="postbox" id="wpe_error_reporting">
-					<h3 class="hndle"><span><span class="wpe-spam"></span> WordPress Error Reporting</span></h3>
+					<h3 class="hndle"><span><span class="wpe-terminal"></span> WordPress Error Reporting</span></h3>
 					<div class="inside">
 						<p>WP Essentials can alert you to several errors that are important when a site goes live.</p>
 						<label for="error_reports_google_analytics"><input type="checkbox" name="error_reports_google_analytics" id="error_reports_google_analytics" value="1" <?php if (get_option('wpe_error_reports_google_analytics')==1) { ?>checked="checked"<?php } ?>> Ensure Google Analytics is installed</label><br>
@@ -264,7 +275,7 @@ function wpe_error_reports() {
 					</div>
 				</div>
 				<div class="postbox" id="wpe_google_analytics">
-					<h3 class="hndle"><span><span class="wpe-stats"></span> Google Analytics</span></h3>
+					<h3 class="hndle"><span><span class="wpe-stats-dots"></span> Google Analytics</span></h3>
 					<div class="inside">
 						<p>Adds Google Analytics tracking code to every page.</p>
 						<h4>Setup</h4>
@@ -298,7 +309,7 @@ function wpe_error_reports() {
 					<div class="inside">
 						<p>The <code>[flickr]</code> shortcode is our own built in Flickr feed with cache support (Refreshes every hour).</p>
 						<h4>Usage</h4>
-						<p>Go to <code>Settings > General</code> and enter the client&rsquo;s Flickr username, it&rsquo;ll enable a Flickr feed on the website. You can then display the feed by using the <code>[flickr]</code> shortcode.</p>
+						<p>Enter your Flickr username and API key below, it&rsquo;ll enable a Flickr feed on the website. You can then display the feed by using the <code>[flickr]</code> shortcode.</p>
 						<p>The shortcode also supports the following:</p>
 						<ul>
 							<li><code>[flickr count="3"]</code> This will display the latest 3 photos.</li>
@@ -384,14 +395,40 @@ function wpe_twitter_format($data) {
 							<li><code>$data['interact']</code> The reply/retweet/favourite links.</li>
 						</ul>
 						<h4>Setup</h4>
-						<label for="twitter_username"><input type="text" class="regular-text" name="twitter_username" id="twitter_username" value="<?php echo get_option('wpe_twitter_username'); ?>"> Twitter Username</label><br>
-						<label for="twitter_consumer_key"><input type="text" class="regular-text" name="twitter_consumer_key" id="twitter_consumer_key" value="<?php echo get_option('wpe_twitter_consumer_key'); ?>"> Consumer Key (<a href="https://dev.twitter.com/apps/new" target="_blank">Get it here</a>)</label><br>
-						<label for="twitter_consumer_secret"><input type="text" class="regular-text" name="twitter_consumer_secret" id="twitter_consumer_secret" value="<?php echo get_option('wpe_twitter_consumer_secret'); ?>"> Consumer Secret</label><br>
-						<label for="twitter_oauth_access_token"><input type="text" class="regular-text" name="twitter_oauth_access_token" id="twitter_oauth_access_token" value="<?php echo get_option('wpe_twitter_oauth_access_token'); ?>"> OAuth Access Token</label><br>
-						<label for="twitter_oauth_access_token_secret"><input type="text" class="regular-text" name="twitter_oauth_access_token_secret" id="twitter_oauth_access_token_secret" value="<?php echo get_option('wpe_twitter_oauth_access_token_secret'); ?>"> OAuth Access Token Secret</label>
-						<p><em>Please note: when setting up your API keys, please make sure Read and Write access is enabled.</em></p>
-						<h4>Cache</h4>
-						<p><a href="#" id="wpe_cache_twitter">Click here to force a cache refresh.</a></p>
+						<table id="twitter_accounts_table" cellpadding="0" cellspacing="0">
+							<thead>
+                            	<tr>
+                                    <th class="center">Username</th>
+                                    <th class="center">Consumer Key (<a href="https://dev.twitter.com/apps/new" target="_blank">Get it here</a>)</th>
+                                    <th class="center">Consumer Secret</th>
+                                    <th class="center">OAuth Access Token</th>
+                                    <th class="center">OAuth Access Token Secret</th>
+                                    <th class="center">&nbsp;</th>
+                                </tr>
+							</thead>
+							<tbody>
+                            	<?php
+									for($wpe_t=1;$wpe_t<=1;$wpe_t++) {
+										$account = get_option('wpe_twitter_'.$wpe_t);
+										$accounts = explode(';',$account);										
+								?>
+                                    <tr>
+                                        <td class="center"><input type="text" class="medium-text" name="<?php echo $wpe_t; ?>_twitter_username" id="" value="<?php echo $accounts[0]; ?>"></td>
+                                        <td class="center"><input type="text" class="medium-text" name="<?php echo $wpe_t; ?>_consumer_key" value="<?php echo $accounts[1]; ?>"></td>
+                                        <td class="center"><input type="text" class="medium-text" name="<?php echo $wpe_t; ?>_consumer_secret" value="<?php echo $accounts[2]; ?>"></td>
+                                        <td class="center"><input type="text" class="medium-text" name="<?php echo $wpe_t; ?>_oauth_access_token" value="<?php echo $accounts[3]; ?>"></td>
+                                        <td class="center"><input type="text" class="medium-text" name="<?php echo $wpe_t; ?>_oauth_access_token_secret" value="<?php echo $accounts[4]; ?>"></td>
+                                        <td class="center"><button class="button button-secondary delete_twitter_account" disabled="disabled">Delete</button></td>
+                                    </tr>
+                                <?php } ?>
+							</tbody>
+                            <tfoot>
+                            	<tr>
+                                    <td colspan="6" class="center pro_version"><button id="add_twitter_account" class="button button-secondary" disabled="disabled">Add Twitter Account</button> <sup><span class="wpe-lock"></span> <em>Premium License Required</em></sup></td>
+                                </tr>
+                            </tfoot>
+						</table>
+                        <input type="hidden" name="wpe_twitter_accounts" id="wpe_twitter_accounts" value="">
 					</div>
 				</div>
 				<div class="postbox pro_version" id="wpe_styling">
@@ -406,6 +443,30 @@ function wpe_twitter_format($data) {
 						<p class="style_sass" <?php if (get_option('wpe_style')!='sass') { ?>style="display:none;"<?php } ?>>Please save your SASS file to <code><?php bloginfo('template_url'); ?>/css/style.scss</code></p>
 						<p class="style_sass" <?php if (get_option('wpe_style')!='sass') { ?>style="display:none;"<?php } ?>><em>Please note: an empty <code>style_sass.css</code> file must also be saved.</em></p>
 						<p class="style_less" <?php if (get_option('wpe_style')!='less') { ?>style="display:none;"<?php } ?>>Please save your LESS file to <code><?php bloginfo('template_url'); ?>/css/style.less</code></p>
+					</div>
+				</div>
+				<div class="postbox" id="wpe_responsive">
+					<h3 class="hndle"><span><span><span class="wpe-mobile"></span> Responsive</span></h3>
+					<div class="inside">
+						<p>Enable <a href="http://mobiledetect.net/" target="_blank">Mobile Detect</a> to support responsive detection.</p>
+						<label for="responsive"><input type="checkbox" name="responsive" id="responsive" value="1" <?php if (get_option('wpe_responsive')==1) { ?>checked="checked"<?php } ?>> Enable Responsive</label>
+						<h4>Usage</h4>
+						<p>Moble Detect works directly in your PHP files. To use it in your PHP, refer to the official documentation. However you don't have to include the <code>Mobile_Detect.php</code> file or define the class, just replace their <code>$detect</code> variable with <code>$wpe_responsive</code>.</p>
+						<p>Example:</p>
+						<p><code>&lt;?php if ($wpe_responsive->isMobile()) { /* Code */ } ?&gt;</code></p>
+						<p>You can also use the detection as a shortcode instead.</p>
+						<p>Example:</p>
+						<p><code>[wpe_responsive] Mobile and tablet content. [/wpe_responsive]</code></p>
+						<p><code>[wpe_responsive not="tablet"] Mobile only content. [/wpe_responsive]</code></p>
+						<p><code>[wpe_responsive not="mobile"] Tablet only content. [/wpe_responsive]</code></p>
+						<p>At the moment, these are the only valid rules for the shortcode, but the PHP code is unrestricted.</p>
+					</div>
+				</div>
+				<div class="postbox" id="wpe_email">
+					<h3 class="hndle"><span><span><span class="wpe-envelope"></span> Email</span></h3>
+					<div class="inside">
+						<p>The WYSIWYG editor comes with an email button for easily adding <code>mailto:</code> links without any HTML knowledge.</p>
+						<label for="email"><input type="checkbox" name="email" id="email" value="1" <?php if (get_option('wpe_email')==1) { ?>checked="checked"<?php } ?>> Enable Email Button</label>
 					</div>
 				</div>
 				<div class="postbox" id="wpe_date">
@@ -430,6 +491,22 @@ function wpe_twitter_format($data) {
 						<p>You can also set a custom width and height:</p>
 						<p>Example: <code>[wpe_video width="200" height="200"]http://www.youtube.com/watch?v=ZH986n94ELA[/wpe_video]</code></p>
 						<label for="video"><input type="checkbox" name="video" id="video" value="1" <?php if (get_option('wpe_video')==1) { ?>checked="checked"<?php } ?>> Enable <code>[video]</code></label>
+					</div>
+				</div>
+				<div class="postbox pro_version" id="wpe_get">
+					<h3 class="hndle"><span><span><span class="wpe-browser"></span> Get Query</span></h3>
+					<div class="inside">
+						<p>Use shortcodes to display content based on query strings in the URL.</p>
+						<h4>Usage</h4>
+						<p><strong>Show content</strong></p>
+						<p>Wrap your content in the <code>[wpe_get query="" value=""] [/wpe_query]</code> shortcode.</p>
+						<p>Example: <code>[wpe_get query="id" value="123"]This content will only appear if the URL contains <code>?id=123</code>[/wpe_get]</code></p>
+						<p>The <code>query</code> attribute is required, but <code>value</code> is optional.</p>
+						<p><strong>Show the variable</strong></p>
+						<p>Add the <code>[wpe_get display=""]</code> shortcode to your existing content to display the value of a query string.
+						<p>Example: <code>Your ID is [wpe_get display="id"].</code></p>
+						<p>Output: Your ID is 123.</p>
+						<label for="get"><input type="checkbox" name="get" id="get" value="1" <?php if (get_option('wpe_get')==1) { ?>checked="checked"<?php } ?>> Enable <code>[wpe_get]</code></label>
 					</div>
 				</div>
 				<h2>PHP Functions</h2>
@@ -527,6 +604,7 @@ function wpe_twitter_format($data) {
 							<li>Security &amp; backups</li>
 							<li>Instagram integration</li>
 							<li>Custom styling options</li>
+							<li>Multiple Twitter accounts</li>
 							<li>Direct technical support</li>
 						</ul>
 						<p class="center"><strong><span style="text-decoration:line-through;">$19.99</span> <span style="color:#f00;">$9.99</span></strong></p>

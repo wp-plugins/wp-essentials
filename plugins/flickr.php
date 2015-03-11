@@ -192,7 +192,7 @@
 					$title = $photo->title;
 					$size = 'm';
 					$photo_url = 'https://www.flickr.com/photos/'.$username.'/'.$photo_id;
-					$photo_src = 'http://farm'.$farm_id.'.staticflickr.com/'.$server_id.'/'.$photo_id.'_'.$secret_id.'_'.$size.'.'.'jpg';
+					$photo_src = '//farm'.$farm_id.'.staticflickr.com/'.$server_id.'/'.$photo_id.'_'.$secret_id.'_'.$size.'.'.'jpg';
 					
 					$wpdb->query('INSERT INTO '.$table_name.' VALUES ("","'.get_option('wpe_flickr_username').'","'.$photo_url.'","'.$title.'","'.$photo_src.'",NOW())');
 				}
