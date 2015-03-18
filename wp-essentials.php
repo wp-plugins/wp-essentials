@@ -3,14 +3,14 @@
 		Plugin Name: WP Essentials
 		Plugin URI: http://www.wp-essentials.net
 		Description: All-in-one bundle of essential plugins and functions for all WordPress websites.
-		Version: 2.0
+		Version: 2.0.1
 		Author: wp-essentials
 		Author URI: http://www.wp-essentials.net
 	*/
 	
 	// Essentails Setup
-		define('ESSENTIALS_VERSION', '2.0');
-		define('ESSENTIALS_DATE', '2015-02-26');
+		define('ESSENTIALS_VERSION', '2.0.1');
+		define('ESSENTIALS_DATE', '2015-03-18');
 		define('ESSENTIALS_DIR', dirname(__FILE__));
 		define('ESSENTIALS_PATH', plugins_url().'/wp-essentials');
 		

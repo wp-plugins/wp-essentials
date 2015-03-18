@@ -22,14 +22,16 @@
 				if ($wpe_responsive->isMobile()) {
 					return $content;
 				}
-			} else if ($not == "mobile") {
-				if ($wpe_responsive->isTablet()) {
-					return $content;
-				}
-			} else if ($not == "tablet") {
-				if ($wpe_responsive->isMobile() && !$wpe_responsive->isTablet()) {
-					return $content;
-				}
+			} else if ($not) {				
+				if (ucwords($not) == "Tablet") {
+					if ($wpe_responsive->isMobile() && !$wpe_responsive->isTablet()) {
+						return $content;
+					}
+				} else if (ucwords($not) == "Mobile") {
+					if ($wpe_responsive->isTablet()) {
+						return $content;
+					}
+				}				
 			}
 		}
 	}
