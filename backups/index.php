@@ -82,11 +82,6 @@
 			
 		$file = "zips/".$date.".zip";
 		$header = "";
-		
-		//wp_mail($_POST['email'],get_site_url().' DB Backup','Backup Attached',$header,$file);
-		
-		//unlink('zips/'.$date.'.sql');
-		//unlink('zips/'.$date.'.zip');
 	} else {
 		header("location: http://".$_SERVER['SERVER_NAME']);
 	}

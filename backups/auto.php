@@ -79,9 +79,4 @@
 		
 	$file = "zips/".$date.".zip";
 	$header = "";
-	
-	wp_mail(get_bloginfo('admin_email'),get_site_url().' DB Backup','Backup Attached',$header,$file);
-	
-	unlink('zips/'.$date.'.sql');
-	unlink('zips/'.$date.'.zip');
 ?>

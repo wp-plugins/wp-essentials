@@ -34,15 +34,13 @@
 			for($wpe_s=1;$wpe_s<=get_option('wpe_custom_image_sizes');$wpe_s++) {
 				delete_option('wpe_image_size_'.$wpe_s);
 			}
-			for($wpe_s=1;$wpe_s<=$_POST['wpe_total_image_sizes'];$wpe_s++) {	
-				$image_crop = (isset($_POST[$wpe_s.'_image_crop'])) ? 1 : 0;
-				
+			for($wpe_s=1;$wpe_s<=$_POST['wpe_total_image_sizes'];$wpe_s++) {
 				add_option(
 					'wpe_image_size_'.$wpe_s,
 					$_POST[$wpe_s.'_image_name'].';'.
 					$_POST[$wpe_s.'_image_width'].';'.
 					$_POST[$wpe_s.'_image_height'].';'.
-					$image_crop
+					$_POST[$wpe_s.'_image_crop']
 				);
 			}
 			update_option('wpe_custom_image_sizes',$_POST['wpe_total_image_sizes']);
@@ -225,7 +223,22 @@ function wpe_error_reports() {
                                         <td class="center"><input type="text" class="medium-text" name="<?php echo $wpe_s; ?>_image_name" id="custom_image_sizes" value="<?php echo $sizes[0]; ?>"></td>
                                         <td class="center"><input type="text" class="medium-text" name="<?php echo $wpe_s; ?>_image_width" value="<?php echo $sizes[1]; ?>"></td>
                                         <td class="center"><input type="text" class="medium-text" name="<?php echo $wpe_s; ?>_image_height" value="<?php echo $sizes[2]; ?>"></td>
-                                        <td class="center"><input type="checkbox" name="<?php echo $wpe_s; ?>_image_crop" <?php if ($sizes[3]==1) { echo 'checked'; } ?>></td>
+                                        <td class="center">
+											<select name="<?php echo $wpe_s; ?>_image_crop">
+												<option value="99" <?php if ($sizes[3]==99) { echo 'selected="selected"'; } ?>>No cropping</option>
+												<option value="1" <?php if ($sizes[3]==1) { echo 'selected="selected"'; } ?>>Top / Left</option>
+												<option value="2" <?php if ($sizes[3]==2) { echo 'selected="selected"'; } ?>>Top / Center</option>
+												<option value="3" <?php if ($sizes[3]==3) { echo 'selected="selected"'; } ?>>Top / Right</option>
+												
+												<option value="4" <?php if ($sizes[3]==4) { echo 'selected="selected"'; } ?>>Center / Left</option>
+												<option value="5" <?php if ($sizes[3]==5 || !$sizes[3]) { echo 'selected="selected"'; } ?>>Center / Center</option>
+												<option value="6" <?php if ($sizes[3]==6) { echo 'selected="selected"'; } ?>>Center / Right</option>
+												
+												<option value="7" <?php if ($sizes[3]==7) { echo 'selected="selected"'; } ?>>Bottom / Left</option>
+												<option value="8" <?php if ($sizes[3]==8) { echo 'selected="selected"'; } ?>>Bottom / Center</option>
+												<option value="9" <?php if ($sizes[3]==9) { echo 'selected="selected"'; } ?>>Bottom / Right</option>
+											</select>
+										</td>
                                         <td class="center"><button class="button button-secondary delete_image_size" <?php if ($wpe_s==1) { echo 'disabled="disabled"'; } ?>>Delete</button></td>
                                     </tr>
                                 <?php } ?>
@@ -279,7 +292,7 @@ function wpe_error_reports() {
 					<div class="inside">
 						<p>Adds Google Analytics tracking code to every page.</p>
 						<h4>Setup</h4>
-							<label for="google_analytics"><input type="text" class="regular-text" name="google_analytics" id="google_analytics" value="<?php echo get_option('wpe_google_analytics'); ?>"> Google Analytics Tracking IDs</label>
+							<label for="google_analytics"><input type="text" class="regular-text" name="google_analytics" id="google_analytics" value="<?php echo get_option('wpe_google_analytics'); ?>" placeholder="UA-XXXXXXXX-X"> Google Analytics Tracking IDs</label>
 						<p><em>Please note: you can add multiple tracking IDs by comma separating them.</em></p>
 					</div>
 				</div>

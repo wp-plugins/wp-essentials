@@ -19,6 +19,8 @@
 				$errors .= '<li>The username <code>admin</code> is vulnerable to attacks. Please set up a new user and delete <code>admin</code> <a href="'.get_bloginfo('wpurl').'/wp-admin/user-new.php">Fix &raquo;</a></li>';
 			}
 			
+			if (function_exists('wpe_error_reports')) { $errors.= wpe_error_reports(); }
+			
 			if ($errors) {
 				echo '
 					<div class="error wpe_error_reporting">
