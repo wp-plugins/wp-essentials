@@ -3,7 +3,7 @@ Contributors: iprogressltd
 Donate link: http://www.wp-essentials.net
 Tags: iprogress,wp-essentials,security,backups,database-backups,debug,error-reporting,login-notification,analytics,facebook,flickr,twitter,youtube,vimeo,instagram,user-roles,google-maps
 Requires at least: 3.4
-Tested up to: 4.1.1
+Tested up to: 4.2
 Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
